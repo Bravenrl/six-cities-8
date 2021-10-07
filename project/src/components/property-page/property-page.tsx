@@ -1,5 +1,5 @@
-import HeaderLogo from "../header-logo/header-logo";
-import HeaderNav from "../header-nav/header-nav";
+import HeaderLogo from '../header-logo/header-logo';
+import HeaderNav from '../header-nav/header-nav';
 
 function PropertyPage () : JSX.Element {
   return (
