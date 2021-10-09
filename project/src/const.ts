@@ -4,3 +4,10 @@ export const enum AppRoute {
   Favorites = '/favorites',
   RoomProprety = '/offer/:id',
 }
+
+export const enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+

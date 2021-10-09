@@ -1,10 +1,11 @@
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import FavoritesPage from '../favorites-page/favorites-page';
 import LoginPage from '../login-page/login-page';
 import MainPage from '../main-page/main-page';
 import NotFoundPage from '../not-found-page/not-found-paje';
+import PrivateRoute from '../private-route/private-route';
 import PropertyPage from '../property-page/property-page';
 
 
@@ -22,9 +23,13 @@ function App({cardCount} : AppProrsType): JSX.Element {
         <Route exact path = {AppRoute.Login}>
           <LoginPage />
         </Route>
-        <Route exact path = {AppRoute.Favorites}>
-          <FavoritesPage/>
-        </Route>
+        <PrivateRoute
+          exact
+          path = {AppRoute.Favorites}
+          render = {() => <FavoritesPage/>}
+          authorizationStatus = {AuthorizationStatus.NoAuth}
+        >
+        </PrivateRoute>
         <Route exact path = {AppRoute.RoomProprety}>
           <PropertyPage/>
         </Route>
