@@ -1,14 +1,13 @@
-import { nanoid } from '@reduxjs/toolkit';
+import { OfferType } from '../../types/offer';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
-import PlaceCard from '../place-card/place-card';
+import OfferList from '../offer-list/offer-list';
 
 type MainPageProrsType = {
-  cardCount : number;
+  offers : OfferType[];
 }
 
-function MainPage ({cardCount} : MainPageProrsType) : JSX.Element {
-  const placeCards : string[] = new Array(cardCount).fill(null).map((el) => nanoid(cardCount));
+function MainPage ({offers} : MainPageProrsType) : JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -71,16 +70,8 @@ function MainPage ({cardCount} : MainPageProrsType) : JSX.Element {
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {placeCards.map((card) => <PlaceCard key={card} /> )}
-              </div>
+              <OfferList offers={offers} isMainPage/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>

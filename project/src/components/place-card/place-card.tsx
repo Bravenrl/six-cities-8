@@ -1,18 +1,35 @@
-function PlaceCard () : JSX.Element {
+import { Link } from 'react-router-dom';
+import { OfferType } from '../../types/offer';
+import { AppRoute } from '../../const';
+import PremiumMark from '../premium-mark/premium-mark';
+
+type PlaceCardPropType = {
+  offer : OfferType
+  isMainPage : boolean;
+}
+
+function PlaceCard ({offer, isMainPage} : PlaceCardPropType) : JSX.Element {
+  const {id, price, rating, title, type, isPremium, isFavorite} = offer;
+  const ratingPercent = Math.round(rating)*20;
+  const typeCapital = type[0].toUpperCase()+type.slice(1);
+  const pageName = isMainPage ? 'cities' : 'favorites';
+  const linkPath = `${AppRoute.RoomProprety.slice(0, -3)}${id}`;
+
   return (
-    <article className="cities__place-card place-card">
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="todo">
-          <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place"/>
-        </a>
+    <article className={`${pageName}__place-card place-card` } style={{marginTop: `${isMainPage?'':'10px'}` }}>
+      <PremiumMark isPremium = {isPremium} />
+      <div className={`${pageName}__image-wrapper place-card__image-wrapper`}>
+        <Link to = {linkPath}>
+          <img className="place-card__image" src="img/room.jpg" width={isMainPage?'260':'150'} height={isMainPage?'200':'110'} alt="Place"/>
+        </Link>
       </div>
-      <div className="place-card__info">
+      <div className={`place-card__info ${isMainPage?'':'favorites__card-info'}`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;80</b>
+            <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button className={`place-card__bookmark-button  button ${isFavorite? 'place-card__bookmark-button--active' : ''}`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -21,18 +38,16 @@ function PlaceCard () : JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: `${ratingPercent}%`  }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="todo">Wood and stone place</a>
+          <Link to = {linkPath}>{title}</Link>
         </h2>
-        <p className="place-card__type">Private room</p>
+        <p className="place-card__type">{typeCapital}</p>
       </div>
     </article>);
 }
 
 export default PlaceCard;
-
-
