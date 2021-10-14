@@ -3,12 +3,13 @@ import { OfferType } from '../../types/offer';
 import { AppRoute } from '../../const';
 import PremiumMark from '../premium-mark/premium-mark';
 
-type PlaceCardPropType = {
-  offer : OfferType
+type OfferCardPropType = {
+  offer : OfferType;
   isMainPage : boolean;
+  onOfferActive: (id: number ) => void;
 }
 
-function PlaceCard ({offer, isMainPage} : PlaceCardPropType) : JSX.Element {
+function OfferCard ({offer, isMainPage, onOfferActive} : OfferCardPropType) : JSX.Element {
   const {id, price, rating, title, type, isPremium, isFavorite} = offer;
   const ratingPercent = Math.round(rating)*20;
   const typeCapital = type[0].toUpperCase()+type.slice(1);
@@ -16,7 +17,11 @@ function PlaceCard ({offer, isMainPage} : PlaceCardPropType) : JSX.Element {
   const linkPath = `${AppRoute.RoomProprety.slice(0, -3)}${id}`;
 
   return (
-    <article className={`${pageName}__place-card place-card` } style={{marginTop: `${isMainPage?'':'10px'}` }}>
+    <article
+      onMouseEnter={()=>{onOfferActive(id);}}
+      onMouseLeave={()=>{onOfferActive(0);}}
+      className={`${pageName}__place-card place-card` } style={{marginTop: `${isMainPage?'':'10px'}` }}
+    >
       <PremiumMark isPremium = {isPremium} />
       <div className={`${pageName}__image-wrapper place-card__image-wrapper`}>
         <Link to = {linkPath}>
@@ -50,4 +55,4 @@ function PlaceCard ({offer, isMainPage} : PlaceCardPropType) : JSX.Element {
     </article>);
 }
 
-export default PlaceCard;
+export default OfferCard;
