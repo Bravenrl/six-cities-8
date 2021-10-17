@@ -11,3 +11,8 @@ export const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export const CustomIcon = {
+  DEFAULT: 'img/pin.svg',
+  CURRENT: 'img/pin-active.svg',
+};
+

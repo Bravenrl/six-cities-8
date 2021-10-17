@@ -6,7 +6,7 @@ import PremiumMark from '../premium-mark/premium-mark';
 type OfferCardPropType = {
   offer : OfferType;
   isMainPage : boolean;
-  onOfferActive: (id: number ) => void;
+  onOfferActive?: (id: number ) => void;
 }
 
 function OfferCard ({offer, isMainPage, onOfferActive} : OfferCardPropType) : JSX.Element {
@@ -18,8 +18,8 @@ function OfferCard ({offer, isMainPage, onOfferActive} : OfferCardPropType) : JS
 
   return (
     <article
-      onMouseEnter={()=>{onOfferActive(id);}}
-      onMouseLeave={()=>{onOfferActive(0);}}
+      onMouseEnter={(onOfferActive) ? ()=>{onOfferActive(id);} : undefined}
+      onMouseLeave={(onOfferActive) ? ()=>{onOfferActive(0);} : undefined}
       className={`${pageName}__place-card place-card` } style={{marginTop: `${isMainPage?'':'10px'}` }}
     >
       <PremiumMark isPremium = {isPremium} />

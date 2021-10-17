@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { OfferType } from '../../types/offer';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
+import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 
 type MainPageProrsType = {
@@ -8,6 +10,12 @@ type MainPageProrsType = {
 }
 
 function MainPage ({offers} : MainPageProrsType) : JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState(0);
+
+  const handleActiveOffer = (id:number):void => {
+    setActiveOfferId(id);
+  };
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -71,10 +79,10 @@ function MainPage ({offers} : MainPageProrsType) : JSX.Element {
                   </svg>
                 </span>
               </form>
-              <OfferList offers={offers} isMainPage/>
+              <OfferList offers={offers} isMainPage handleActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map offers = {offers} city = {'Amsterdam'} selectedId={activeOfferId}/>
             </div>
           </div>
         </div>
