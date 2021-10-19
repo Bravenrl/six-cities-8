@@ -26,6 +26,5 @@ const GenerateReview = () : ReviewType =>
     comment: getRandomArrayElement(TITLES),
   });
 export const reviews = new Array(getRandomInteger(0,6)).fill(null).map(GenerateReview);
-// eslint-disable-next-line no-console
-console.log('non',reviews);
+
 

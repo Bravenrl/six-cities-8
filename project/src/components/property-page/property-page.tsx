@@ -8,6 +8,7 @@ import PremiumMark from '../premium-mark/premium-mark';
 import PropertyList from '../property-list/property-list';
 import { ReviewType } from '../../types/review';
 import ReviewsList from '../property-reviews-list/property-reviews-list';
+import Map from '../map/map';
 
 type PropertyPagePropsType = {
   offers : OfferType[];
@@ -24,9 +25,10 @@ function PropertyPage ({offers, reviews} : PropertyPagePropsType) : JSX.Element 
   if (!currentOffer) {
     return <NotFoundPage/>;
   }
+  const offersNear = offers.filter((offer)=>(offer.city.name===currentOffer.city.name)&&(offer.id!==currentOffer.id)).slice(0,3);
 
   const {isPremium, id, images, title, rating, type, bedrooms,
-    maxAdults, price, goods, host, description}=currentOffer;
+    maxAdults, price, goods, host, description, city}=currentOffer;
   const ratingPercent = Math.round(rating)*20;
   const typeCapital = type[0].toUpperCase()+type.slice(1);
   let descriptionKey = id;
@@ -102,9 +104,7 @@ function PropertyPage ({offers, reviews} : PropertyPagePropsType) : JSX.Element 
               <ReviewsList reviews={reviews}/>
             </div>
           </div>
-          <section className="property__map map">
-
-          </section>
+          <Map offers={[...offersNear, currentOffer]} selectedId={currentOffer.id} city = {city.name} className='property'/>
         </section>
         <div className="container">
           <section className="near-places places">

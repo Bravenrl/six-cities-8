@@ -30,7 +30,7 @@ export const CityLoc : CityLocation<Coordinates> = {
 };
 
 
-const CARD_COUNT = 4;
+const CARD_COUNT = 6;
 const CITIES = ['Amsterdam'];
 const DESCRIPTIONS = ['A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
   'Beautiful & luxurious studio at great location', 'Canal View Prinsengracht',

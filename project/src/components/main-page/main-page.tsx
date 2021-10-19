@@ -82,7 +82,7 @@ function MainPage ({offers} : MainPagePropsType) : JSX.Element {
               <OfferList offers={offers} isMainPage handleActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <Map offers = {offers} city = {'Amsterdam'} selectedId={activeOfferId}/>
+              <Map offers = {offers} city = {'Amsterdam'} selectedId={activeOfferId} className='cities'/>
             </div>
           </div>
         </div>

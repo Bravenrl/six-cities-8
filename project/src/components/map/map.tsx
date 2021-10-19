@@ -11,6 +11,7 @@ type MapProrsType = {
   offers : OfferType[];
   city: string;
   selectedId: number;
+  className: string;
 }
 
 const CustomIcon = {
@@ -30,9 +31,9 @@ const currentCustomIcon = new Icon({
   iconAnchor: [15, 40],
 });
 
-function Map({offers, city, selectedId} :  MapProrsType) : JSX.Element {
+function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Element {
 
-  const offersInCity = offers.filter((offer) => offer.city.name === city);
+  const offersInCity = (className==='property') ? offers: offers.filter((offer) => offer.city.name === city);
   const currentCity = offersInCity[0].city;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
@@ -40,7 +41,7 @@ function Map({offers, city, selectedId} :  MapProrsType) : JSX.Element {
 
   useEffect(() => {
     if (map) {
-      offers.forEach((offer) => {
+      offersInCity.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
@@ -63,10 +64,10 @@ function Map({offers, city, selectedId} :  MapProrsType) : JSX.Element {
       });
     }
 
-  }, [map, offers, selectedId, history]);
+  }, [map, offersInCity, selectedId, history]);
 
   return (
-    <section className="cities__map map"
+    <section className={`${className}__map map`}
       style={{height: '550px'}}
       ref = {mapRef}
     >
