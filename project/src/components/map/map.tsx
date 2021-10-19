@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
-import { OfferType } from '../../types/offer';
+import { MapStyleType, OfferType } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
 import { Icon, Marker } from 'leaflet';
 import { useHistory } from 'react-router';
-import { AppRoute } from '../../const';
+import { AppRoute, PageType } from '../../const';
 
 
 type MapProrsType = {
@@ -30,6 +30,15 @@ const currentCustomIcon = new Icon({
   iconSize: [30, 40],
   iconAnchor: [15, 40],
 });
+
+const getStyleByClassName = (className:string) : MapStyleType| Omit<MapStyleType, 'margin'> => {
+  switch (className) {
+    case PageType.Main:
+      return {height: '550px', width: '512px'};
+    default:
+      return {height: '579px', width: '1144px', margin:'auto'};
+  }
+};
 
 function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Element {
 
@@ -68,7 +77,7 @@ function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Elemen
 
   return (
     <section className={`${className}__map map`}
-      style={{height: '550px'}}
+      style={getStyleByClassName(className)}
       ref = {mapRef}
     >
     </section>

@@ -40,7 +40,7 @@ const APART_TYPES = ['apartment', 'private room', 'house'];
 const TITLES = ['Beautiful & luxurious studio at great location', 'Canal View Prinsengracht', 'Wood and stone place', 'Nice, cozy, warm big bed apartment'];
 const ID_LENGTH = 3;
 const nanoid = customAlphabet('1234567890', ID_LENGTH);
-const IMG_PATHS = ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg', 'img/apartment-01.jpg'];
+const IMG_PATHS = ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/apartment-01.jpg'];
 const GOODS = ['Wi-Fi', 'Washing machine', 'Towels', 'Heating', 'Coffee machine', 'Baby seat', 'Kitchen', 'Dishwasher', 'Cabel TV', 'Fridge'];
 const AVATAR_PATHS = ['img/avatar-angelina.jpg', 'img/avatar-max.jpg'];
 const GenerateOffer = () : OfferType => {

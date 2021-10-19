@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PageType } from '../../const';
 import { OfferType } from '../../types/offer';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
@@ -79,7 +80,7 @@ function MainPage ({offers} : MainPagePropsType) : JSX.Element {
                   </svg>
                 </span>
               </form>
-              <OfferList offers={offers} isMainPage handleActiveOffer={handleActiveOffer}/>
+              <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
               <Map offers = {offers} city = {'Amsterdam'} selectedId={activeOfferId} className='cities'/>

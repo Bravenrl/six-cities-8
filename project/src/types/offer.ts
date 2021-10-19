@@ -34,3 +34,8 @@ export type HostType = {
   isPro: boolean;
   name: string;
 }
+export type MapStyleType = {
+  height: string;
+  width: string;
+  margin: string;
+}
