@@ -5,11 +5,11 @@ import HeaderNav from '../header-nav/header-nav';
 import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 
-type MainPageProrsType = {
+type MainPagePropsType = {
   offers : OfferType[];
 }
 
-function MainPage ({offers} : MainPageProrsType) : JSX.Element {
+function MainPage ({offers} : MainPagePropsType) : JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState(0);
 
   const handleActiveOffer = (id:number):void => {

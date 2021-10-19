@@ -1,7 +1,7 @@
 export type OfferType = {
   city: CityType;
   bedrooms: number;
-  description: string;
+  description: string[];
   goods: string[];
   host: HostType;
   id: number;

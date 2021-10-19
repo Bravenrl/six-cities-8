@@ -10,7 +10,7 @@ type OfferCardPropType = {
 }
 
 function OfferCard ({offer, isMainPage, onOfferActive} : OfferCardPropType) : JSX.Element {
-  const {id, price, rating, title, type, isPremium, isFavorite} = offer;
+  const {id, price, rating, title, type, isPremium, isFavorite, previewImage} = offer;
   const ratingPercent = Math.round(rating)*20;
   const typeCapital = type[0].toUpperCase()+type.slice(1);
   const pageName = isMainPage ? 'cities' : 'favorites';
@@ -22,10 +22,10 @@ function OfferCard ({offer, isMainPage, onOfferActive} : OfferCardPropType) : JS
       onMouseLeave={(onOfferActive) ? ()=>{onOfferActive(0);} : undefined}
       className={`${pageName}__place-card place-card` } style={{marginTop: `${isMainPage?'':'10px'}` }}
     >
-      <PremiumMark isPremium = {isPremium} />
+      <PremiumMark isPremium = {isPremium} isPropertyPage={false}/>
       <div className={`${pageName}__image-wrapper place-card__image-wrapper`}>
         <Link to = {linkPath}>
-          <img className="place-card__image" src="img/room.jpg" width={isMainPage?'260':'150'} height={isMainPage?'200':'110'} alt="Place"/>
+          <img className="place-card__image" src={previewImage} width={isMainPage?'260':'150'} height={isMainPage?'200':'110'} alt="Place"/>
         </Link>
       </div>
       <div className={`place-card__info ${isMainPage?'':'favorites__card-info'}`}>

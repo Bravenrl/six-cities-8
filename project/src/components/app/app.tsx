@@ -32,7 +32,7 @@ function App({offers} : AppProrsType): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path = {AppRoute.RoomProprety}>
-          <PropertyPage/>
+          <PropertyPage offers={offers}/>
         </Route>
         <Route>
           <NotFoundPage/>
