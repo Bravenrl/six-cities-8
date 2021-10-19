@@ -1,8 +1,8 @@
 import { HostType } from './offer';
 
-export type CommentType = {
+export type ReviewType = {
   comment: string;
-  date: Date;
+  date: string;
   id: number;
   rating: number;
   user: HostType;

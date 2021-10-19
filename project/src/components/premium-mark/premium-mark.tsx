@@ -1,14 +1,10 @@
 type PremiumMarkPropType = {
-  isPremium: boolean;
-  isPropertyPage: boolean;
+  className: string;
 }
 
-function PremiumMark ({isPremium, isPropertyPage} : PremiumMarkPropType) : JSX.Element | null {
-  if (isPremium) {
-    return null;
-  }
+function PremiumMark ({className} : PremiumMarkPropType) : JSX.Element | null {
   return(
-    <div className={`${isPropertyPage ? 'property__mark' : 'place-card__mark'}`}>
+    <div className={className}>
       <span>Premium</span>
     </div>
   );
