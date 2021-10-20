@@ -1,3 +1,6 @@
+import { ReviewType } from './types/review';
+
+
 export const getRandomInteger = (a = 0, b = 1) : number => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -14,3 +17,17 @@ export const getRandomFloat = function (a = 0, b = 10, float = 1) :number {
 
 export const getRandomArrayElement = <T>(elements:T[]):T => elements[getRandomInteger(0,elements.length-1)];
 
+export const getRandomArrayNonRepeat = <T>(elements:T[]):T[] => {                                                 //Массив случайной длины с неповторяющимися элементами
+  const arrayNonRepeat = new Array(getRandomInteger(0,elements.length-1)).fill(null);
+  const sortArrayNonRepeat: T[] = [];
+  arrayNonRepeat.forEach((value1, index) => {
+    const random = getRandomArrayElement(elements);
+    arrayNonRepeat[index] = (arrayNonRepeat.every((value) => value!==random)) ? random : 0;
+    if (arrayNonRepeat[index]!==0) {
+      sortArrayNonRepeat.push(arrayNonRepeat[index]);
+    }
+  });
+  return sortArrayNonRepeat;
+};
+
+export const compareDate = (a: ReviewType, b: ReviewType) : number => Date.parse(b.date)-Date.parse(a.date);

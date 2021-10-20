@@ -11,6 +11,12 @@ export const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export const enum PageType {
+  Main = 'cities',
+  Favorites = 'favorites',
+  Property = 'near-places',
+}
+
 export const CustomIcon = {
   DEFAULT: 'img/pin.svg',
   CURRENT: 'img/pin-active.svg',

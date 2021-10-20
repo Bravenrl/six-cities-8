@@ -1,7 +1,7 @@
 export type OfferType = {
   city: CityType;
   bedrooms: number;
-  description: string;
+  description: string[];
   goods: string[];
   host: HostType;
   id: number;
@@ -33,4 +33,9 @@ export type HostType = {
   id:number;
   isPro: boolean;
   name: string;
+}
+export type MapStyleType = {
+  height: string;
+  width: string;
+  margin: string;
 }

@@ -1,40 +1,51 @@
 import { Link } from 'react-router-dom';
 import { OfferType } from '../../types/offer';
-import { AppRoute } from '../../const';
+import { AppRoute, PageType } from '../../const';
 import PremiumMark from '../premium-mark/premium-mark';
 
 type OfferCardPropType = {
   offer : OfferType;
-  isMainPage : boolean;
+  pageType : string;
   onOfferActive?: (id: number ) => void;
 }
+const getClassNameByType = (pageType:string) :string => {
+  switch (pageType) {
+    case PageType.Main:
+      return 'cities__place-card place-card';
+    case PageType.Favorites:
+      return 'favorites__card place-card';
+    case PageType.Property:
+      return 'near-places__card place-card';
+    default:
+      return '';
+  }
+};
 
-function OfferCard ({offer, isMainPage, onOfferActive} : OfferCardPropType) : JSX.Element {
-  const {id, price, rating, title, type, isPremium, isFavorite} = offer;
+function OfferCard ({offer, pageType, onOfferActive} : OfferCardPropType) : JSX.Element {
+  const {id, price, rating, title, type, isPremium, isFavorite, previewImage} = offer;
   const ratingPercent = Math.round(rating)*20;
   const typeCapital = type[0].toUpperCase()+type.slice(1);
-  const pageName = isMainPage ? 'cities' : 'favorites';
   const linkPath = `${AppRoute.RoomProprety.slice(0, -3)}${id}`;
 
   return (
     <article
       onMouseEnter={(onOfferActive) ? ()=>{onOfferActive(id);} : undefined}
       onMouseLeave={(onOfferActive) ? ()=>{onOfferActive(0);} : undefined}
-      className={`${pageName}__place-card place-card` } style={{marginTop: `${isMainPage?'':'10px'}` }}
+      className={getClassNameByType(pageType)} style={{marginTop: `${(pageType===PageType.Favorites)&&'10px'}` }}
     >
-      <PremiumMark isPremium = {isPremium} />
-      <div className={`${pageName}__image-wrapper place-card__image-wrapper`}>
+      {isPremium&&<PremiumMark className='place-card__mark'/>}
+      <div className={`${pageType}__image-wrapper place-card__image-wrapper`}>
         <Link to = {linkPath}>
-          <img className="place-card__image" src="img/room.jpg" width={isMainPage?'260':'150'} height={isMainPage?'200':'110'} alt="Place"/>
+          <img className="place-card__image" src={previewImage} width={(pageType===PageType.Favorites)?'150':'260'} height={(pageType===PageType.Favorites)?'110':'200'} alt="Place"/>
         </Link>
       </div>
-      <div className={`place-card__info ${isMainPage?'':'favorites__card-info'}`}>
+      <div className={`place-card__info ${(pageType===PageType.Favorites)&&'favorites__card-info'}`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button  button ${isFavorite? 'place-card__bookmark-button--active' : ''}`} type="button">
+          <button className={`place-card__bookmark-button  button ${isFavorite&&'place-card__bookmark-button--active'}`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

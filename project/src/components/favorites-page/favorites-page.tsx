@@ -1,3 +1,4 @@
+import { PageType } from '../../const';
 import { OfferType } from '../../types/offer';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
@@ -32,7 +33,7 @@ function FavoritesPage ({offers} : FavoritesPageProrsType) : JSX.Element {
                     </a>
                   </div>
                 </div>
-                <OfferList offers={offers} isMainPage={false}/>
+                <OfferList offers={offers} pageType={PageType.Favorites}/>
               </li>
 
             </ul>

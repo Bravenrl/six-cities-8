@@ -1,13 +1,10 @@
 type PremiumMarkPropType = {
-  isPremium: boolean;
+  className: string;
 }
 
-function PremiumMark ({isPremium} : PremiumMarkPropType) : JSX.Element | null {
-  if (isPremium) {
-    return null;
-  }
+function PremiumMark ({className} : PremiumMarkPropType) : JSX.Element | null {
   return(
-    <div className="place-card__mark">
+    <div className={className}>
       <span>Premium</span>
     </div>
   );

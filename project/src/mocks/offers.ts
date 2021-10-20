@@ -1,7 +1,7 @@
 import { customAlphabet } from 'nanoid';
 
 import { OfferType } from '../types/offer';
-import { getRandomFloat, getRandomInteger, getRandomArrayElement } from '../utils';
+import { getRandomFloat, getRandomInteger, getRandomArrayElement, getRandomArrayNonRepeat } from '../utils';
 
 type Coordinates = {
   lat: number;
@@ -30,7 +30,7 @@ export const CityLoc : CityLocation<Coordinates> = {
 };
 
 
-const CARD_COUNT = 4;
+const CARD_COUNT = 6;
 const CITIES = ['Amsterdam'];
 const DESCRIPTIONS = ['A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
   'Beautiful & luxurious studio at great location', 'Canal View Prinsengracht',
@@ -40,8 +40,9 @@ const APART_TYPES = ['apartment', 'private room', 'house'];
 const TITLES = ['Beautiful & luxurious studio at great location', 'Canal View Prinsengracht', 'Wood and stone place', 'Nice, cozy, warm big bed apartment'];
 const ID_LENGTH = 3;
 const nanoid = customAlphabet('1234567890', ID_LENGTH);
-
-
+const IMG_PATHS = ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/apartment-01.jpg'];
+const GOODS = ['Wi-Fi', 'Washing machine', 'Towels', 'Heating', 'Coffee machine', 'Baby seat', 'Kitchen', 'Dishwasher', 'Cabel TV', 'Fridge'];
+const AVATAR_PATHS = ['img/avatar-angelina.jpg', 'img/avatar-max.jpg'];
 const GenerateOffer = () : OfferType => {
   const cityName = getRandomArrayElement(CITIES);
   return ({
@@ -54,16 +55,16 @@ const GenerateOffer = () : OfferType => {
       },
       name: cityName,
     },
-    description: getRandomArrayElement(DESCRIPTIONS),
-    goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
+    description: getRandomArrayNonRepeat(DESCRIPTIONS),
+    goods: getRandomArrayNonRepeat(GOODS),
     host: {
-      avatarUrl: 'img/1.png',
+      avatarUrl: getRandomArrayElement(AVATAR_PATHS),
       id: +nanoid(),
-      isPro: true,
+      isPro: Boolean(getRandomInteger()),
       name: getRandomArrayElement(NAMES),
     },
     id: +nanoid(),
-    images: ['img/1.png', 'img/2.png'],
+    images: getRandomArrayNonRepeat(IMG_PATHS),
     isFavorite: Boolean(getRandomInteger()),
     isPremium: Boolean(getRandomInteger()),
     location: {
@@ -72,7 +73,7 @@ const GenerateOffer = () : OfferType => {
       zoom: getRandomInteger(1,10),
     },
     maxAdults: getRandomInteger(1,10),
-    previewImage: 'img/1.png',
+    previewImage: getRandomArrayElement(IMG_PATHS),
     price: getRandomInteger(1, 1000),
     rating: getRandomFloat(0, 5, 1),
     title: getRandomArrayElement(TITLES),

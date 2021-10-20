@@ -1,16 +1,17 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
-import { OfferType } from '../../types/offer';
+import { MapStyleType, OfferType } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
 import { Icon, Marker } from 'leaflet';
 import { useHistory } from 'react-router';
-import { AppRoute } from '../../const';
+import { AppRoute, PageType } from '../../const';
 
 
 type MapProrsType = {
   offers : OfferType[];
   city: string;
   selectedId: number;
+  className: string;
 }
 
 const CustomIcon = {
@@ -30,9 +31,18 @@ const currentCustomIcon = new Icon({
   iconAnchor: [15, 40],
 });
 
-function Map({offers, city, selectedId} :  MapProrsType) : JSX.Element {
+const getStyleByClassName = (className:string) : MapStyleType| Omit<MapStyleType, 'margin'> => {
+  switch (className) {
+    case PageType.Main:
+      return {height: '550px', width: '512px'};
+    default:
+      return {height: '579px', width: '1144px', margin:'auto'};
+  }
+};
 
-  const offersInCity = offers.filter((offer) => offer.city.name === city);
+function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Element {
+
+  const offersInCity = (className==='property') ? offers: offers.filter((offer) => offer.city.name === city);
   const currentCity = offersInCity[0].city;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
@@ -40,7 +50,7 @@ function Map({offers, city, selectedId} :  MapProrsType) : JSX.Element {
 
   useEffect(() => {
     if (map) {
-      offers.forEach((offer) => {
+      offersInCity.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
@@ -63,11 +73,11 @@ function Map({offers, city, selectedId} :  MapProrsType) : JSX.Element {
       });
     }
 
-  }, [map, offers, selectedId, history]);
+  }, [map, offersInCity, selectedId, history]);
 
   return (
-    <section className="cities__map map"
-      style={{height: '550px'}}
+    <section className={`${className}__map map`}
+      style={getStyleByClassName(className)}
       ref = {mapRef}
     >
     </section>

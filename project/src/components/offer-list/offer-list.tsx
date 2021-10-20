@@ -1,18 +1,30 @@
+import { PageType } from '../../const';
 import { OfferType } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
 type OfferListProrsType = {
   offers : OfferType[];
-  isMainPage: boolean;
+  pageType: string;
   handleActiveOffer?: (id: number ) => void;
 }
+const getClassNameByType = (pageType:string) :string => {
+  switch (pageType) {
+    case PageType.Main:
+      return 'cities__places-list places__list tabs__content';
+    case PageType.Favorites:
+      return 'favorites__places';
+    case PageType.Property:
+      return 'near-places__list places__list';
+    default:
+      return '';
+  }
+};
 
-
-function OfferList ({offers, isMainPage, handleActiveOffer} : OfferListProrsType) : JSX.Element {
+function OfferList ({offers, pageType, handleActiveOffer} : OfferListProrsType) : JSX.Element {
 
   return (
-    <div className={`${isMainPage ? 'cities__places-list places__list tabs__content' : 'favorites__places'}`}>
-      {offers.map((offer) => (<OfferCard onOfferActive = {handleActiveOffer} key={offer.id} offer = {offer} isMainPage = {isMainPage}/>) )}
+    <div className={getClassNameByType(pageType)}>
+      {offers.map((offer) => (<OfferCard onOfferActive = {handleActiveOffer} key={offer.id} offer = {offer}  pageType = {pageType}/>) )}
     </div>
   );
 }
