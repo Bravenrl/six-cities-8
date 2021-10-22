@@ -42,15 +42,15 @@ const getStyleByClassName = (className:string) : MapStyleType| Omit<MapStyleType
 
 function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Element {
 
-  const offersInCity = (className==='property') ? offers: offers.filter((offer) => offer.city.name === city);
-  const currentCity = offersInCity[0].city;
+  const currentCity = offers[0].city;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
   const history = useHistory();
 
   useEffect(() => {
+    let markers: Marker[] = [];
     if (map) {
-      offersInCity.forEach((offer) => {
+      markers = offers.map((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
@@ -66,14 +66,20 @@ function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Elemen
             selectedId !== undefined && offer.id === selectedId
               ? currentCustomIcon
               : defaultCustomIcon,
-          )
-          .addTo(map);
-
-        return () => marker.removeEventListener('click' , onMarkerClickHandler);
+          );
+        marker.addTo(map);
+        return marker;
       });
     }
+    return () => markers.forEach((marker) => marker.remove());
+  }, [map, offers, selectedId, history]);
 
-  }, [map, offersInCity, selectedId, history]);
+  useEffect(() => {
+    const {latitude, longitude, zoom} = currentCity.location;
+    if (map) {
+      map.flyTo([latitude, longitude], zoom);
+    }
+  }, [currentCity, map]);
 
   return (
     <section className={`${className}__map map`}

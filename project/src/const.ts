@@ -22,3 +22,4 @@ export const CustomIcon = {
   CURRENT: 'img/pin-active.svg',
 };
 
+export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

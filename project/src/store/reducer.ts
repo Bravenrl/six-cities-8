@@ -3,7 +3,7 @@ import {ActionType, Actions} from '../types/action';
 import {State} from '../types/state';
 import { getCurrentOffers } from '../utils';
 
-const INITIAL_CITY = 'Amsterdam';
+const INITIAL_CITY = 'Paris';
 
 const initialState = {
   city: INITIAL_CITY,
