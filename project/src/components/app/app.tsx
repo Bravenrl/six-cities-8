@@ -21,7 +21,7 @@ function App({offers, reviews} : AppProrsType): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path = {AppRoute.Root}>
-          <MainPage offers = {offers} />
+          <MainPage allOffers = {offers}/>
         </Route>
         <Route exact path = {AppRoute.Login}>
           <LoginPage />

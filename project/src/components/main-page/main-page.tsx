@@ -1,16 +1,40 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { PageType } from '../../const';
+import { addOffers } from '../../store/action';
 import { OfferType } from '../../types/offer';
+import { State } from '../../types/state';
+import { Actions } from '../../types/action';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
 import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 
-type MainPagePropsType = {
-  offers : OfferType[];
-}
 
-function MainPage ({offers} : MainPagePropsType) : JSX.Element {
+type MainPagePropsType = {
+  allOffers : OfferType[];
+}
+type PropsFromReduxType = ConnectedProps<typeof connector>
+type ConnectedComponentPropsType = PropsFromReduxType & MainPagePropsType;
+
+const mapStateToProps = ({city, offers}: State) => ({
+  city,
+  offers,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onCityChange(offers: OfferType[]) {
+    dispatch(addOffers(offers));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+
+function MainPage (props : ConnectedComponentPropsType): JSX.Element {
+  const {city, offers, allOffers} = props;
+
   const [activeOfferId, setActiveOfferId] = useState(0);
 
   const handleActiveOffer = (id:number):void => {
@@ -83,7 +107,7 @@ function MainPage ({offers} : MainPagePropsType) : JSX.Element {
               <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <Map offers = {offers} city = {'Amsterdam'} selectedId={activeOfferId} className='cities'/>
+              <Map offers = {offers} city = {city} selectedId={activeOfferId} className='cities'/>
             </div>
           </div>
         </div>
@@ -91,4 +115,5 @@ function MainPage ({offers} : MainPagePropsType) : JSX.Element {
     </div>);
 }
 
-export default MainPage;
+export {MainPage};
+export default connector(MainPage);
