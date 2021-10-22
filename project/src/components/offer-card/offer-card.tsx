@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
 import { OfferType } from '../../types/offer';
 import { AppRoute, PageType } from '../../const';
 import PremiumMark from '../premium-mark/premium-mark';
@@ -25,7 +25,7 @@ function OfferCard ({offer, pageType, onOfferActive} : OfferCardPropType) : JSX.
   const {id, price, rating, title, type, isPremium, isFavorite, previewImage} = offer;
   const ratingPercent = Math.round(rating)*20;
   const typeCapital = type[0].toUpperCase()+type.slice(1);
-  const linkPath = `${AppRoute.RoomProprety.slice(0, -3)}${id}`;
+  const linkPath = generatePath(AppRoute.RoomProprety, {id});
 
   return (
     <article
