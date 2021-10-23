@@ -51,7 +51,7 @@ function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Elemen
   useEffect(() => {
     let markers: Marker[] = [];
     if (map) {
-      markers = offers.map((offer) => {
+      markers = currentOffers.map((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
@@ -73,7 +73,7 @@ function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Elemen
       });
     }
     return () => markers.forEach((marker) => marker.remove());
-  }, [map, offers, selectedId, history]);
+  }, [map, currentOffers, selectedId, history]);
 
   useEffect(() => {
     const {latitude, longitude, zoom} = currentCity.location;
