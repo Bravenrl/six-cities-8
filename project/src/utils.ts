@@ -34,3 +34,5 @@ export const getRandomArrayNonRepeat = <T>(elements:T[]):T[] => {               
 export const compareDate = (a: ReviewType, b: ReviewType) : number => Date.parse(b.date)-Date.parse(a.date);
 
 export const getCurrentOffers = (offers : OfferType[], city: string): OfferType[] => offers.filter((offer) => offer.city.name === city);
+
+export const getWithCapitalLetter = (word: string): string => word[0].toUpperCase()+word.slice(1);

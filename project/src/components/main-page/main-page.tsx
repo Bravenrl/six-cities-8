@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { PageType } from '../../const';
@@ -69,7 +68,7 @@ function MainPage (props : ConnectedComponentPropsType): JSX.Element {
               <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <Map offers = {offers} city = {city} selectedId={activeOfferId} className='cities'/>
+              <Map offers = {offers} selectedId={activeOfferId} className='cities'/>
             </div>
           </div>
         </div>

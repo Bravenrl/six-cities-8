@@ -9,7 +9,6 @@ import { AppRoute, PageType } from '../../const';
 
 type MapProrsType = {
   offers : OfferType[];
-  city: string;
   selectedId: number;
   className: string;
 }
@@ -40,11 +39,11 @@ const getStyleByClassName = (className:string) : MapStyleType| Omit<MapStyleType
   }
 };
 
-function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Element {
+function Map({offers, selectedId, className} :  MapProrsType) : JSX.Element {
 
-  const currentCity = offers[0].city;
+  const city = offers[0].city;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, currentCity);
+  const map = useMap(mapRef, city);
   const history = useHistory();
 
   useEffect(() => {
@@ -75,11 +74,11 @@ function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Elemen
   }, [map, offers, selectedId, history]);
 
   useEffect(() => {
-    const {latitude, longitude, zoom} = currentCity.location;
+    const {latitude, longitude, zoom} = city.location;
     if (map) {
       map.flyTo([latitude, longitude], zoom);
     }
-  }, [currentCity, map]);
+  }, [city, map]);
 
   return (
     <section className={`${className}__map map`}
