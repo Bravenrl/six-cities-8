@@ -1,11 +1,13 @@
 import { PageType } from '../../const';
 import { OfferType } from '../../types/offer';
+import { getCurrentOffers } from '../../utils';
 import OfferCard from '../offer-card/offer-card';
 
 type OfferListProrsType = {
   offers : OfferType[];
   pageType: string;
   handleActiveOffer?: (id: number ) => void;
+  city?: string;
 }
 const getClassNameByType = (pageType:string) :string => {
   switch (pageType) {
@@ -20,11 +22,11 @@ const getClassNameByType = (pageType:string) :string => {
   }
 };
 
-function OfferList ({offers, pageType, handleActiveOffer} : OfferListProrsType) : JSX.Element {
-
+function OfferList ({offers, pageType, handleActiveOffer, city} : OfferListProrsType) : JSX.Element {
+  const currentOffers = (city)?getCurrentOffers(offers, city):offers;
   return (
     <div className={getClassNameByType(pageType)}>
-      {offers.map((offer) => (<OfferCard onOfferActive = {handleActiveOffer} key={offer.id} offer = {offer}  pageType = {pageType}/>) )}
+      {currentOffers.map((offer) => (<OfferCard onOfferActive = {handleActiveOffer} key={offer.id} offer = {offer}  pageType = {pageType}/>) )}
     </div>
   );
 }

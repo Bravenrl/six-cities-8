@@ -37,7 +37,7 @@ function PropertyPage ({offers, reviews} : PropertyPagePropsType) : JSX.Element 
   const offersNear = offers.filter((offer)=>(offer.city.name===currentOffer.city.name)&&(offer.id!==currentOffer.id)).slice(0,3);
 
   const {isPremium, id, images, title, rating, type, bedrooms,
-    maxAdults, price, goods, host, description, isFavorite}=currentOffer;
+    maxAdults, price, goods, host, description, isFavorite, city}=currentOffer;
   const ratingPercent = Math.round(rating)*20;
   let descriptionKey = id;
   return (
@@ -112,7 +112,7 @@ function PropertyPage ({offers, reviews} : PropertyPagePropsType) : JSX.Element 
               <ReviewsList reviews={reviews}/>
             </div>
           </div>
-          <Map offers={[...offersNear, currentOffer]} selectedId={currentOffer.id} className='property'/>
+          <Map offers={[...offersNear, currentOffer]} selectedId={currentOffer.id} className='property' city={city.name}/>
         </section>
         <div className="container">
           <section className="near-places places">

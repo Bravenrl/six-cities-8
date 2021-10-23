@@ -21,7 +21,7 @@ function App({offers, reviews} : AppProrsType): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path = {AppRoute.Root}>
-          <MainPage allOffers = {offers}/>
+          <MainPage />
         </Route>
         <Route exact path = {AppRoute.Login}>
           <LoginPage />
@@ -29,7 +29,7 @@ function App({offers, reviews} : AppProrsType): JSX.Element {
         <PrivateRoute
           exact
           path = {AppRoute.Favorites}
-          render = {() => <FavoritesPage offers = {offers}/>}
+          render = {() => <FavoritesPage/>}
           authorizationStatus = {AuthorizationStatus.Auth}
         >
         </PrivateRoute>

@@ -1,13 +1,12 @@
 import { offers } from '../mocks/offers';
 import {ActionType, Actions} from '../types/action';
 import {State} from '../types/state';
-import { getCurrentOffers } from '../utils';
 
 const INITIAL_CITY = 'Paris';
 
 const initialState = {
   city: INITIAL_CITY,
-  offers: getCurrentOffers(offers, INITIAL_CITY),
+  offers: offers,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -15,7 +14,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
     case ActionType.ChangeCity:
       return {...state, city: action.payload};
     case ActionType.AddOffers:
-      return {...state, offers: getCurrentOffers(action.payload, state.city)};
+      return {...state, offers: action.payload};
     default:
       return state;
   }

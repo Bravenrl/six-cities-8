@@ -5,12 +5,14 @@ import 'leaflet/dist/leaflet.css';
 import { Icon, Marker } from 'leaflet';
 import { useHistory } from 'react-router';
 import { AppRoute, PageType } from '../../const';
+import { getCurrentOffers } from '../../utils';
 
 
 type MapProrsType = {
   offers : OfferType[];
   selectedId: number;
   className: string;
+  city: string;
 }
 
 const CustomIcon = {
@@ -39,11 +41,11 @@ const getStyleByClassName = (className:string) : MapStyleType| Omit<MapStyleType
   }
 };
 
-function Map({offers, selectedId, className} :  MapProrsType) : JSX.Element {
-
-  const city = offers[0].city;
+function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Element {
+  const currentOffers = getCurrentOffers(offers, city);
+  const currentCity = currentOffers[0].city;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, currentCity);
   const history = useHistory();
 
   useEffect(() => {
@@ -74,11 +76,11 @@ function Map({offers, selectedId, className} :  MapProrsType) : JSX.Element {
   }, [map, offers, selectedId, history]);
 
   useEffect(() => {
-    const {latitude, longitude, zoom} = city.location;
+    const {latitude, longitude, zoom} = currentCity.location;
     if (map) {
       map.flyTo([latitude, longitude], zoom);
     }
-  }, [city, map]);
+  }, [currentCity, map]);
 
   return (
     <section className={`${className}__map map`}
