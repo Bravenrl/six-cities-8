@@ -8,6 +8,7 @@ import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 import CityList from '../city-list/city-list';
 import { getCurrentOffers } from '../../utils';
+import PlacesOption from '../places-option/places-options';
 
 
 type MainPagePropsType = {
@@ -56,15 +57,7 @@ function MainPage (props : ConnectedComponentPropsType): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{getCurrentOffers(offers, city).length} places to stay in {city}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-              </form>
+              <PlacesOption />
               <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer} city={city}/>
             </section>
             <div className="cities__right-section">

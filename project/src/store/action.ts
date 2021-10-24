@@ -1,3 +1,4 @@
+import { SortType} from '../const';
 import { ActionType} from '../types/action';
 import { OfferType } from '../types/offer';
 
@@ -9,5 +10,10 @@ export const changeCity = (cityName: string) => ({
 export const addOffers = (offers: OfferType[]) => ({
   type: ActionType.AddOffers,
   payload: offers,
+} as const);
+
+export const changeSorting = (option: SortType) => ({
+  type: ActionType.ChangeSorting,
+  payload: option,
 } as const);
 

@@ -1,5 +1,7 @@
+import { connect, ConnectedProps } from 'react-redux';
 import { PageType } from '../../const';
 import { OfferType } from '../../types/offer';
+import { State } from '../../types/state';
 import { getCurrentOffers } from '../../utils';
 import OfferCard from '../offer-card/offer-card';
 
@@ -9,6 +11,17 @@ type OfferListProrsType = {
   handleActiveOffer?: (id: number ) => void;
   city?: string;
 }
+
+type PropsFromReduxType = ConnectedProps<typeof connector>
+type ConnectedComponentPropsType = PropsFromReduxType & OfferListProrsType;
+
+const mapStateToProps = ({sortType}: State) => ({
+  sortType,
+});
+
+
+const connector = connect(mapStateToProps);
+
 const getClassNameByType = (pageType:string) :string => {
   switch (pageType) {
     case PageType.Main:
@@ -22,7 +35,7 @@ const getClassNameByType = (pageType:string) :string => {
   }
 };
 
-function OfferList ({offers, pageType, handleActiveOffer, city} : OfferListProrsType) : JSX.Element {
+function OfferList ({offers, pageType, handleActiveOffer, city} : ConnectedComponentPropsType) : JSX.Element {
   const currentOffers = (city)?getCurrentOffers(offers, city):offers;
   return (
     <div className={getClassNameByType(pageType)}>
@@ -31,4 +44,4 @@ function OfferList ({offers, pageType, handleActiveOffer, city} : OfferListPrors
   );
 }
 
-export default OfferList;
+export default connector(OfferList);

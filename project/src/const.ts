@@ -23,3 +23,13 @@ export const CustomIcon = {
 };
 
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
+export const OPTION_TYPES = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+
+export enum SortType {
+  Popular = 'Popular',
+  PriceToHight = 'Price: low to high',
+  PriceToLow = 'Price: high to low',
+  TopRated = 'Top rated first'
+}
+
