@@ -1,14 +1,25 @@
+import { connect, ConnectedProps } from 'react-redux';
 import { PageType } from '../../const';
-import { OfferType } from '../../types/offer';
+import { State } from '../../types/state';
+import { getCurrentOffers } from '../../utils';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
 import OfferList from '../offer-list/offer-list';
 
-type FavoritesPageProrsType = {
-  offers : OfferType[];
-}
 
-function FavoritesPage ({offers} : FavoritesPageProrsType) : JSX.Element {
+type PropsFromReduxType = ConnectedProps<typeof connector>
+
+
+const mapStateToProps = ({offers, city}: State) => ({
+  city,
+  offers,
+});
+
+const connector = connect(mapStateToProps);
+function FavoritesPage (props : PropsFromReduxType) : JSX.Element {
+  const {offers, city} = props;
+  const currentOffers = getCurrentOffers(offers, city);
+  const favoriteOffers = currentOffers.filter((offer) => offer.isFavorite);
   return (
     <div className="page">
       <header className="header">
@@ -29,11 +40,11 @@ function FavoritesPage ({offers} : FavoritesPageProrsType) : JSX.Element {
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
                     <a className="locations__item-link" href="#todo">
-                      <span>Amsterdam</span>
+                      <span>{city}</span>
                     </a>
                   </div>
                 </div>
-                <OfferList offers={offers} pageType={PageType.Favorites}/>
+                <OfferList offers={favoriteOffers} pageType={PageType.Favorites}/>
               </li>
 
             </ul>
@@ -48,5 +59,5 @@ function FavoritesPage ({offers} : FavoritesPageProrsType) : JSX.Element {
     </div>
   );
 }
-
-export default FavoritesPage;
+export {FavoritesPage};
+export default connector(FavoritesPage);

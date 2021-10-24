@@ -1,21 +1,39 @@
 import { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { PageType } from '../../const';
-import { OfferType } from '../../types/offer';
+import { State } from '../../types/state';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
 import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
+import CityList from '../city-list/city-list';
+import { getCurrentOffers } from '../../utils';
+
 
 type MainPagePropsType = {
-  offers : OfferType[];
 }
 
-function MainPage ({offers} : MainPagePropsType) : JSX.Element {
+type PropsFromReduxType = ConnectedProps<typeof connector>
+type ConnectedComponentPropsType = PropsFromReduxType & MainPagePropsType;
+
+const mapStateToProps = ({city, offers}: State) => ({
+  city,
+  offers,
+});
+
+
+const connector = connect(mapStateToProps);
+
+
+function MainPage (props : ConnectedComponentPropsType): JSX.Element {
+  const {city, offers} = props;
+
   const [activeOfferId, setActiveOfferId] = useState(0);
 
   const handleActiveOffer = (id:number):void => {
     setActiveOfferId(id);
   };
+
 
   return (
     <div className="page page--gray page--main">
@@ -31,46 +49,13 @@ function MainPage ({offers} : MainPagePropsType) : JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#todo">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="todo">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="todo">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="todo">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="todo">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="todo">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CityList />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{getCurrentOffers(offers, city).length} places to stay in {city}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -80,10 +65,10 @@ function MainPage ({offers} : MainPagePropsType) : JSX.Element {
                   </svg>
                 </span>
               </form>
-              <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer}/>
+              <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer} city={city}/>
             </section>
             <div className="cities__right-section">
-              <Map offers = {offers} city = {'Amsterdam'} selectedId={activeOfferId} className='cities'/>
+              <Map offers = {offers} selectedId={activeOfferId} className='cities' city={city}/>
             </div>
           </div>
         </div>
@@ -91,4 +76,5 @@ function MainPage ({offers} : MainPagePropsType) : JSX.Element {
     </div>);
 }
 
-export default MainPage;
+export {MainPage};
+export default connector(MainPage);

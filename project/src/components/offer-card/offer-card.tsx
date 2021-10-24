@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
 import { OfferType } from '../../types/offer';
 import { AppRoute, PageType } from '../../const';
 import PremiumMark from '../premium-mark/premium-mark';
+import { getWithCapitalLetter } from '../../utils';
 
 type OfferCardPropType = {
   offer : OfferType;
@@ -24,8 +25,7 @@ const getClassNameByType = (pageType:string) :string => {
 function OfferCard ({offer, pageType, onOfferActive} : OfferCardPropType) : JSX.Element {
   const {id, price, rating, title, type, isPremium, isFavorite, previewImage} = offer;
   const ratingPercent = Math.round(rating)*20;
-  const typeCapital = type[0].toUpperCase()+type.slice(1);
-  const linkPath = `${AppRoute.RoomProprety.slice(0, -3)}${id}`;
+  const linkPath = generatePath(AppRoute.RoomProprety, {id});
 
   return (
     <article
@@ -61,7 +61,7 @@ function OfferCard ({offer, pageType, onOfferActive} : OfferCardPropType) : JSX.
         <h2 className="place-card__name">
           <Link to = {linkPath}>{title}</Link>
         </h2>
-        <p className="place-card__type">{typeCapital}</p>
+        <p className="place-card__type">{getWithCapitalLetter(type)}</p>
       </div>
     </article>);
 }

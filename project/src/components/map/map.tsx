@@ -5,13 +5,14 @@ import 'leaflet/dist/leaflet.css';
 import { Icon, Marker } from 'leaflet';
 import { useHistory } from 'react-router';
 import { AppRoute, PageType } from '../../const';
+import { getCurrentOffers } from '../../utils';
 
 
 type MapProrsType = {
   offers : OfferType[];
-  city: string;
   selectedId: number;
   className: string;
+  city: string;
 }
 
 const CustomIcon = {
@@ -40,17 +41,17 @@ const getStyleByClassName = (className:string) : MapStyleType| Omit<MapStyleType
   }
 };
 
-function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Element {
-
-  const offersInCity = (className==='property') ? offers: offers.filter((offer) => offer.city.name === city);
-  const currentCity = offersInCity[0].city;
+function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Element {
+  const currentOffers = getCurrentOffers(offers, city);
+  const currentCity = currentOffers[0].city;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
   const history = useHistory();
 
   useEffect(() => {
+    let markers: Marker[] = [];
     if (map) {
-      offersInCity.forEach((offer) => {
+      markers = currentOffers.map((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
@@ -66,14 +67,20 @@ function Map({offers, city, selectedId, className} :  MapProrsType) : JSX.Elemen
             selectedId !== undefined && offer.id === selectedId
               ? currentCustomIcon
               : defaultCustomIcon,
-          )
-          .addTo(map);
-
-        return () => marker.removeEventListener('click' , onMarkerClickHandler);
+          );
+        marker.addTo(map);
+        return marker;
       });
     }
+    return () => markers.forEach((marker) => marker.remove());
+  }, [map, currentOffers, selectedId, history]);
 
-  }, [map, offersInCity, selectedId, history]);
+  useEffect(() => {
+    const {latitude, longitude, zoom} = currentCity.location;
+    if (map) {
+      map.flyTo([latitude, longitude], zoom);
+    }
+  }, [currentCity, map]);
 
   return (
     <section className={`${className}__map map`}

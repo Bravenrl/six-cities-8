@@ -12,6 +12,7 @@ import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 import { PageType } from '../../const';
 import { useEffect } from 'react';
+import { getWithCapitalLetter } from '../../utils';
 
 type PropertyPagePropsType = {
   offers : OfferType[];
@@ -36,9 +37,8 @@ function PropertyPage ({offers, reviews} : PropertyPagePropsType) : JSX.Element 
   const offersNear = offers.filter((offer)=>(offer.city.name===currentOffer.city.name)&&(offer.id!==currentOffer.id)).slice(0,3);
 
   const {isPremium, id, images, title, rating, type, bedrooms,
-    maxAdults, price, goods, host, description, city, isFavorite}=currentOffer;
+    maxAdults, price, goods, host, description, isFavorite, city}=currentOffer;
   const ratingPercent = Math.round(rating)*20;
-  const typeCapital = type[0].toUpperCase()+type.slice(1);
   let descriptionKey = id;
   return (
     <div className="page">
@@ -77,7 +77,7 @@ function PropertyPage ({offers, reviews} : PropertyPagePropsType) : JSX.Element 
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {typeCapital}
+                  {getWithCapitalLetter(type)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
                   {bedrooms} Bedrooms
@@ -103,7 +103,7 @@ function PropertyPage ({offers, reviews} : PropertyPagePropsType) : JSX.Element 
                   {(host.isPro)&&<span className="property__user-status">Pro</span>}
                 </div>
                 <div className="property__description">
-                  {description.map((item) => (
+                  {description.map((item, index) => (
                     <p key={descriptionKey++} className="property__text">
                       {item}
                     </p>))}
@@ -112,7 +112,7 @@ function PropertyPage ({offers, reviews} : PropertyPagePropsType) : JSX.Element 
               <ReviewsList reviews={reviews}/>
             </div>
           </div>
-          <Map offers={[...offersNear, currentOffer]} selectedId={currentOffer.id} city = {city.name} className='property'/>
+          <Map offers={[...offersNear, currentOffer]} selectedId={currentOffer.id} className='property' city={city.name}/>
         </section>
         <div className="container">
           <section className="near-places places">
