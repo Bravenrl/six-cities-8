@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
 import { MapStyleType, OfferType } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
-import { Icon, Marker } from 'leaflet';
+import { Icon, LayerGroup, Marker } from 'leaflet';
 import { useHistory } from 'react-router';
 import { AppRoute, PageType } from '../../const';
 import { getCurrentOffers } from '../../utils';
@@ -49,9 +49,9 @@ function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Elemen
   const history = useHistory();
 
   useEffect(() => {
-    let markers: Marker[] = [];
+    const markersGroup = new LayerGroup();
     if (map) {
-      markers = currentOffers.map((offer) => {
+      currentOffers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
@@ -68,11 +68,13 @@ function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Elemen
               ? currentCustomIcon
               : defaultCustomIcon,
           );
-        marker.addTo(map);
-        return marker;
+        markersGroup.addLayer(marker);
       });
+      markersGroup.addTo(map);
     }
-    return () => markers.forEach((marker) => marker.remove());
+    return () => {
+      markersGroup.remove();
+    };
   }, [map, currentOffers, selectedId, history]);
 
   useEffect(() => {
