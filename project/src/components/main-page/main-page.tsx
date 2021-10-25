@@ -58,7 +58,7 @@ function MainPage (props : ConnectedComponentPropsType): JSX.Element {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{getCurrentOffers(offers, city).length} places to stay in {city}</b>
               <PlacesOption />
-              <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer} city={city}/>
+              <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
               <Map offers = {offers} selectedId={activeOfferId} className='cities' city={city}/>

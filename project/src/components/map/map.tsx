@@ -49,7 +49,7 @@ function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Elemen
   const history = useHistory();
 
   useEffect(() => {
-    const group = new LayerGroup();
+    const markersGroup = new LayerGroup();
     if (map) {
       currentOffers.forEach((offer) => {
         const marker = new Marker({
@@ -68,12 +68,12 @@ function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Elemen
               ? currentCustomIcon
               : defaultCustomIcon,
           );
-        group.addLayer(marker);
+        markersGroup.addLayer(marker);
       });
-      group.addTo(map);
+      markersGroup.addTo(map);
     }
     return () => {
-      group.remove();
+      markersGroup.remove();
     };
   }, [map, currentOffers, selectedId, history]);
 

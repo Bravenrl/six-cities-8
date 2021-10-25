@@ -4,7 +4,6 @@ import { OfferType } from './types/offer';
 const comparePriceToHight = (objA:OfferType, objB:OfferType): number => objA.price-objB.price;
 const compareRating = (objA:OfferType, objB:OfferType): number => objA.rating-objB.rating;
 const comparePriceToLow = (objA:OfferType, objB:OfferType): number => objB.price-objA.price;
-const compareDefault = (objA:OfferType, objB:OfferType): number => objA.id-objB.id;
 
 export const getSortedOffers = (offers:OfferType[], sortType: string): OfferType[] => {
   switch (sortType) {
@@ -15,7 +14,7 @@ export const getSortedOffers = (offers:OfferType[], sortType: string): OfferType
     case SortType.TopRated:
       return offers.sort(compareRating);
     default:
-      return offers.sort(compareDefault);
+      return offers;
   }
 };
 
