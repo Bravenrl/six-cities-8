@@ -158,3 +158,5 @@ const GenerateOffer = () : OfferType => {
 };
 
 export const offers = new Array(CARD_COUNT).fill(null).map(GenerateOffer);
+
+
