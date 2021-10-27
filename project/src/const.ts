@@ -33,3 +33,6 @@ export enum SortType {
   TopRated = 'Top rated first'
 }
 
+export enum ApiRoute {
+  Hotels = '/hotels',
+}
