@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { changeCity, changeSorting } from '../../store/action';
 import { State } from '../../types/state';
 import { Actions } from '../../types/action';
-import { CITIES, SortType } from '../../const';
+import { SortType, Cities } from '../../const';
 
 type CityListPropsType = {
 }
@@ -29,7 +29,7 @@ function CityList(props: ConnectedComponentPropsType):JSX.Element {
   return(
     <section className="locations container">
       <ul className="locations__list tabs__list">
-        {CITIES.map((item) => (
+        {[...Cities.keys()].map((item) => (
           <li key={item} className="locations__item">
             <a className={`locations__item-link tabs__item ${(city===item)&&'tabs__item--active'}`}
               onClick = {(evt)=>{

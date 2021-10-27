@@ -17,3 +17,7 @@ export const changeSorting = (option: SortType) => ({
   payload: option,
 } as const);
 
+export const changeIsLoaded = (isLoaded: boolean) => ({
+  type: ActionType.isLoaded,
+  payload: isLoaded,
+} as const);
