@@ -34,5 +34,5 @@ export enum SortType {
 }
 
 export enum ApiRoute {
-  Hotels = '/hotels',
+  Offers = '/hotels',
 }
