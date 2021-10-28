@@ -1,6 +1,6 @@
 import { ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { loadOffers, changeCity, changeSorting, toggleIsLoading, requireAuthorization } from '../store/action';
+import { loadOffers, changeCity, changeSorting, toggleIsLoading, requireAuthorization, requireLogout } from '../store/action';
 import { State } from './state';
 
 
@@ -10,6 +10,7 @@ export enum ActionType {
   ChangeSorting = 'option/changeSorting',
   isDataLoading = 'data/isLoading',
   RequireAuthorization = 'user/requireAuthorization',
+  RequireLogout = 'user/requireLogout',
 }
 
 export type Actions =
@@ -17,7 +18,8 @@ export type Actions =
   | ReturnType <typeof loadOffers>
   | ReturnType <typeof changeSorting>
   | ReturnType <typeof toggleIsLoading>
-  | ReturnType <typeof requireAuthorization>;
+  | ReturnType <typeof requireAuthorization>
+  | ReturnType <typeof requireLogout>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

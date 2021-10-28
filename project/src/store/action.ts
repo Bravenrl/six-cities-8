@@ -27,3 +27,8 @@ export const requireAuthorization = (status: AuthorizationStatus) => ({
   payload: status,
 } as const);
 
+export const requireLogout = () => ({
+  type: ActionType.RequireLogout,
+  payload: AuthorizationStatus.NoAuth,
+}) as const;
+
