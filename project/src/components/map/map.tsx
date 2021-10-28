@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
-import { MapStyleType, OfferType } from '../../types/offer';
+import { CityType, MapStyleType, OfferType } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
 import { Icon, LayerGroup, Marker } from 'leaflet';
 import { useHistory } from 'react-router';
-import { AppRoute, PageType } from '../../const';
+import { AppRoute, Cities, PageType } from '../../const';
 import { getCurrentOffers } from '../../utils';
 
 
@@ -43,7 +43,7 @@ const getStyleByClassName = (className:string) : MapStyleType| Omit<MapStyleType
 
 function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Element {
   const currentOffers = getCurrentOffers(offers, city);
-  const currentCity = currentOffers[0].city;
+  const currentCity = Cities.get(city) as CityType;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
   const history = useHistory();

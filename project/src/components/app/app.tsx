@@ -1,8 +1,10 @@
 
+import { connect, ConnectedProps } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { OfferType } from '../../types/offer';
+import withPreloader from '../../hocs/with-preloader/with-preloader';
 import { ReviewType } from '../../types/review';
+import { State } from '../../types/state';
 import FavoritesPage from '../favorites-page/favorites-page';
 import LoginPage from '../login-page/login-page';
 import MainPage from '../main-page/main-page';
@@ -10,18 +12,27 @@ import NotFoundPage from '../not-found-page/not-found-paje';
 import PrivateRoute from '../private-route/private-route';
 import PropertyPage from '../property-page/property-page';
 
-
+const MainPageWrapped = withPreloader(MainPage);
 type AppProrsType = {
-  offers : OfferType[];
   reviews : ReviewType[];
 }
+type PropsFromReduxType = ConnectedProps<typeof connector>
+type ConnectedComponentPropsType = PropsFromReduxType & AppProrsType;
 
-function App({offers, reviews} : AppProrsType): JSX.Element {
+const mapStateToProps = ({offers, isDataLoading}: State) => ({
+  offers,
+  isDataLoading,
+});
+
+const connector = connect(mapStateToProps);
+
+function App(props : ConnectedComponentPropsType): JSX.Element {
+  const {reviews, offers} = props;
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path = {AppRoute.Root}>
-          <MainPage />
+          <MainPageWrapped />
         </Route>
         <Route exact path = {AppRoute.Login}>
           <LoginPage />
@@ -44,4 +55,5 @@ function App({offers, reviews} : AppProrsType): JSX.Element {
   );
 }
 
-export default App;
+export {App};
+export default connector(App);

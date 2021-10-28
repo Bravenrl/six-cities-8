@@ -39,3 +39,19 @@ export type MapStyleType = {
   width: string;
   margin: string;
 }
+
+export type ServerHostType =
+Omit<HostType, 'avatarUrl' | 'isPro'>&
+{
+  'is_pro' : boolean;
+  'avatar_url': string;
+};
+
+export type ServerOfferType = Omit<OfferType, 'host'|'isFavorite'|'isPremium'|'maxAdults'|'previewImage'>&
+{
+  host: ServerHostType;
+  'is_favorite': boolean;
+  'is_premium': boolean;
+  'max_adults': number;
+  'preview_image': string;
+}

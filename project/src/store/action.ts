@@ -7,8 +7,8 @@ export const changeCity = (cityName: string) => ({
   payload: cityName,
 } as const);
 
-export const addOffers = (offers: OfferType[]) => ({
-  type: ActionType.AddOffers,
+export const loadOffers = (offers: OfferType[]) => ({
+  type: ActionType.LoadOffers,
   payload: offers,
 } as const);
 
@@ -17,3 +17,7 @@ export const changeSorting = (option: SortType) => ({
   payload: option,
 } as const);
 
+export const toggleIsLoading = (isLoading: boolean) => ({
+  type: ActionType.isDataLoading,
+  payload: isLoading,
+} as const);

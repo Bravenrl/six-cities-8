@@ -5,4 +5,5 @@ export type State = {
   city: string;
   offers: OfferType[];
   sortType: SortType;
+  isDataLoading: boolean;
 }
