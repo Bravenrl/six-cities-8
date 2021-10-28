@@ -1,6 +1,6 @@
 import { ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { loadOffers, changeCity, changeSorting, changeIsLoaded } from '../store/action';
+import { loadOffers, changeCity, changeSorting, toggleIsLoading } from '../store/action';
 import { State } from './state';
 
 
@@ -8,14 +8,14 @@ export enum ActionType {
   ChangeCity = 'main/changeCity',
   LoadOffers = 'data/LoadOffers',
   ChangeSorting = 'option/changeSorting',
-  isLoaded = 'data/isLoaded'
+  isDataLoading = 'data/isLoading'
 }
 
 export type Actions =
   | ReturnType <typeof changeCity>
   | ReturnType <typeof loadOffers>
   | ReturnType <typeof changeSorting>
-  | ReturnType <typeof changeIsLoaded>;
+  | ReturnType <typeof toggleIsLoading>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

@@ -9,7 +9,6 @@ import OfferList from '../offer-list/offer-list';
 import CityList from '../city-list/city-list';
 import { getCurrentOffers } from '../../utils';
 import PlacesOption from '../places-option/places-options';
-import NoPlaces from '../no-places/no-places';
 
 
 type MainPagePropsType = {
@@ -55,14 +54,12 @@ function MainPage (props : ConnectedComponentPropsType): JSX.Element {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            {(offers.length!==0)?
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{getCurrentOffers(offers, city).length} places to stay in {city}</b>
-                <PlacesOption />
-                <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer}/>
-              </section>
-              : <NoPlaces/>}
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">{getCurrentOffers(offers, city).length} places to stay in {city}</b>
+              <PlacesOption />
+              <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer}/>
+            </section>
             <div className="cities__right-section">
               <Map offers = {offers} selectedId={activeOfferId} className='cities' city={city}/>
             </div>

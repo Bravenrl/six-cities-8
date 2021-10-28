@@ -8,7 +8,7 @@ export const initialState = {
   city: INITIAL_CITY,
   offers: [],
   sortType: SortType.Popular,
-  isDataLoaded: false,
+  isDataLoading: true,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -19,8 +19,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, offers: action.payload};
     case ActionType.ChangeSorting:
       return {...state, sortType: action.payload};
-    case ActionType.isLoaded:
-      return {...state, isDataLoaded: action.payload};
+    case ActionType.isDataLoading:
+      return {...state, isDataLoading: action.payload};
     default:
       return state;
   }

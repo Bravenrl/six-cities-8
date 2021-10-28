@@ -2,6 +2,7 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import withPreloader from '../../hocs/with-preloader/with-preloader';
 import { ReviewType } from '../../types/review';
 import { State } from '../../types/state';
 import FavoritesPage from '../favorites-page/favorites-page';
@@ -11,16 +12,16 @@ import NotFoundPage from '../not-found-page/not-found-paje';
 import PrivateRoute from '../private-route/private-route';
 import PropertyPage from '../property-page/property-page';
 
-
+const MainPageWrapped = withPreloader(MainPage);
 type AppProrsType = {
   reviews : ReviewType[];
 }
 type PropsFromReduxType = ConnectedProps<typeof connector>
 type ConnectedComponentPropsType = PropsFromReduxType & AppProrsType;
 
-const mapStateToProps = ({offers, isDataLoaded}: State) => ({
+const mapStateToProps = ({offers, isDataLoading}: State) => ({
   offers,
-  isDataLoaded,
+  isDataLoading,
 });
 
 const connector = connect(mapStateToProps);
@@ -31,7 +32,7 @@ function App(props : ConnectedComponentPropsType): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path = {AppRoute.Root}>
-          <MainPage />
+          <MainPageWrapped />
         </Route>
         <Route exact path = {AppRoute.Login}>
           <LoginPage />

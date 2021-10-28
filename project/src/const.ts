@@ -24,8 +24,6 @@ export const CustomIcon = {
   CURRENT: 'img/pin-active.svg',
 };
 
-export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-
 export const OPTION_TYPES = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
 
 export enum SortType {
