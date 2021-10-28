@@ -8,7 +8,7 @@ export const initialState = {
   city: INITIAL_CITY,
   offers: [],
   sortType: SortType.Popular,
-  isDataLoading: true,
+  isDataLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
 };
 
