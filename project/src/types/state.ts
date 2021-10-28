@@ -1,4 +1,4 @@
-import { SortType } from '../const';
+import { AuthorizationStatus, SortType } from '../const';
 import { OfferType } from './offer';
 
 export type State = {
@@ -6,4 +6,5 @@ export type State = {
   offers: OfferType[];
   sortType: SortType;
   isDataLoading: boolean;
+  authorizationStatus: AuthorizationStatus;
 }

@@ -2,12 +2,13 @@ import {ComponentType} from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import Preloader from '../../components/preloader/preloader';
 import { State } from '../../types/state';
-const mapStateToProps = ({isDataLoading}: State) => ({
-  isDataLoading,
-});
+
 type PropsFromReduxType = ConnectedProps<typeof connector>;
 type MapPropsType = Pick<PropsFromReduxType, 'isDataLoading'>;
 
+const mapStateToProps = ({isDataLoading}: State) => ({
+  isDataLoading,
+});
 
 const connector = connect(mapStateToProps);
 function withPreloader<WCP>(WpappedComponent: ComponentType<WCP>) : ComponentType<WCP> {

@@ -1,4 +1,4 @@
-import { SortType} from '../const';
+import { AuthorizationStatus, SortType} from '../const';
 import { ActionType} from '../types/action';
 import { OfferType } from '../types/offer';
 
@@ -21,3 +21,9 @@ export const toggleIsLoading = (isLoading: boolean) => ({
   type: ActionType.isDataLoading,
   payload: isLoading,
 } as const);
+
+export const requireAuthorization = (status: AuthorizationStatus) => ({
+  type: ActionType.RequireAuthorization,
+  payload: status,
+} as const);
+
