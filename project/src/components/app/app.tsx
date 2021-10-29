@@ -1,6 +1,7 @@
 
 import { connect, ConnectedProps } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
+import browserHistory from '../../browser-history';
 import { AppRoute } from '../../const';
 import withPreloader from '../../hocs/with-preloader/with-preloader';
 import { ReviewType } from '../../types/review';
@@ -29,7 +30,7 @@ const connector = connect(mapStateToProps);
 function App(props: ConnectedComponentPropsType): JSX.Element {
   const { reviews, offers } = props;
   return (
-    <BrowserRouter>
+    <Router history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Root}>
           <MainPageWrapped />
@@ -50,7 +51,7 @@ function App(props: ConnectedComponentPropsType): JSX.Element {
           <NotFoundPage />
         </Route>
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
 
