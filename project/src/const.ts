@@ -83,3 +83,7 @@ export const Cities = new Map<string, CityType>([
     },
   }],
 ]);
+
+export const reEmail = /\S+@\S+\.\S+/;
+
+export const rePassword = /^\s*$/;
