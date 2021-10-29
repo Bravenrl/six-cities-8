@@ -1,6 +1,7 @@
 import { AuthorizationStatus, SortType} from '../const';
 import { ActionType} from '../types/action';
 import { OfferType } from '../types/offer';
+import { AuthInfo } from '../types/review';
 
 export const changeCity = (cityName: string) => ({
   type: ActionType.ChangeCity,
@@ -30,5 +31,10 @@ export const requireAuthorization = (status: AuthorizationStatus) => ({
 export const requireLogout = () => ({
   type: ActionType.RequireLogout,
   payload: AuthorizationStatus.NoAuth,
-}) as const;
+} as const) ;
+
+export const setAuthor = (author: AuthInfo) => ({
+  type: ActionType.SetAuthor,
+  payload: author,
+} as const);
 

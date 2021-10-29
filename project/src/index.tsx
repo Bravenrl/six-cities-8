@@ -9,7 +9,7 @@ import { createApi } from './services/api';
 import { reducer } from './store/reducer';
 import thunk from 'redux-thunk';
 import { ThunkAppDispatch } from './types/action';
-import { loadOffersAction } from './store/api-action';
+import { checkAuthStatusAction, loadOffersAction } from './store/api-action';
 import { AuthorizationStatus } from './const';
 import { requireAuthorization } from './store/action';
 
@@ -22,6 +22,7 @@ const store = createStore(
 );
 
 (store.dispatch as ThunkAppDispatch)(loadOffersAction());
+(store.dispatch as ThunkAppDispatch)(checkAuthStatusAction());
 
 ReactDOM.render(
   <React.StrictMode>

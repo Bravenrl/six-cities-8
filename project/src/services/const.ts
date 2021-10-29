@@ -4,6 +4,8 @@ export const AUTN_TOKEN_NAME = 'six-cities-token';
 
 export enum ApiRoute {
   Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export const enum HttpCode {

@@ -1,5 +1,7 @@
 import { AuthorizationStatus, SortType } from '../const';
 import { OfferType } from './offer';
+import { AuthInfo } from './review';
+
 
 export type State = {
   city: string;
@@ -7,4 +9,5 @@ export type State = {
   sortType: SortType;
   isDataLoading: boolean;
   authorizationStatus: AuthorizationStatus;
+  author: AuthInfo;
 }
