@@ -1,4 +1,4 @@
-import { AuthorizationStatus, SortType} from '../const';
+import { AppRoute, AuthorizationStatus, SortType} from '../const';
 import { ActionType} from '../types/action';
 import { OfferType } from '../types/offer';
 import { AuthInfo } from '../types/review';
@@ -38,3 +38,7 @@ export const setAuthor = (author: AuthInfo) => ({
   payload: author,
 } as const);
 
+export const redirectToRoute = (url:AppRoute) => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
+} as const);

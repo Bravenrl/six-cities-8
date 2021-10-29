@@ -14,6 +14,10 @@ import PrivateRoute from '../private-route/private-route';
 import PropertyPage from '../property-page/property-page';
 
 const MainPageWrapped = withPreloader(MainPage);
+const LoginPageWrapped = withPreloader(LoginPage);
+const PropertyPageWrapped = withPreloader(PropertyPage);
+const FavoritesPageWrapped = withPreloader(FavoritesPage);
+
 type AppProrsType = {
   reviews: ReviewType[];
 }
@@ -36,16 +40,16 @@ function App(props: ConnectedComponentPropsType): JSX.Element {
           <MainPageWrapped />
         </Route>
         <Route exact path={AppRoute.Login}>
-          <LoginPage />
+          <LoginPageWrapped />
         </Route>
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() => <FavoritesPage />}
+          render={() => <FavoritesPageWrapped />}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.RoomProprety}>
-          <PropertyPage offers={offers} reviews={reviews} />
+          <PropertyPageWrapped offers={offers} reviews={reviews} />
         </Route>
         <Route>
           <NotFoundPage />
