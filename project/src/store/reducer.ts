@@ -25,6 +25,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, isDataLoading: action.payload};
     case ActionType.RequireAuthorization:
       return {...state, authorizationStatus: action.payload};
+    case ActionType.SetAuthor:
+      return {...state, author: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth, author: {} as AuthInfo};
     default:
