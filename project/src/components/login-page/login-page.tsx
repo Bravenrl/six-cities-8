@@ -1,33 +1,37 @@
 
-import { ChangeEvent, FormEvent, useRef } from 'react';
+
+import { Action } from '@reduxjs/toolkit';
+import { ChangeEvent, Dispatch, FormEvent, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, Cities, SortType } from '../../const';
+import { changeCity, changeSorting } from '../../store/action';
 import { loginAction } from '../../store/api-action';
 import { ThunkAppDispatch } from '../../types/action';
 import { User } from '../../types/review';
-import { State } from '../../types/state';
 import HeaderLogo from '../header-logo/header-logo';
 type LoginPageProosType = {
 };
 type PropsFromReduxType = ConnectedProps<typeof connector>;
 type ConnectedComponentPropsType = PropsFromReduxType & LoginPageProosType;
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+const mapDispatchToProps = (dispatch: ThunkAppDispatch&Dispatch<Action>) => ({
   onSubmit(user: User) {
     dispatch(loginAction(user));
   },
-});
-const mapStateToProps = ({ city }: State) => ({
-  city,
+  onCityClick(cityName:string) {
+    dispatch(changeCity(cityName));
+    dispatch(changeSorting(SortType.Popular));
+  },
 });
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(null, mapDispatchToProps);
 
 
 function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
-  const { onSubmit, city } = props;
-
+  const { onSubmit, onCityClick } = props;
+  const cities = [...Cities.keys()];
+  const cityName = cities[Math.floor(Math.random()*cities.length)];
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -93,8 +97,8 @@ function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Root} className="locations__item-link" href="#todo">
-                <span>{city}</span>
+              <Link to={AppRoute.Root} onClick={()=>onCityClick(cityName)} className="locations__item-link" href="#todo">
+                <span>{cityName}</span>
               </Link>
             </div>
           </section>

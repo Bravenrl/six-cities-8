@@ -9,9 +9,9 @@ const mapStateToProps = ({ author, authorizationStatus }: State) => ({
   author,
   authorizationStatus,
 });
-const mapDispatchToProps = (dispath: ThunkAppDispatch) => ({
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onLogout() {
-    dispath(logoutAction());
+    dispatch(logoutAction());
   },
 });
 
@@ -22,6 +22,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 function HeaderNav(props: PropsFromReduxType): JSX.Element {
   const { author, onLogout, authorizationStatus } = props;
+
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -35,9 +36,9 @@ function HeaderNav(props: PropsFromReduxType): JSX.Element {
         </li>
         {(authorizationStatus === AuthorizationStatus.Auth) &&
             <li className="header__nav-item">
-              <Link className="header__nav-link" href="#todo" to={AppRoute.Root}>
+              <a className="header__nav-link" href="#todo">
                 <span className="header__signout" onClick={onLogout}>Sign out</span>
-              </Link>
+              </a>
             </li>}
       </ul>
     </nav>
