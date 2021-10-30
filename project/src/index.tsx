@@ -13,6 +13,8 @@ import { checkAuthStatusAction, loadOffersAction } from './store/api-action';
 import { AuthorizationStatus } from './const';
 import { requireAuthorization } from './store/action';
 import { redirect } from './store/middlewares/redirect';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const api = createApi(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)));
@@ -31,6 +33,7 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastContainer />
       <App reviews={reviews} />
     </Provider>
   </React.StrictMode>,

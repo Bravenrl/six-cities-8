@@ -10,4 +10,14 @@ export enum ApiRoute {
 
 export const enum HttpCode {
   Unauthorised = 401,
+  NotFound = 404,
+  BadRequest = 400,
+}
+
+export const enum ToastMessage {
+  Unauthorised = 'log in, please',
+  ВadRequest = 'request error, check the entered data',
+  NotFound = 'data not available',
+  NetworkErr = 'network error',
+  LoadFiail = 'failed data loading'
 }

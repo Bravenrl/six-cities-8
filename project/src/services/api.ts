@@ -24,12 +24,12 @@ export const createApi = (onUnauthorised:UnauthorisedCbType): AxiosInstance => {
 
   api.interceptors.response.use(
     (response: AxiosResponse) => response,
-    (error:AxiosError) => {
-      const {response} = error;
+    (err:AxiosError) => {
+      const {response} = err;
       if(response?.status===HttpCode.Unauthorised) {
-        return onUnauthorised();
+        onUnauthorised();
       }
-      return Promise.reject(error);
+      return Promise.reject(err);
     },
   );
 
