@@ -33,10 +33,6 @@ export enum SortType {
   TopRated = 'Top rated first'
 }
 
-export enum ApiRoute {
-  Offers = '/hotels',
-}
-
 export const Cities = new Map<string, CityType>([
   ['Paris', {
     name: 'Paris',
@@ -87,3 +83,7 @@ export const Cities = new Map<string, CityType>([
     },
   }],
 ]);
+
+export const reEmail = /\S+@\S+\.\S+/;
+
+export const rePassword = /^\s*$/;
