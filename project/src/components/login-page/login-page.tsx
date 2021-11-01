@@ -5,6 +5,7 @@ import { ChangeEvent, Dispatch, FormEvent, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, Cities, SortType } from '../../const';
+import withPreloader from '../../hocs/with-preloader/with-preloader';
 import { changeCity, changeSorting } from '../../store/action';
 import { loginAction } from '../../store/api-action';
 import { ThunkAppDispatch } from '../../types/action';
@@ -15,11 +16,11 @@ type LoginPageProosType = {
 type PropsFromReduxType = ConnectedProps<typeof connector>;
 type ConnectedComponentPropsType = PropsFromReduxType & LoginPageProosType;
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch&Dispatch<Action>) => ({
+const mapDispatchToProps = (dispatch: ThunkAppDispatch & Dispatch<Action>) => ({
   onSubmit(user: User) {
     dispatch(loginAction(user));
   },
-  onCityClick(cityName:string) {
+  onCityClick(cityName: string) {
     dispatch(changeCity(cityName));
     dispatch(changeSorting(SortType.Popular));
   },
@@ -31,7 +32,7 @@ const connector = connect(null, mapDispatchToProps);
 function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
   const { onSubmit, onCityClick } = props;
   const cities = [...Cities.keys()];
-  const cityName = cities[Math.floor(Math.random()*cities.length)];
+  const cityName = cities[Math.floor(Math.random() * cities.length)];
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -97,7 +98,7 @@ function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Root} onClick={()=>onCityClick(cityName)} className="locations__item-link" href="#todo">
+              <Link to={AppRoute.Root} onClick={() => onCityClick(cityName)} className="locations__item-link" href="#todo">
                 <span>{cityName}</span>
               </Link>
             </div>
@@ -109,4 +110,4 @@ function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
 }
 
 export { LoginPage };
-export default connector(LoginPage);
+export default withPreloader(connector(LoginPage));
