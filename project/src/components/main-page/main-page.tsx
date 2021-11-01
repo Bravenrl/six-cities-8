@@ -12,11 +12,11 @@ import PlacesOption from '../places-option/places-options';
 import Preloader from '../preloader/preloader';
 
 
-type MainPagePropsType = {
-}
+// type MainPagePropsType = {
+// }
 
 type PropsFromReduxType = ConnectedProps<typeof connector>
-type ConnectedComponentPropsType = PropsFromReduxType & MainPagePropsType;
+type ConnectedComponentPropsType = PropsFromReduxType; //& MainPagePropsType;
 
 const mapStateToProps = ({city, offers, isDataLoading}: State) => ({
   city,

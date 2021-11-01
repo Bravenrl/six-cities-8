@@ -13,4 +13,5 @@ export type State = {
   currentOffer: OfferType;
   nearbyOffers: OfferType[];
   reviews: ReviewType[];
+  isPosting: boolean;
 }

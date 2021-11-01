@@ -61,3 +61,8 @@ export const loadReviews = (reviews: ReviewType[])=> ({
 export const historyBack = () => ({
   type: ActionType.HistoryBack,
 } as const);
+
+export const toggleIsPosting = (isPosting: boolean) => ({
+  type: ActionType.isPosting,
+  payload: isPosting,
+} as const);

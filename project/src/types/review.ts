@@ -2,12 +2,12 @@ import { HostType, ServerHostType } from './offer';
 
 export type CommentType = {
   comment: string;
-  date: string;
+  rating: number;
 };
 
 export type ReviewType = CommentType&{
   id: number;
-  rating: number;
+  date: string;
   user: HostType;
 };
 

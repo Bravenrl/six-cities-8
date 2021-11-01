@@ -1,6 +1,6 @@
 import { ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { loadOffers, changeCity, changeSorting, toggleIsLoading, requireAuthorization, requireLogout, setAuthor, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack } from '../store/action';
+import { loadOffers, changeCity, changeSorting, toggleIsLoading, requireAuthorization, requireLogout, setAuthor, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting } from '../store/action';
 import { State } from './state';
 
 
@@ -17,6 +17,7 @@ export enum ActionType {
   LoadNearbyOffers = 'data/LoadNearbyOffers',
   LoadReviews = 'data/LoadReviews',
   HistoryBack = 'user/historyBack',
+  isPosting = 'data/isPosting',
 }
 
 export type Actions =
@@ -31,7 +32,8 @@ export type Actions =
   | ReturnType<typeof loadCurrentOffer>
   | ReturnType<typeof loadNearbyOffers>
   | ReturnType<typeof loadReviews>
-  | ReturnType<typeof historyBack>;
+  | ReturnType<typeof historyBack>
+  | ReturnType<typeof toggleIsPosting>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

@@ -15,6 +15,7 @@ export const initialState = {
   currentOffer: {} as OfferType,
   nearbyOffers: [],
   reviews: [],
+  isPosting: false,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -39,6 +40,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return { ...state, nearbyOffers: action.payload };
     case ActionType.LoadReviews:
       return { ...state, reviews: action.payload };
+    case ActionType.isPosting:
+      return { ...state, isPosting: action.payload };
     default:
       return state;
   }

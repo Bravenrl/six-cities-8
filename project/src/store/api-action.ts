@@ -7,8 +7,8 @@ import { createToast } from '../services/toast';
 import { removeToken, setToken } from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { ServerOfferType } from '../types/offer';
-import { ServerAurhInfo, ServerReviewType, User } from '../types/review';
-import { toggleIsLoading, loadOffers, requireAuthorization, setAuthor, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack } from './action';
+import { CommentType, ServerAurhInfo, ServerReviewType, User } from '../types/review';
+import { toggleIsLoading, loadOffers, requireAuthorization, setAuthor, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting } from './action';
 
 export const loadOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -87,3 +87,14 @@ export const loadPropertyOffersAction = (id: string): ThunkActionResult =>
     dispatch(toggleIsLoading(false));
   };
 
+export const postCommentAction = (comment: CommentType, id: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    dispatch(toggleIsPosting(true));
+    await api.post<ServerReviewType[]>(ApiRoute.Reviews + id, comment)
+      .then((response) => {
+        const comments = response.data.map(adaptReviewToCient);
+        dispatch(loadReviews(comments));
+      })
+      .catch((err: AxiosError) => createToast(err.response?.status));
+    dispatch(toggleIsPosting(false));
+  };
