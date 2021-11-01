@@ -1,6 +1,6 @@
 import { AuthorizationStatus, SortType } from '../const';
 import { OfferType } from './offer';
-import { AuthInfo } from './review';
+import { AuthInfo, ReviewType } from './review';
 
 
 export type State = {
@@ -10,4 +10,7 @@ export type State = {
   isDataLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   author: AuthInfo;
+  currentOffer: OfferType;
+  nearbyOffers: OfferType[];
+  reviews: ReviewType[];
 }

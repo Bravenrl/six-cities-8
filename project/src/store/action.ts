@@ -1,7 +1,7 @@
 import { AppRoute, AuthorizationStatus, SortType} from '../const';
 import { ActionType} from '../types/action';
 import { OfferType } from '../types/offer';
-import { AuthInfo } from '../types/review';
+import { AuthInfo, ReviewType } from '../types/review';
 
 export const changeCity = (cityName: string) => ({
   type: ActionType.ChangeCity,
@@ -41,4 +41,19 @@ export const setAuthor = (author: AuthInfo) => ({
 export const redirectToRoute = (url:AppRoute) => ({
   type: ActionType.RedirectToRoute,
   payload: url,
+} as const);
+
+export const loadCurrentOffer = (offer: OfferType) => ({
+  type:ActionType.LoadCurrentOffer,
+  payload: offer,
+} as const);
+
+export const loadNearbyOffers = (offers: OfferType[]) => ({
+  type: ActionType.LoadNearbyOffers,
+  payload: offers,
+} as const);
+
+export const loadReviews = (reviews: ReviewType[])=> ({
+  type: ActionType.LoadReviews,
+  payload: reviews,
 } as const);

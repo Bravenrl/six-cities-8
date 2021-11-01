@@ -5,6 +5,7 @@ export const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   RoomProprety = '/offer/:id',
+  NotFound = '/notfound'
 }
 
 export const enum AuthorizationStatus {
