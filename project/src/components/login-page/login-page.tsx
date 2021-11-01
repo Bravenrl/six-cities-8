@@ -4,7 +4,7 @@ import { Action } from '@reduxjs/toolkit';
 import { ChangeEvent, Dispatch, FormEvent, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute, Cities, SortType } from '../../const';
+import { AppRoute, Cities, rePassword, SortType } from '../../const';
 import withPreloader from '../../hocs/with-preloader/with-preloader';
 import { changeCity, changeSorting } from '../../store/action';
 import { loginAction } from '../../store/api-action';
@@ -47,7 +47,7 @@ function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
   };
 
   const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    if (!evt.target.value.trim().length) {
+    if (!rePassword.test(evt.target.value)) {
       evt.target.setCustomValidity('Password is not valid');
     } else {
       evt.target.setCustomValidity('');

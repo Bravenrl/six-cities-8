@@ -5,8 +5,8 @@ import { logoutAction } from '../../store/api-action';
 import { ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 
-const mapStateToProps = ({ author, authorizationStatus }: State) => ({
-  author,
+const mapStateToProps = ({ userEmail, authorizationStatus }: State) => ({
+  userEmail,
   authorizationStatus,
 });
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -21,7 +21,7 @@ type PropsFromReduxType = ConnectedProps<typeof connector>;
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 function HeaderNav(props: PropsFromReduxType): JSX.Element {
-  const { author, onLogout, authorizationStatus } = props;
+  const { userEmail, onLogout, authorizationStatus } = props;
 
   return (
     <nav className="header__nav">
@@ -30,7 +30,7 @@ function HeaderNav(props: PropsFromReduxType): JSX.Element {
           <Link className="header__nav-link header__nav-link--profile" href="#todo" to={AppRoute.Favorites}>
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
-            {(authorizationStatus === AuthorizationStatus.Auth) ? <span className="header__user-name user__name">{author.email}</span>
+            {(authorizationStatus === AuthorizationStatus.Auth) ? <span className="header__user-name user__name">{userEmail}</span>
               :<span className="header__login">Sign in</span>}
           </Link>
         </li>

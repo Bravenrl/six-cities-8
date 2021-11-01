@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
-import { AppRoute, AuthorizationStatus } from '../const';
+import { AppRoute, AuthorizationStatus, EmptyComment } from '../const';
 import { adaptAuthInfoToClient, adaptOfferToCient, adaptReviewToCient } from '../services/adapter';
 import { ApiRoute, HttpCode, ToastMessage } from '../services/const';
 import { createToast } from '../services/toast';
@@ -8,7 +8,7 @@ import { removeToken, setToken } from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { ServerOfferType } from '../types/offer';
 import { CommentType, ServerAurhInfo, ServerReviewType, User } from '../types/review';
-import { toggleIsLoading, loadOffers, requireAuthorization, setAuthor, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting } from './action';
+import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComent, addComentRating } from './action';
 
 export const loadOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -30,7 +30,7 @@ export const checkAuthStatusAction = (): ThunkActionResult =>
         const author = adaptAuthInfoToClient(response.data);
         setToken(author.token);
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
-        dispatch(setAuthor(author));
+        dispatch(addUserEmail(author.email));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
   };
@@ -43,7 +43,7 @@ export const loginAction = (user: User): ThunkActionResult =>
         const author = adaptAuthInfoToClient(response.data);
         setToken(author.token);
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
-        dispatch(setAuthor(author));
+        dispatch(addUserEmail(author.email));
         dispatch(historyBack());
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
@@ -56,6 +56,7 @@ export const logoutAction = (): ThunkActionResult =>
       .then(() => {
         removeToken();
         dispatch(requireLogout());
+        dispatch(addUserEmail(''));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
   };
@@ -93,6 +94,8 @@ export const postCommentAction = (comment: CommentType, id: string): ThunkAction
     await api.post<ServerReviewType[]>(ApiRoute.Reviews + id, comment)
       .then((response) => {
         const comments = response.data.map(adaptReviewToCient);
+        dispatch(addComent(EmptyComment.comment));
+        dispatch(addComentRating(EmptyComment.rating));
         dispatch(loadReviews(comments));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));

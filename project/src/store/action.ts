@@ -1,7 +1,7 @@
 import { AppRoute, AuthorizationStatus, SortType} from '../const';
 import { ActionType} from '../types/action';
 import { OfferType } from '../types/offer';
-import { AuthInfo, ReviewType } from '../types/review';
+import { ReviewType } from '../types/review';
 
 export const changeCity = (cityName: string) => ({
   type: ActionType.ChangeCity,
@@ -33,9 +33,9 @@ export const requireLogout = () => ({
   payload: AuthorizationStatus.NoAuth,
 } as const) ;
 
-export const setAuthor = (author: AuthInfo) => ({
-  type: ActionType.SetAuthor,
-  payload: author,
+export const addUserEmail = (email: string) => ({
+  type: ActionType.userEmail,
+  payload: email,
 } as const);
 
 export const redirectToRoute = (url:AppRoute) => ({
@@ -65,4 +65,14 @@ export const historyBack = () => ({
 export const toggleIsPosting = (isPosting: boolean) => ({
   type: ActionType.isPosting,
   payload: isPosting,
+} as const);
+
+export const addComent = (comment: string) => ({
+  type: ActionType.AddComment,
+  payload: comment,
+} as const);
+
+export const addComentRating = (rating: number) => ({
+  type: ActionType.AddCommentRank,
+  payload: rating,
 } as const);

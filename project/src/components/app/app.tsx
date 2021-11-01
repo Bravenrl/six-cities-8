@@ -25,7 +25,7 @@ function App(): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.RoomProprety}>
-          <PropertyPage/>
+          <PropertyPage />
         </Route>
         <Route>
           <NotFoundPage />
