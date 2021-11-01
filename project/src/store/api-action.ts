@@ -1,4 +1,3 @@
-
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { AppRoute, AuthorizationStatus } from '../const';
@@ -9,7 +8,7 @@ import { removeToken, setToken } from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { ServerOfferType } from '../types/offer';
 import { ServerAurhInfo, ServerReviewType, User } from '../types/review';
-import { toggleIsLoading, loadOffers, requireAuthorization, setAuthor, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews } from './action';
+import { toggleIsLoading, loadOffers, requireAuthorization, setAuthor, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack } from './action';
 
 export const loadOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -45,7 +44,7 @@ export const loginAction = (user: User): ThunkActionResult =>
         setToken(author.token);
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
         dispatch(setAuthor(author));
-        dispatch(redirectToRoute(AppRoute.Root));
+        dispatch(historyBack());
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
     dispatch(toggleIsLoading(false));
@@ -57,7 +56,6 @@ export const logoutAction = (): ThunkActionResult =>
       .then(() => {
         removeToken();
         dispatch(requireLogout());
-        dispatch(redirectToRoute(AppRoute.Root));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
   };

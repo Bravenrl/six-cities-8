@@ -13,7 +13,9 @@ export const redirect: Middleware<unknown, ReducerType> =
         if (action.type === ActionType.RedirectToRoute) {
           browserHistory.push(action.payload);
         }
-
+        if (action.type === ActionType.HistoryBack) {
+          browserHistory.goBack();
+        }
         return next(action);
       };
 

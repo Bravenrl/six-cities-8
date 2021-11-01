@@ -57,3 +57,7 @@ export const loadReviews = (reviews: ReviewType[])=> ({
   type: ActionType.LoadReviews,
   payload: reviews,
 } as const);
+
+export const historyBack = () => ({
+  type: ActionType.HistoryBack,
+} as const);

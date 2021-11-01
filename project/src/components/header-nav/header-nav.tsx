@@ -36,9 +36,9 @@ function HeaderNav(props: PropsFromReduxType): JSX.Element {
         </li>
         {(authorizationStatus === AuthorizationStatus.Auth) &&
             <li className="header__nav-item">
-              <a className="header__nav-link" href="#todo">
+              <Link className="header__nav-link" href="#todo" to={AppRoute.Root}>
                 <span className="header__signout" onClick={onLogout}>Sign out</span>
-              </a>
+              </Link>
             </li>}
       </ul>
     </nav>
