@@ -1,44 +1,68 @@
 import { useParams } from 'react-router';
-import { OfferType } from '../../types/offer';
 import GalleryList from '../property-gallery/property-gallery';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
-import NotFoundPage from '../not-found-page/not-found-paje';
 import PremiumMark from '../premium-mark/premium-mark';
 import PropertyList from '../property-list/property-list';
-import { ReviewType } from '../../types/review';
 import ReviewsList from '../property-reviews-list/property-reviews-list';
 import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 import { PageType } from '../../const';
 import { useEffect } from 'react';
 import { getWithCapitalLetter } from '../../utils';
+import { connect, ConnectedProps } from 'react-redux';
+import { ThunkAppDispatch } from '../../types/action';
+import { loadPropertyOffersAction } from '../../store/api-action';
+import { State } from '../../types/state';
+import Preloader from '../preloader/preloader';
+
 
 type PropertyPagePropsType = {
-  offers: OfferType[];
-  reviews: ReviewType[];
 }
 type ParamsType = {
   id: string;
 }
 
-function PropertyPage({ offers, reviews }: PropertyPagePropsType): JSX.Element {
+type PropsFromReduxType = ConnectedProps<typeof connector>;
+type ConnectedComponentPropsType = PropsFromReduxType & PropertyPagePropsType;
+
+const mapStateToPrors = ({nearbyOffers, currentOffer, reviews, authorizationStatus }:State) => ({
+  nearbyOffers,
+  currentOffer,
+  reviews,
+  authorizationStatus,
+});
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onLoading(id: string) {
+    dispatch(loadPropertyOffersAction(id));
+  },
+});
+
+const connector = connect(mapStateToPrors, mapDispatchToProps);
+
+
+function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
+  const {currentOffer, nearbyOffers, reviews, authorizationStatus} = props;
+  const { onLoading } = props;
   const params: ParamsType = useParams();
-  const currentOffer = offers.find((offer) => offer.id === +params.id);
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [params]);
 
+  useEffect(() => {
+    onLoading(params.id);
+  }, [onLoading, params.id]);
 
-  if (!currentOffer) {
-    return <NotFoundPage />;
-  }
-  const offersNear = offers.filter((offer) => (offer.city.name === currentOffer.city.name) && (offer.id !== currentOffer.id)).slice(0, 3);
 
   const { isPremium, id, images, title, rating, type, bedrooms,
     maxAdults, price, goods, host, description, isFavorite, city } = currentOffer;
   const ratingPercent = Math.round(rating) * 20;
+
+  if (!currentOffer.id) {
+    return <Preloader />;
+  }
   return (
     <div className="page">
       <header className="header">
@@ -105,15 +129,15 @@ function PropertyPage({ offers, reviews }: PropertyPagePropsType): JSX.Element {
                   <p className="property__text">{description}</p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} />
+              <ReviewsList reviews={reviews} authorizationStatus = {authorizationStatus}/>
             </div>
           </div>
-          <Map offers={[...offersNear, currentOffer]} selectedId={currentOffer.id} className='property' city={city.name} />
+          <Map offers={[...nearbyOffers, currentOffer]} selectedId={currentOffer.id} className='property' city={city.name} />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OfferList offers={offersNear} pageType={PageType.Property} />
+            <OfferList offers={nearbyOffers} pageType={PageType.Property} />
           </section>
         </div>
       </main>
@@ -121,4 +145,5 @@ function PropertyPage({ offers, reviews }: PropertyPagePropsType): JSX.Element {
   );
 }
 
-export default PropertyPage;
+export { PropertyPage };
+export default connector(PropertyPage);

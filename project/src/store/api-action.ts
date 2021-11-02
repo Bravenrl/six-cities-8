@@ -1,15 +1,14 @@
-
-import { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
-import { AppRoute, AuthorizationStatus } from '../const';
-import { adaptAuthInfoToClient, adaptOfferToCient } from '../services/adapter';
-import { ApiRoute, ToastMessage } from '../services/const';
+import { AppRoute, AuthorizationStatus, EmptyComment } from '../const';
+import { adaptAuthInfoToClient, adaptOfferToCient, adaptReviewToCient } from '../services/adapter';
+import { ApiRoute, HttpCode, ToastMessage } from '../services/const';
 import { createToast } from '../services/toast';
 import { removeToken, setToken } from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { ServerOfferType } from '../types/offer';
-import { ServerAurhInfo, User } from '../types/review';
-import { toggleIsLoading, loadOffers, requireAuthorization, setAuthor, requireLogout, redirectToRoute } from './action';
+import { CommentType, ServerAurhInfo, ServerReviewType, User } from '../types/review';
+import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComent, addComentRating } from './action';
 
 export const loadOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -31,7 +30,7 @@ export const checkAuthStatusAction = (): ThunkActionResult =>
         const author = adaptAuthInfoToClient(response.data);
         setToken(author.token);
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
-        dispatch(setAuthor(author));
+        dispatch(addUserEmail(author.email));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
   };
@@ -44,8 +43,8 @@ export const loginAction = (user: User): ThunkActionResult =>
         const author = adaptAuthInfoToClient(response.data);
         setToken(author.token);
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
-        dispatch(setAuthor(author));
-        dispatch(redirectToRoute(AppRoute.Root));
+        dispatch(addUserEmail(author.email));
+        dispatch(historyBack());
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
     dispatch(toggleIsLoading(false));
@@ -57,7 +56,48 @@ export const logoutAction = (): ThunkActionResult =>
       .then(() => {
         removeToken();
         dispatch(requireLogout());
-        dispatch(redirectToRoute(AppRoute.Root));
+        dispatch(addUserEmail(''));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
+  };
+
+export const loadPropertyOffersAction = (id: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    dispatch(toggleIsLoading(true));
+    const getCurrentOffer = (): Promise<AxiosResponse> =>
+      api.get<ServerOfferType>(ApiRoute.CurrentOffer + id);
+    const getNearbyOffers = (): Promise<AxiosResponse> =>
+      api.get<ServerOfferType[]>(ApiRoute.CurrentOffer + id + ApiRoute.NearbyOffers);
+    const getReviews = (): Promise<AxiosResponse> =>
+      api.get<ServerReviewType[]>(ApiRoute.Reviews + id);
+    await axios.all<AxiosResponse>([getCurrentOffer(), getNearbyOffers(), getReviews()])
+      .then(axios.spread((current, nearby, reviews) => {
+        const offer = adaptOfferToCient(current.data);
+        const offers = nearby.data.map(adaptOfferToCient);
+        const comments = reviews.data.map(adaptReviewToCient);
+        dispatch(loadNearbyOffers(offers));
+        dispatch(loadCurrentOffer(offer));
+        dispatch(loadReviews(comments));
+      }))
+      .catch((err: AxiosError) => {
+        createToast(err.response?.status);
+        if (err.response?.status === HttpCode.NotFound) {
+          dispatch(redirectToRoute(AppRoute.NotFound));
+        }
+      });
+    dispatch(toggleIsLoading(false));
+  };
+
+export const postCommentAction = (comment: CommentType, id: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    dispatch(toggleIsPosting(true));
+    await api.post<ServerReviewType[]>(ApiRoute.Reviews + id, comment)
+      .then((response) => {
+        const comments = response.data.map(adaptReviewToCient);
+        dispatch(addComent(EmptyComment.comment));
+        dispatch(addComentRating(EmptyComment.rating));
+        dispatch(loadReviews(comments));
+      })
+      .catch((err: AxiosError) => createToast(err.response?.status));
+    dispatch(toggleIsPosting(false));
   };

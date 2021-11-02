@@ -9,17 +9,19 @@ import OfferList from '../offer-list/offer-list';
 import CityList from '../city-list/city-list';
 import { getCurrentOffers } from '../../utils';
 import PlacesOption from '../places-option/places-options';
+import Preloader from '../preloader/preloader';
 
 
-type MainPagePropsType = {
-}
+// type MainPagePropsType = {
+// }
 
 type PropsFromReduxType = ConnectedProps<typeof connector>
-type ConnectedComponentPropsType = PropsFromReduxType & MainPagePropsType;
+type ConnectedComponentPropsType = PropsFromReduxType; //& MainPagePropsType;
 
-const mapStateToProps = ({city, offers}: State) => ({
+const mapStateToProps = ({city, offers, isDataLoading}: State) => ({
   city,
   offers,
+  isDataLoading,
 });
 
 
@@ -27,7 +29,7 @@ const connector = connect(mapStateToProps);
 
 
 function MainPage (props : ConnectedComponentPropsType): JSX.Element {
-  const {city, offers} = props;
+  const {city, offers, isDataLoading} = props;
 
   const [activeOfferId, setActiveOfferId] = useState(0);
 
@@ -35,7 +37,9 @@ function MainPage (props : ConnectedComponentPropsType): JSX.Element {
     setActiveOfferId(id);
   };
 
-
+  if (isDataLoading) {
+    return <Preloader />;
+  }
   return (
     <div className="page page--gray page--main">
       <header className="header">

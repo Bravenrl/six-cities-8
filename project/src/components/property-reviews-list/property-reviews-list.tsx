@@ -1,3 +1,4 @@
+import { AuthorizationStatus } from '../../const';
 import { ReviewType } from '../../types/review';
 import { compareDate } from '../../utils';
 import CommentForm from '../comment-form/comment-form';
@@ -5,9 +6,10 @@ import ReviewPost from '../property-review/property-review';
 
 type ReviewsListType = {
   reviews: ReviewType[];
+  authorizationStatus: AuthorizationStatus;
 }
 
-function ReviewsList ({reviews} : ReviewsListType) : JSX.Element {
+function ReviewsList ({reviews, authorizationStatus} : ReviewsListType) : JSX.Element {
   return (
     <section className="property__reviews reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
@@ -15,7 +17,7 @@ function ReviewsList ({reviews} : ReviewsListType) : JSX.Element {
         <ul className="reviews__list">
           {reviews.sort(compareDate).map((review)=>(<ReviewPost key={review.id} review={review}/>))}
         </ul>}
-      <CommentForm />
+      {(authorizationStatus===AuthorizationStatus.Auth)&&<CommentForm />}
     </section>
   );
 }

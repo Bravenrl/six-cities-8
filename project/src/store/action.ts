@@ -1,7 +1,7 @@
 import { AppRoute, AuthorizationStatus, SortType} from '../const';
 import { ActionType} from '../types/action';
 import { OfferType } from '../types/offer';
-import { AuthInfo } from '../types/review';
+import { ReviewType } from '../types/review';
 
 export const changeCity = (cityName: string) => ({
   type: ActionType.ChangeCity,
@@ -33,12 +33,46 @@ export const requireLogout = () => ({
   payload: AuthorizationStatus.NoAuth,
 } as const) ;
 
-export const setAuthor = (author: AuthInfo) => ({
-  type: ActionType.SetAuthor,
-  payload: author,
+export const addUserEmail = (email: string) => ({
+  type: ActionType.userEmail,
+  payload: email,
 } as const);
 
 export const redirectToRoute = (url:AppRoute) => ({
   type: ActionType.RedirectToRoute,
   payload: url,
+} as const);
+
+export const loadCurrentOffer = (offer: OfferType) => ({
+  type:ActionType.LoadCurrentOffer,
+  payload: offer,
+} as const);
+
+export const loadNearbyOffers = (offers: OfferType[]) => ({
+  type: ActionType.LoadNearbyOffers,
+  payload: offers,
+} as const);
+
+export const loadReviews = (reviews: ReviewType[])=> ({
+  type: ActionType.LoadReviews,
+  payload: reviews,
+} as const);
+
+export const historyBack = () => ({
+  type: ActionType.HistoryBack,
+} as const);
+
+export const toggleIsPosting = (isPosting: boolean) => ({
+  type: ActionType.isPosting,
+  payload: isPosting,
+} as const);
+
+export const addComent = (comment: string) => ({
+  type: ActionType.AddComment,
+  payload: comment,
+} as const);
+
+export const addComentRating = (rating: number) => ({
+  type: ActionType.AddCommentRank,
+  payload: rating,
 } as const);

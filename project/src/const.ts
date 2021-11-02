@@ -5,6 +5,7 @@ export const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   RoomProprety = '/offer/:id',
+  NotFound = '/notfound'
 }
 
 export const enum AuthorizationStatus {
@@ -84,6 +85,13 @@ export const Cities = new Map<string, CityType>([
   }],
 ]);
 
-export const reEmail = /\S+@\S+\.\S+/;
+export const rePassword = /(?=.*[0-9])(?=.*[a-z])[0-9a-z]{2,}/;
 
-export const rePassword = /^\s*$/;
+export const Star = new Map<number, string>([
+  [5, 'perfect'], [4, 'good'], [3, 'not bad'], [2, 'badly'], [1, 'terribly'],
+]);
+
+export const EmptyComment = {
+  comment: '',
+  rating: 0,
+};
