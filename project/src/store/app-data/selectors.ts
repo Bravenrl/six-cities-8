@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { OfferType } from '../../types/offer';
 import { ReviewType } from '../../types/review';
 import { State } from '../../types/state';
-import { compareDate, getSortedbySortType } from '../../utils';
+import { compareDate, getSortedByType } from '../../utils';
 import { Reducer } from '../root-reducer';
 import { getCity, getSortType } from '../user-process/selectors';
 
@@ -32,6 +32,6 @@ export const getCurrentWithNearby = createSelector(
   [getNearbyOffers, getCurrentOffer],
   (nearbyOffers, currentOffer): OfferType[] => [...nearbyOffers, currentOffer]);
 
-
 export const getSortedOffers = createSelector(
-  [getCurrentOffers, getSortType], getSortedbySortType);
+  [getCurrentOffers, getSortType], getSortedByType);
+
