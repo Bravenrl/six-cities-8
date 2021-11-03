@@ -18,26 +18,26 @@ import Preloader from '../preloader/preloader';
 type PropsFromReduxType = ConnectedProps<typeof connector>
 type ConnectedComponentPropsType = PropsFromReduxType; //& MainPagePropsType;
 
-const mapStateToProps = ({city, offers, isDataLoading}: State) => ({
-  city,
-  offers,
-  isDataLoading,
+const mapStateToProps = ({ USER, DATA, APP }: State) => ({
+  city: USER.city,
+  offers: DATA.offers,
+  isLoading: APP.isLoading,
 });
 
 
 const connector = connect(mapStateToProps);
 
 
-function MainPage (props : ConnectedComponentPropsType): JSX.Element {
-  const {city, offers, isDataLoading} = props;
+function MainPage(props: ConnectedComponentPropsType): JSX.Element {
+  const { city, offers, isLoading } = props;
 
   const [activeOfferId, setActiveOfferId] = useState(0);
 
-  const handleActiveOffer = (id:number):void => {
+  const handleActiveOffer = (id: number): void => {
     setActiveOfferId(id);
   };
 
-  if (isDataLoading) {
+  if (isLoading) {
     return <Preloader />;
   }
   return (
@@ -62,10 +62,10 @@ function MainPage (props : ConnectedComponentPropsType): JSX.Element {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{getCurrentOffers(offers, city).length} places to stay in {city}</b>
               <PlacesOption />
-              <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer}/>
+              <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer} />
             </section>
             <div className="cities__right-section">
-              <Map offers = {offers} selectedId={activeOfferId} className='cities' city={city}/>
+              <Map offers={offers} selectedId={activeOfferId} className='cities' city={city} />
             </div>
           </div>
         </div>
@@ -73,5 +73,5 @@ function MainPage (props : ConnectedComponentPropsType): JSX.Element {
     </div>);
 }
 
-export {MainPage};
+export { MainPage };
 export default connector(MainPage);

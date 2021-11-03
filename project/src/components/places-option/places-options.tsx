@@ -12,10 +12,10 @@ type PlacesOptionPropsType = {
 type PropsFromReduxType = ConnectedProps<typeof connector>
 type ConnectedComponentPropsType = PropsFromReduxType & PlacesOptionPropsType;
 
-const mapStateToProps = ({ city, offers, sortType }: State) => ({
-  city,
-  offers,
-  sortType,
+const mapStateToProps = ({ USER, DATA }: State) => ({
+  city: USER.city,
+  offers: DATA.offers,
+  sortType: USER.sortType,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

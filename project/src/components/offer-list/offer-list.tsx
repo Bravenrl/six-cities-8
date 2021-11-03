@@ -15,9 +15,9 @@ type OfferListProrsType = {
 type PropsFromReduxType = ConnectedProps<typeof connector>
 type ConnectedComponentPropsType = PropsFromReduxType & OfferListProrsType;
 
-const mapStateToProps = ({sortType, city}: State) => ({
-  sortType,
-  city,
+const mapStateToProps = ({USER}: State) => ({
+  sortType: USER.sortType,
+  city: USER.city,
 });
 
 

@@ -10,14 +10,14 @@ import OfferList from '../offer-list/offer-list';
 type PropsFromReduxType = ConnectedProps<typeof connector>
 
 
-const mapStateToProps = ({offers, city}: State) => ({
-  city,
-  offers,
+const mapStateToProps = ({ USER, DATA }: State) => ({
+  city: USER.city,
+  offers: DATA.offers,
 });
 
 const connector = connect(mapStateToProps);
-function FavoritesPage (props : PropsFromReduxType) : JSX.Element {
-  const {offers, city} = props;
+function FavoritesPage(props: PropsFromReduxType): JSX.Element {
+  const { offers, city } = props;
   const currentOffers = getCurrentOffers(offers, city);
   const favoriteOffers = currentOffers.filter((offer) => offer.isFavorite);
   return (
@@ -44,7 +44,7 @@ function FavoritesPage (props : PropsFromReduxType) : JSX.Element {
                     </a>
                   </div>
                 </div>
-                <OfferList offers={favoriteOffers} pageType={PageType.Favorites}/>
+                <OfferList offers={favoriteOffers} pageType={PageType.Favorites} />
               </li>
 
             </ul>
@@ -53,11 +53,11 @@ function FavoritesPage (props : PropsFromReduxType) : JSX.Element {
       </main>
       <footer className="footer container">
         <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
+          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </a>
       </footer>
     </div>
   );
 }
-export {FavoritesPage};
+export { FavoritesPage };
 export default connector(FavoritesPage);

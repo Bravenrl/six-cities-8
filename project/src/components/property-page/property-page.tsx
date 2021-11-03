@@ -26,11 +26,11 @@ type ParamsType = {
 type PropsFromReduxType = ConnectedProps<typeof connector>;
 type ConnectedComponentPropsType = PropsFromReduxType & PropertyPagePropsType;
 
-const mapStateToPrors = ({nearbyOffers, currentOffer, reviews, authorizationStatus }:State) => ({
-  nearbyOffers,
-  currentOffer,
-  reviews,
-  authorizationStatus,
+const mapStateToPrors = ({ USER, DATA }:State) => ({
+  nearbyOffers: DATA.nearbyOffers,
+  currentOffer: DATA.currentOffer,
+  reviews: DATA.reviews,
+  status: USER.authorizationStatus,
 });
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onLoading(id: string) {
@@ -42,7 +42,7 @@ const connector = connect(mapStateToPrors, mapDispatchToProps);
 
 
 function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
-  const {currentOffer, nearbyOffers, reviews, authorizationStatus} = props;
+  const {currentOffer, nearbyOffers, reviews, status} = props;
   const { onLoading } = props;
   const params: ParamsType = useParams();
 
@@ -129,7 +129,7 @@ function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
                   <p className="property__text">{description}</p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} authorizationStatus = {authorizationStatus}/>
+              <ReviewsList reviews={reviews} authorizationStatus = {status}/>
             </div>
           </div>
           <Map offers={[...nearbyOffers, currentOffer]} selectedId={currentOffer.id} className='property' city={city.name} />
