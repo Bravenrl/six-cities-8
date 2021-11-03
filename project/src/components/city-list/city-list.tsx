@@ -2,7 +2,6 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { connect, ConnectedProps } from 'react-redux';
 import { changeCity, changeSorting } from '../../store/action';
 import { State } from '../../types/state';
-import { Actions } from '../../types/action';
 import { SortType, Cities } from '../../const';
 import { getCity } from '../../store/user-process/selectors';
 
@@ -15,7 +14,7 @@ const mapStateToProps = (state: State) => ({
   city: getCity(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   onCityChange(cityName: string) {
     dispatch(changeCity(cityName));
     dispatch(changeSorting(SortType.Popular));

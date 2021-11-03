@@ -1,78 +1,63 @@
-import { AppRoute, AuthorizationStatus, SortType} from '../const';
-import { ActionType} from '../types/action';
+import { createAction } from '@reduxjs/toolkit';
+import { AppRoute, AuthorizationStatus, SortType } from '../const';
+import { ActionType } from '../types/action';
 import { OfferType } from '../types/offer';
 import { ReviewType } from '../types/review';
 
-export const changeCity = (cityName: string) => ({
-  type: ActionType.ChangeCity,
-  payload: cityName,
-} as const);
+export const changeCity = createAction(
+  ActionType.ChangeCity,
+  (cityName: string) => ({ payload: cityName }));
 
-export const loadOffers = (offers: OfferType[]) => ({
-  type: ActionType.LoadOffers,
-  payload: offers,
-} as const);
+export const loadOffers = createAction(
+  ActionType.LoadOffers,
+  (offers: OfferType[]) => ({ payload: offers }));
 
-export const changeSorting = (option: SortType) => ({
-  type: ActionType.ChangeSorting,
-  payload: option,
-} as const);
+export const changeSorting = createAction(
+  ActionType.ChangeSorting,
+  (option: SortType) => ({ payload: option }));
 
-export const toggleIsLoading = (isLoading: boolean) => ({
-  type: ActionType.isLoading,
-  payload: isLoading,
-} as const);
+export const toggleIsLoading = createAction(
+  ActionType.isLoading,
+  (isLoading: boolean) => ({ payload: isLoading }));
 
-export const requireAuthorization = (status: AuthorizationStatus) => ({
-  type: ActionType.RequireAuthorization,
-  payload: status,
-} as const);
+export const requireAuthorization = createAction(
+  ActionType.RequireAuthorization,
+  (status: AuthorizationStatus) => ({ payload: status }));
 
-export const requireLogout = () => ({
-  type: ActionType.RequireLogout,
-  payload: AuthorizationStatus.NoAuth,
-} as const) ;
+export const requireLogout = createAction(
+  ActionType.RequireLogout,
+  () => ({ payload: AuthorizationStatus.NoAuth }));
 
-export const addUserEmail = (email: string) => ({
-  type: ActionType.userEmail,
-  payload: email,
-} as const);
+export const addUserEmail = createAction(
+  ActionType.userEmail,
+  (email: string) => ({ payload: email }));
 
-export const redirectToRoute = (url:AppRoute) => ({
-  type: ActionType.RedirectToRoute,
-  payload: url,
-} as const);
+export const redirectToRoute = createAction(
+  ActionType.RedirectToRoute,
+  (url: AppRoute) => ({ payload: url }));
 
-export const loadCurrentOffer = (offer: OfferType) => ({
-  type:ActionType.LoadCurrentOffer,
-  payload: offer,
-} as const);
+export const loadCurrentOffer = createAction(
+  ActionType.LoadCurrentOffer,
+  (offer: OfferType) => ({ payload: offer }));
 
-export const loadNearbyOffers = (offers: OfferType[]) => ({
-  type: ActionType.LoadNearbyOffers,
-  payload: offers,
-} as const);
+export const loadNearbyOffers = createAction(
+  ActionType.LoadNearbyOffers,
+  (offers: OfferType[]) => ({ payload: offers }));
 
-export const loadReviews = (reviews: ReviewType[])=> ({
-  type: ActionType.LoadReviews,
-  payload: reviews,
-} as const);
+export const loadReviews = createAction(
+  ActionType.LoadReviews,
+  (reviews: ReviewType[]) => ({ payload: reviews }));
 
-export const historyBack = () => ({
-  type: ActionType.HistoryBack,
-} as const);
+export const historyBack = createAction(ActionType.HistoryBack);
 
-export const toggleIsPosting = (isPosting: boolean) => ({
-  type: ActionType.isPosting,
-  payload: isPosting,
-} as const);
+export const toggleIsPosting = createAction(
+  ActionType.isPosting,
+  (isPosting: boolean) => ({ payload: isPosting }));
 
-export const addComent = (comment: string) => ({
-  type: ActionType.AddComment,
-  payload: comment,
-} as const);
+export const addComent = createAction(
+  ActionType.AddComment,
+  (comment: string) => ({ payload: comment }));
 
-export const addComentRating = (rating: number) => ({
-  type: ActionType.AddCommentRating,
-  payload: rating,
-} as const);
+export const addComentRating = createAction(
+  ActionType.AddCommentRating,
+  (rating: number) => ({ payload: rating }));

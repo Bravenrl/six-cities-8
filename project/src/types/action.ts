@@ -1,6 +1,5 @@
-import { ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { Action, ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { loadOffers, changeCity, changeSorting, toggleIsLoading, requireAuthorization, requireLogout, addUserEmail, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComent, addComentRating } from '../store/action';
 import { State } from './state';
 
 
@@ -22,24 +21,7 @@ export enum ActionType {
   ChangeSorting = 'user/changeSorting',
 }
 
-export type Actions =
-  | ReturnType<typeof changeCity>
-  | ReturnType<typeof loadOffers>
-  | ReturnType<typeof changeSorting>
-  | ReturnType<typeof toggleIsLoading>
-  | ReturnType<typeof requireAuthorization>
-  | ReturnType<typeof requireLogout>
-  | ReturnType<typeof addUserEmail>
-  | ReturnType<typeof redirectToRoute>
-  | ReturnType<typeof loadCurrentOffer>
-  | ReturnType<typeof loadNearbyOffers>
-  | ReturnType<typeof loadReviews>
-  | ReturnType<typeof historyBack>
-  | ReturnType<typeof toggleIsPosting>
-  | ReturnType<typeof addComent>
-  | ReturnType<typeof addComentRating>;
+export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
 
-export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
-
-export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
+export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Action>;
 

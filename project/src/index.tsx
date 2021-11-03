@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './components/app/app';
 import { createApi } from './services/api';
-import thunk from 'redux-thunk';
 import { ThunkAppDispatch } from './types/action';
 import { checkAuthStatusAction, loadOffersAction } from './store/api-action';
 import { AuthorizationStatus } from './const';
@@ -14,20 +11,23 @@ import { redirect } from './store/middlewares/redirect';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { rootReducer } from './store/root-reducer';
+import { configureStore } from '@reduxjs/toolkit';
 
 const api = createApi(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)));
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(
-    applyMiddleware(thunk.withExtraArgument(api)),
-    applyMiddleware(redirect),
-  ),
-);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }).concat(redirect),
+});
 
-(store.dispatch as ThunkAppDispatch)(loadOffersAction());
-(store.dispatch as ThunkAppDispatch)(checkAuthStatusAction());
+store.dispatch(loadOffersAction());
+store.dispatch(checkAuthStatusAction());
 
 ReactDOM.render(
   <React.StrictMode>

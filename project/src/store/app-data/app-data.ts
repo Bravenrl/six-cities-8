@@ -1,7 +1,8 @@
+import { createReducer } from '@reduxjs/toolkit';
 import { EmptyComment } from '../../const';
-import { Actions, ActionType } from '../../types/action';
 import { OfferType } from '../../types/offer';
 import { AppData } from '../../types/state';
+import { addComent, addComentRating, addUserEmail, loadCurrentOffer, loadNearbyOffers, loadOffers, loadReviews } from '../action';
 
 const initialState: AppData = {
   offers: [],
@@ -13,25 +14,30 @@ const initialState: AppData = {
   commentRating: EmptyComment.rating,
 };
 
-const appData = (state = initialState, action: Actions): AppData => {
-  switch (action.type) {
-    case ActionType.LoadOffers:
-      return { ...state, offers: action.payload };
-    case ActionType.userEmail:
-      return { ...state, userEmail: action.payload };
-    case ActionType.LoadCurrentOffer:
-      return { ...state, currentOffer: action.payload };
-    case ActionType.LoadNearbyOffers:
-      return { ...state, nearbyOffers: action.payload };
-    case ActionType.LoadReviews:
-      return { ...state, reviews: action.payload };
-    case ActionType.AddComment:
-      return { ...state, comment: action.payload };
-    case ActionType.AddCommentRating:
-      return { ...state, commentRating: action.payload };
-    default:
-      return state;
-  }
-};
+const appData = createReducer(initialState, (builder) => {
+  builder
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(addUserEmail, (state, action) => {
+      state.userEmail = action.payload;
+    })
+    .addCase(loadCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(addComent, (state, action) => {
+      state.comment = action.payload;
+    })
+    .addCase(addComentRating, (state, action) => {
+      state.commentRating = action.payload;
+    });
+});
+
 
 export { appData };

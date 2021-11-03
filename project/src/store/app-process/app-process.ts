@@ -1,20 +1,20 @@
-import { Actions, ActionType } from '../../types/action';
+import { createReducer } from '@reduxjs/toolkit';
 import { AppProcess } from '../../types/state';
+import { toggleIsLoading, toggleIsPosting } from '../action';
 
 const initialStare: AppProcess = {
   isLoading: false,
   isPosting: false,
 };
 
-const appProcess = (state = initialStare, action: Actions): AppProcess => {
-  switch (action.type) {
-    case ActionType.isLoading:
-      return { ...state, isLoading: action.payload };
-    case ActionType.isPosting:
-      return { ...state, isPosting: action.payload };
-    default:
-      return state;
-  }
-};
+const appProcess = createReducer(initialStare, (builder) => {
+  builder
+    .addCase(toggleIsLoading, (state, action) => {
+      state.isLoading = action.payload;
+    })
+    .addCase(toggleIsPosting, (state, action) => {
+      state.isPosting = action.payload;
+    });
+});
 
 export { appProcess };

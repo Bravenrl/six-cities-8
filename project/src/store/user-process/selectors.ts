@@ -8,7 +8,3 @@ export const getSortType = (state: State): SortType => state[Reducer.user].sortT
 
 export const getAuthorizationStatus = (state: State): AuthorizationStatus => state[Reducer.user].authorizationStatus;
 
-// export const getCurrentOffers = createSelector(
-//   [getCity],
-//   (city: string): CityType =>
-//     Cities.get(city) as CityType);
