@@ -5,21 +5,21 @@ import { State } from './state';
 
 
 export enum ActionType {
-  ChangeCity = 'main/changeCity',
+  isLoading = 'app/isLoading',
+  isPosting = 'app/isPosting',
+  RedirectToRoute = 'app/redirectToRoute',
+  HistoryBack = 'app/historyBack',
+  AddComment = 'data/addComent',
+  AddCommentRank = 'data/addCommentRating',
   LoadOffers = 'data/LoadOffers',
-  ChangeSorting = 'option/changeSorting',
-  isDataLoading = 'data/isLoading',
-  RequireAuthorization = 'user/requireAuthorization',
-  RequireLogout = 'user/requireLogout',
-  userEmail = 'data/setUserEmail',
-  RedirectToRoute = 'user/redirectToRoute',
+  LoadReviews = 'data/LoadReviews',
   LoadCurrentOffer = 'data/LoadCurrentOffer',
   LoadNearbyOffers = 'data/LoadNearbyOffers',
-  LoadReviews = 'data/LoadReviews',
-  HistoryBack = 'user/historyBack',
-  isPosting = 'data/isPosting',
-  AddComment = 'user/addComent',
-  AddCommentRank = 'user/addCommentRating',
+  userEmail = 'data/setUserEmail',
+  RequireAuthorization = 'user/requireAuthorization',
+  ChangeCity = 'user/changeCity',
+  RequireLogout = 'user/requireLogout',
+  ChangeSorting = 'user/changeSorting',
 }
 
 export type Actions =

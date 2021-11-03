@@ -31,15 +31,17 @@ function HeaderNav(props: PropsFromReduxType): JSX.Element {
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
             {(authorizationStatus === AuthorizationStatus.Auth) ? <span className="header__user-name user__name">{userEmail}</span>
-              :<span className="header__login">Sign in</span>}
+              : <span className="header__login">Sign in</span>}
           </Link>
         </li>
         {(authorizationStatus === AuthorizationStatus.Auth) &&
-            <li className="header__nav-item">
-              <Link className="header__nav-link" href="#todo" to={AppRoute.Root}>
-                <span className="header__signout" onClick={onLogout}>Sign out</span>
-              </Link>
-            </li>}
+          <li className="header__nav-item">
+            <a className="header__nav-link" href="#todo"
+              onClick={(evt) => { evt.preventDefault(); onLogout(); }}
+            >
+              <span className="header__signout">Sign out</span>
+            </a>
+          </li>}
       </ul>
     </nav>
   );

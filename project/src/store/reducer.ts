@@ -27,7 +27,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return { ...state, offers: action.payload };
     case ActionType.ChangeSorting:
       return { ...state, sortType: action.payload };
-    case ActionType.isDataLoading:
+    case ActionType.isLoading:
       return { ...state, isDataLoading: action.payload };
     case ActionType.RequireAuthorization:
       return { ...state, authorizationStatus: action.payload };

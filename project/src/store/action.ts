@@ -19,7 +19,7 @@ export const changeSorting = (option: SortType) => ({
 } as const);
 
 export const toggleIsLoading = (isLoading: boolean) => ({
-  type: ActionType.isDataLoading,
+  type: ActionType.isLoading,
   payload: isLoading,
 } as const);
 
