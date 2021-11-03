@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { SortType } from '../../const';
 import { changeSorting } from '../../store/action';
+import { getOffers } from '../../store/app-data/selectors';
+import { getCity, getSortType } from '../../store/user-process/selectors';
 import { Actions } from '../../types/action';
 import { State } from '../../types/state';
 
@@ -12,10 +14,10 @@ type PlacesOptionPropsType = {
 type PropsFromReduxType = ConnectedProps<typeof connector>
 type ConnectedComponentPropsType = PropsFromReduxType & PlacesOptionPropsType;
 
-const mapStateToProps = ({ USER, DATA }: State) => ({
-  city: USER.city,
-  offers: DATA.offers,
-  sortType: USER.sortType,
+const mapStateToProps = (state: State) => ({
+  city: getCity(state),
+  offers: getOffers(state),
+  sortType: getSortType(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

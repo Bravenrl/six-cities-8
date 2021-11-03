@@ -7,9 +7,11 @@ import HeaderNav from '../header-nav/header-nav';
 import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 import CityList from '../city-list/city-list';
-import { getCurrentOffers } from '../../utils';
 import PlacesOption from '../places-option/places-options';
 import Preloader from '../preloader/preloader';
+import { getCurrentOffers, getOffers } from '../../store/app-data/selectors';
+import { getCity } from '../../store/user-process/selectors';
+import { getIsLoading } from '../../store/app-process/selectors';
 
 
 // type MainPagePropsType = {
@@ -18,10 +20,11 @@ import Preloader from '../preloader/preloader';
 type PropsFromReduxType = ConnectedProps<typeof connector>
 type ConnectedComponentPropsType = PropsFromReduxType; //& MainPagePropsType;
 
-const mapStateToProps = ({ USER, DATA, APP }: State) => ({
-  city: USER.city,
-  offers: DATA.offers,
-  isLoading: APP.isLoading,
+const mapStateToProps = (state: State) => ({
+  city: getCity(state),
+  offers: getOffers(state),
+  isLoading: getIsLoading(state),
+  currentOffers: getCurrentOffers(state),
 });
 
 
@@ -29,7 +32,7 @@ const connector = connect(mapStateToProps);
 
 
 function MainPage(props: ConnectedComponentPropsType): JSX.Element {
-  const { city, offers, isLoading } = props;
+  const { city, offers, isLoading, currentOffers } = props;
 
   const [activeOfferId, setActiveOfferId] = useState(0);
 
@@ -60,12 +63,12 @@ function MainPage(props: ConnectedComponentPropsType): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{getCurrentOffers(offers, city).length} places to stay in {city}</b>
+              <b className="places__found">{currentOffers.length} places to stay in {city}</b>
               <PlacesOption />
               <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer} />
             </section>
             <div className="cities__right-section">
-              <Map offers={offers} selectedId={activeOfferId} className='cities' city={city} />
+              <Map offers={currentOffers} selectedId={activeOfferId} className='cities' city={city} />
             </div>
           </div>
         </div>

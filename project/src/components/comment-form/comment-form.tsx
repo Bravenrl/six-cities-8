@@ -8,6 +8,8 @@ import withPreloader from '../../hocs/with-preloader/with-preloader';
 import CommentStar from '../comment-star/comment-star';
 import { Star } from '../../const';
 import { addComent, addComentRating } from '../../store/action';
+import { getComment, getCommentRating, getCurrentOffer } from '../../store/app-data/selectors';
+import { getIsLoading } from '../../store/app-process/selectors';
 
 type CommentFormPropsType = {
 }
@@ -15,18 +17,17 @@ type CommentFormPropsType = {
 type PropsFromReduxType = ConnectedProps<typeof connector>;
 type ConnectedComponentPropsType = PropsFromReduxType & CommentFormPropsType;
 
-const mapStateToPrors = ({ DATA, APP}: State) => ({
-  currentOffer: DATA.currentOffer,
-  isLoading: APP.isLoading,
-  comment: DATA.comment,
-  rating: DATA.commentRating,
+const mapStateToPrors = (state: State) => ({
+  currentOffer: getCurrentOffer(state),
+  isLoading: getIsLoading(state),
+  comment: getComment(state),
+  rating: getCommentRating(state),
 });
 const mapDispatchToProps = (dispatch: ThunkAppDispatch & Dispatch<Actions>) => ({
-  onCommentChange(comment:string) {dispatch(addComent(comment));},
-  onRatingChange(rating: number) {dispatch(addComentRating(rating));},
+  onCommentChange(comment: string) { dispatch(addComent(comment)); },
+  onRatingChange(rating: number) { dispatch(addComentRating(rating)); },
   onSubmit(comment: string, rating: number, id: string) {
-    const newComment = { comment, rating };
-    dispatch(postCommentAction(newComment, id));
+    dispatch(postCommentAction({ comment, rating }, id));
   },
 });
 

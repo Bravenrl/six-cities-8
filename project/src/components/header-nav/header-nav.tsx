@@ -2,12 +2,14 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-action';
+import { getUserEmail } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 
-const mapStateToProps = ({ DATA, USER }: State) => ({
-  email: DATA.userEmail,
-  status: USER.authorizationStatus,
+const mapStateToProps = (state: State) => ({
+  email: getUserEmail(state),
+  authStatus: getAuthorizationStatus(state),
 });
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onLogout() {
@@ -21,7 +23,7 @@ type PropsFromReduxType = ConnectedProps<typeof connector>;
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 function HeaderNav(props: PropsFromReduxType): JSX.Element {
-  const { email, onLogout, status } = props;
+  const { email, onLogout, authStatus } = props;
 
   return (
     <nav className="header__nav">
@@ -30,11 +32,12 @@ function HeaderNav(props: PropsFromReduxType): JSX.Element {
           <Link className="header__nav-link header__nav-link--profile" href="#todo" to={AppRoute.Favorites}>
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
-            {(status === AuthorizationStatus.Auth) ? <span className="header__user-name user__name">{email}</span>
+            {(authStatus === AuthorizationStatus.Auth)
+              ? <span className="header__user-name user__name">{email}</span>
               : <span className="header__login">Sign in</span>}
           </Link>
         </li>
-        {(status === AuthorizationStatus.Auth) &&
+        {(authStatus === AuthorizationStatus.Auth) &&
           <li className="header__nav-item">
             <a className="header__nav-link" href="#todo"
               onClick={(evt) => { evt.preventDefault(); onLogout(); }}

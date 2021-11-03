@@ -4,13 +4,12 @@ import { CityType, MapStyleType, OfferType } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
 import { Icon, LayerGroup, Marker } from 'leaflet';
 import { AppRoute, Cities, PageType } from '../../const';
-import { getCurrentOffers } from '../../utils';
 import browserHistory from '../../browser-history';
 import { generatePath } from 'react-router-dom';
 
 
 type MapProrsType = {
-  offers : OfferType[];
+  offers: OfferType[];
   selectedId: number;
   className: string;
   city: string;
@@ -33,17 +32,16 @@ const currentCustomIcon = new Icon({
   iconAnchor: [15, 40],
 });
 
-const getStyleByClassName = (className:string) : MapStyleType| Omit<MapStyleType, 'margin'> => {
+const getStyleByClassName = (className: string): MapStyleType | Omit<MapStyleType, 'margin'> => {
   switch (className) {
     case PageType.Main:
-      return {height: '550px', width: '512px'};
+      return { height: '550px', width: '512px' };
     default:
-      return {height: '579px', width: '1144px', margin:'auto'};
+      return { height: '579px', width: '1144px', margin: 'auto' };
   }
 };
 
-function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Element {
-  const currentOffers = getCurrentOffers(offers, city);
+function Map({ offers, selectedId, className, city }: MapProrsType): JSX.Element {
   const currentCity = Cities.get(city) as CityType;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
@@ -52,18 +50,18 @@ function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Elemen
   useEffect(() => {
     const markersGroup = new LayerGroup();
     if (map) {
-      currentOffers.forEach((offer) => {
+      offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
         });
 
-        const onMarkerClickHandler = () : void => {
-          const linkPath = generatePath(AppRoute.RoomProprety, {id: offer.id});
+        const onMarkerClickHandler = (): void => {
+          const linkPath = generatePath(AppRoute.RoomProprety, { id: offer.id });
           browserHistory.push(linkPath);
         };
 
-        marker.addEventListener('click' , onMarkerClickHandler);
+        marker.addEventListener('click', onMarkerClickHandler);
         marker
           .setIcon(
             selectedId !== undefined && offer.id === selectedId
@@ -77,10 +75,10 @@ function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Elemen
     return () => {
       markersGroup.remove();
     };
-  }, [map, currentOffers, selectedId]);
+  }, [map, offers, selectedId]);
 
   useEffect(() => {
-    const {latitude, longitude, zoom} = currentCity.location;
+    const { latitude, longitude, zoom } = currentCity.location;
     if (map) {
       map.flyTo([latitude, longitude], zoom);
     }
@@ -89,7 +87,7 @@ function Map({offers, selectedId, className, city} :  MapProrsType) : JSX.Elemen
   return (
     <section className={`${className}__map map`}
       style={getStyleByClassName(className)}
-      ref = {mapRef}
+      ref={mapRef}
     >
     </section>
   );

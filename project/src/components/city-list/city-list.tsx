@@ -4,14 +4,15 @@ import { changeCity, changeSorting } from '../../store/action';
 import { State } from '../../types/state';
 import { Actions } from '../../types/action';
 import { SortType, Cities } from '../../const';
+import { getCity } from '../../store/user-process/selectors';
 
 type CityListPropsType = {
 }
 type PropsFromReduxType = ConnectedProps<typeof connector>
 type ConnectedComponentPropsType = PropsFromReduxType & CityListPropsType;
 
-const mapStateToProps = ({USER}: State) => ({
-  city: USER.city,
+const mapStateToProps = (state: State) => ({
+  city: getCity(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

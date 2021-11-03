@@ -27,7 +27,7 @@ const appData = (state = initialState, action: Actions): AppData => {
       return { ...state, reviews: action.payload };
     case ActionType.AddComment:
       return { ...state, comment: action.payload };
-    case ActionType.AddCommentRank:
+    case ActionType.AddCommentRating:
       return { ...state, commentRating: action.payload };
     default:
       return state;

@@ -10,7 +10,7 @@ export enum ActionType {
   RedirectToRoute = 'app/redirectToRoute',
   HistoryBack = 'app/historyBack',
   AddComment = 'data/addComent',
-  AddCommentRank = 'data/addCommentRating',
+  AddCommentRating = 'data/addCommentRating',
   LoadOffers = 'data/LoadOffers',
   LoadReviews = 'data/LoadReviews',
   LoadCurrentOffer = 'data/LoadCurrentOffer',

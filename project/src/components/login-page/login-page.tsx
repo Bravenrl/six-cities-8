@@ -1,5 +1,3 @@
-
-
 import { Action } from '@reduxjs/toolkit';
 import { ChangeEvent, Dispatch, FormEvent, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
@@ -35,6 +33,7 @@ function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
   const cityName = cities[Math.floor(Math.random() * cities.length)];
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null) {

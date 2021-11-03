@@ -15,6 +15,7 @@ import { ThunkAppDispatch } from '../../types/action';
 import { loadPropertyOffersAction } from '../../store/api-action';
 import { State } from '../../types/state';
 import Preloader from '../preloader/preloader';
+import { getCurrentOffer, getCurrentWithNearby, getNearbyOffers } from '../../store/app-data/selectors';
 
 
 type PropertyPagePropsType = {
@@ -26,12 +27,12 @@ type ParamsType = {
 type PropsFromReduxType = ConnectedProps<typeof connector>;
 type ConnectedComponentPropsType = PropsFromReduxType & PropertyPagePropsType;
 
-const mapStateToPrors = ({ USER, DATA }:State) => ({
-  nearbyOffers: DATA.nearbyOffers,
-  currentOffer: DATA.currentOffer,
-  reviews: DATA.reviews,
-  status: USER.authorizationStatus,
+const mapStateToPrors = (state: State) => ({
+  nearbyOffers: getNearbyOffers(state),
+  currentOffer: getCurrentOffer(state),
+  currWithNearOffers: getCurrentWithNearby(state),
 });
+
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onLoading(id: string) {
     dispatch(loadPropertyOffersAction(id));
@@ -42,8 +43,7 @@ const connector = connect(mapStateToPrors, mapDispatchToProps);
 
 
 function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
-  const {currentOffer, nearbyOffers, reviews, status} = props;
-  const { onLoading } = props;
+  const { currentOffer, nearbyOffers, currWithNearOffers, onLoading } = props;
   const params: ParamsType = useParams();
 
 
@@ -58,6 +58,7 @@ function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
 
   const { isPremium, id, images, title, rating, type, bedrooms,
     maxAdults, price, goods, host, description, isFavorite, city } = currentOffer;
+
   const ratingPercent = Math.round(rating) * 20;
 
   if (!currentOffer.id) {
@@ -129,10 +130,10 @@ function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
                   <p className="property__text">{description}</p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} authorizationStatus = {status}/>
+              <ReviewsList />
             </div>
           </div>
-          <Map offers={[...nearbyOffers, currentOffer]} selectedId={currentOffer.id} className='property' city={city.name} />
+          <Map offers={currWithNearOffers} selectedId={currentOffer.id} className='property' city={city.name} />
         </section>
         <div className="container">
           <section className="near-places places">

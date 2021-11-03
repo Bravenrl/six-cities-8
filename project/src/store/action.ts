@@ -73,6 +73,6 @@ export const addComent = (comment: string) => ({
 } as const);
 
 export const addComentRating = (rating: number) => ({
-  type: ActionType.AddCommentRank,
+  type: ActionType.AddCommentRating,
   payload: rating,
 } as const);

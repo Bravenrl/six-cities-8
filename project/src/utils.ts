@@ -1,3 +1,4 @@
+import { SortType } from './const';
 import { OfferType } from './types/offer';
 import { ReviewType } from './types/review';
 
@@ -33,6 +34,21 @@ export const getRandomArrayNonRepeat = <T>(elements:T[]):T[] => {               
 
 export const compareDate = (a: ReviewType, b: ReviewType) : number => Date.parse(b.date)-Date.parse(a.date);
 
-export const getCurrentOffers = (offers : OfferType[], city: string): OfferType[] => offers.filter((offer) => offer.city.name === city);
-
 export const getWithCapitalLetter = (word: string): string => word[0].toUpperCase()+word.slice(1);
+
+const comparePriceToHight = (objA:OfferType, objB:OfferType): number => objA.price-objB.price;
+const compareRating = (objA:OfferType, objB:OfferType): number => objA.rating-objB.rating;
+const comparePriceToLow = (objA:OfferType, objB:OfferType): number => objB.price-objA.price;
+
+export const getSortedbySortType = (offers:OfferType[], sortType: string): OfferType[] => {
+  switch (sortType) {
+    case SortType.PriceToHight:
+      return offers.sort(comparePriceToHight);
+    case SortType.PriceToLow:
+      return offers.sort(comparePriceToLow);
+    case SortType.TopRated:
+      return offers.sort(compareRating);
+    default:
+      return offers;
+  }
+};
