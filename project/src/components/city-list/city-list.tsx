@@ -1,40 +1,29 @@
-import { Dispatch } from '@reduxjs/toolkit';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeCity, changeSorting } from '../../store/action';
-import { State } from '../../types/state';
 import { SortType, Cities } from '../../const';
 import { getCity } from '../../store/user-process/selectors';
 
-type CityListPropsType = {
-}
-type PropsFromReduxType = ConnectedProps<typeof connector>
-type ConnectedComponentPropsType = PropsFromReduxType & CityListPropsType;
+function CityList(): JSX.Element {
 
-const mapStateToProps = (state: State) => ({
-  city: getCity(state),
-});
+  const city = useSelector(getCity);
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onCityChange(cityName: string) {
+  const dispatch = useDispatch();
+
+  const onCityChange = (cityName: string) => {
     dispatch(changeCity(cityName));
     dispatch(changeSorting(SortType.Popular));
-  },
-});
+  };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-
-function CityList(props: ConnectedComponentPropsType):JSX.Element {
-  const {city, onCityChange}=props;
-  return(
+  return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {[...Cities.keys()].map((item) => (
           <li key={item} className="locations__item">
-            <a className={`locations__item-link tabs__item ${(city===item)&&'tabs__item--active'}`}
-              onClick = {(evt)=>{
+            <a className={`locations__item-link tabs__item ${(city === item) && 'tabs__item--active'}`}
+              onClick={(evt) => {
                 evt.preventDefault();
-                onCityChange(item);}}
+                onCityChange(item);
+              }}
               href="#todo"
             >
               <span>{item}</span>
@@ -45,6 +34,4 @@ function CityList(props: ConnectedComponentPropsType):JSX.Element {
   );
 }
 
-
-export {CityList};
-export default connector(CityList);
+export default CityList;

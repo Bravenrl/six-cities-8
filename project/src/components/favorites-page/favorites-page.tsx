@@ -1,24 +1,15 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { PageType } from '../../const';
 import { getCurrentOffers } from '../../store/app-data/selectors';
 import { getCity } from '../../store/user-process/selectors';
-import { State } from '../../types/state';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
 import OfferList from '../offer-list/offer-list';
 
 
-type PropsFromReduxType = ConnectedProps<typeof connector>
-
-
-const mapStateToProps = (state: State) => ({
-  city: getCity(state),
-  currentOffers: getCurrentOffers(state),
-});
-
-const connector = connect(mapStateToProps);
-function FavoritesPage(props: PropsFromReduxType): JSX.Element {
-  const { currentOffers, city } = props;
+function FavoritesPage(): JSX.Element {
+  const city = useSelector(getCity);
+  const currentOffers = useSelector(getCurrentOffers);
   const favoriteOffers = currentOffers.filter((offer) => offer.isFavorite);
   return (
     <div className="page">
@@ -59,5 +50,5 @@ function FavoritesPage(props: PropsFromReduxType): JSX.Element {
     </div>
   );
 }
-export { FavoritesPage };
-export default connector(FavoritesPage);
+
+export default FavoritesPage;

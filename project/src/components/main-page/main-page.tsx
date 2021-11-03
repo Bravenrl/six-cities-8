@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { PageType } from '../../const';
-import { State } from '../../types/state';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
 import Map from '../map/map';
@@ -13,26 +12,11 @@ import { getCurrentOffers, getOffers } from '../../store/app-data/selectors';
 import { getCity } from '../../store/user-process/selectors';
 import { getIsLoading } from '../../store/app-process/selectors';
 
-
-// type MainPagePropsType = {
-// }
-
-type PropsFromReduxType = ConnectedProps<typeof connector>
-type ConnectedComponentPropsType = PropsFromReduxType; //& MainPagePropsType;
-
-const mapStateToProps = (state: State) => ({
-  city: getCity(state),
-  offers: getOffers(state),
-  isLoading: getIsLoading(state),
-  currentOffers: getCurrentOffers(state),
-});
-
-
-const connector = connect(mapStateToProps);
-
-
-function MainPage(props: ConnectedComponentPropsType): JSX.Element {
-  const { city, offers, isLoading, currentOffers } = props;
+function MainPage(): JSX.Element {
+  const city = useSelector(getCity);
+  const offers = useSelector(getOffers);
+  const isLoading = useSelector(getIsLoading);
+  const currentOffers = useSelector(getCurrentOffers);
 
   const [activeOfferId, setActiveOfferId] = useState(0);
 
@@ -76,5 +60,4 @@ function MainPage(props: ConnectedComponentPropsType): JSX.Element {
     </div>);
 }
 
-export { MainPage };
-export default connector(MainPage);
+export default MainPage;

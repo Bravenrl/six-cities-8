@@ -10,50 +10,29 @@ import OfferList from '../offer-list/offer-list';
 import { PageType } from '../../const';
 import { useEffect } from 'react';
 import { getWithCapitalLetter } from '../../utils';
-import { connect, ConnectedProps } from 'react-redux';
-import { ThunkAppDispatch } from '../../types/action';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadPropertyOffersAction } from '../../store/api-action';
-import { State } from '../../types/state';
 import Preloader from '../preloader/preloader';
 import { getCurrentOffer, getCurrentWithNearby, getNearbyOffers } from '../../store/app-data/selectors';
 
-
-type PropertyPagePropsType = {
-}
 type ParamsType = {
   id: string;
 }
 
-type PropsFromReduxType = ConnectedProps<typeof connector>;
-type ConnectedComponentPropsType = PropsFromReduxType & PropertyPagePropsType;
+function PropertyPage(): JSX.Element {
 
-const mapStateToPrors = (state: State) => ({
-  nearbyOffers: getNearbyOffers(state),
-  currentOffer: getCurrentOffer(state),
-  currWithNearOffers: getCurrentWithNearby(state),
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLoading(id: string) {
-    dispatch(loadPropertyOffersAction(id));
-  },
-});
-
-const connector = connect(mapStateToPrors, mapDispatchToProps);
-
-
-function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
-  const { currentOffer, nearbyOffers, currWithNearOffers, onLoading } = props;
   const params: ParamsType = useParams();
-
-
+  const nearbyOffers = useSelector(getNearbyOffers);
+  const currentOffer = useSelector(getCurrentOffer);
+  const currWithNearOffers = useSelector(getCurrentWithNearby);
+  const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [params]);
 
   useEffect(() => {
-    onLoading(params.id);
-  }, [onLoading, params.id]);
+    dispatch(loadPropertyOffersAction(params.id));
+  }, [dispatch, params.id]);
 
 
   const { isPremium, id, images, title, rating, type, bedrooms,
@@ -146,5 +125,4 @@ function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
   );
 }
 
-export { PropertyPage };
-export default connector(PropertyPage);
+export default PropertyPage;

@@ -1,51 +1,32 @@
-import { Action } from '@reduxjs/toolkit';
-import { ChangeEvent, Dispatch, FormEvent, useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { ChangeEvent, FormEvent, useRef } from 'react';
+import {  useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, Cities, rePassword, SortType } from '../../const';
 import withPreloader from '../../hocs/with-preloader/with-preloader';
 import { changeCity, changeSorting } from '../../store/action';
 import { loginAction } from '../../store/api-action';
-import { ThunkAppDispatch } from '../../types/action';
-import { User } from '../../types/review';
 import HeaderLogo from '../header-logo/header-logo';
-type LoginPageProosType = {
-};
-type PropsFromReduxType = ConnectedProps<typeof connector>;
-type ConnectedComponentPropsType = PropsFromReduxType & LoginPageProosType;
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch & Dispatch<Action>) => ({
-  onSubmit(user: User) {
-    dispatch(loginAction(user));
-  },
-  onCityClick(cityName: string) {
-    dispatch(changeCity(cityName));
-    dispatch(changeSorting(SortType.Popular));
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
 
 
-function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
-  const { onSubmit, onCityClick } = props;
+function LoginPage(): JSX.Element {
+  const dispatch = useDispatch();
   const cities = [...Cities.keys()];
   const cityName = cities[Math.floor(Math.random() * cities.length)];
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null) {
       const user = {
         email: loginRef.current.value,
         password: passwordRef.current.value,
       };
-      onSubmit(user);
+      dispatch(loginAction(user));
     }
   };
 
-  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>): void => {
     if (!rePassword.test(evt.target.value)) {
       evt.target.setCustomValidity('Password is not valid');
     } else {
@@ -54,6 +35,10 @@ function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
     evt.target.reportValidity();
   };
 
+  const handleonCityClick = (): void => {
+    dispatch(changeCity(cityName));
+    dispatch(changeSorting(SortType.Popular));
+  };
 
   return (
     <div className="page page--gray page--login">
@@ -97,7 +82,7 @@ function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Root} onClick={() => onCityClick(cityName)} className="locations__item-link" href="#todo">
+              <Link to={AppRoute.Root} onClick={handleonCityClick} className="locations__item-link" href="#todo">
                 <span>{cityName}</span>
               </Link>
             </div>
@@ -109,4 +94,4 @@ function LoginPage(props: ConnectedComponentPropsType): JSX.Element {
 }
 
 export { LoginPage };
-export default withPreloader(connector(LoginPage));
+export default withPreloader(LoginPage);

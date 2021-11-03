@@ -1,30 +1,16 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-action';
 import { getUserEmail } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { ThunkAppDispatch } from '../../types/action';
-import { State } from '../../types/state';
-
-const mapStateToProps = (state: State) => ({
-  email: getUserEmail(state),
-  authStatus: getAuthorizationStatus(state),
-});
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLogout() {
-    dispatch(logoutAction());
-  },
-});
-
-type PropsFromReduxType = ConnectedProps<typeof connector>;
 
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+function HeaderNav(): JSX.Element {
+  const email = useSelector(getUserEmail);
+  const authStatus = useSelector(getAuthorizationStatus);
 
-function HeaderNav(props: PropsFromReduxType): JSX.Element {
-  const { email, onLogout, authStatus } = props;
-
+  const dispatch = useDispatch();
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -40,7 +26,10 @@ function HeaderNav(props: PropsFromReduxType): JSX.Element {
         {(authStatus === AuthorizationStatus.Auth) &&
           <li className="header__nav-item">
             <a className="header__nav-link" href="#todo"
-              onClick={(evt) => { evt.preventDefault(); onLogout(); }}
+              onClick={(evt) => {
+                evt.preventDefault();
+                dispatch(logoutAction());
+              }}
             >
               <span className="header__signout">Sign out</span>
             </a>
@@ -50,5 +39,5 @@ function HeaderNav(props: PropsFromReduxType): JSX.Element {
   );
 }
 
-export { HeaderNav };
-export default connector(HeaderNav);
+
+export default HeaderNav;
