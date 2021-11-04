@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
 import { createApi } from './services/api';
-import { ThunkAppDispatch } from './types/action';
 import { checkAuthStatusAction, loadOffersAction } from './store/api-action';
 import { AuthorizationStatus } from './const';
 import { requireAuthorization } from './store/action';
