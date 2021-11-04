@@ -6,8 +6,8 @@ import { State } from '../../types/state';
 type PropsFromReduxType = ConnectedProps<typeof connector>;
 type MapPropsType = Pick<PropsFromReduxType, 'isPosting'>;
 
-const mapStateToProps = ({isPosting}: State) => ({
-  isPosting,
+const mapStateToProps = ({ APP}: State) => ({
+  isPosting: APP.isPosting,
 });
 
 const connector = connect(mapStateToProps);

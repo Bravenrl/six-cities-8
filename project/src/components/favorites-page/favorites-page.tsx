@@ -1,24 +1,15 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { PageType } from '../../const';
-import { State } from '../../types/state';
-import { getCurrentOffers } from '../../utils';
+import { getCurrentOffers } from '../../store/app-data/selectors';
+import { getCity } from '../../store/user-process/selectors';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
 import OfferList from '../offer-list/offer-list';
 
 
-type PropsFromReduxType = ConnectedProps<typeof connector>
-
-
-const mapStateToProps = ({offers, city}: State) => ({
-  city,
-  offers,
-});
-
-const connector = connect(mapStateToProps);
-function FavoritesPage (props : PropsFromReduxType) : JSX.Element {
-  const {offers, city} = props;
-  const currentOffers = getCurrentOffers(offers, city);
+function FavoritesPage(): JSX.Element {
+  const city = useSelector(getCity);
+  const currentOffers = useSelector(getCurrentOffers);
   const favoriteOffers = currentOffers.filter((offer) => offer.isFavorite);
   return (
     <div className="page">
@@ -44,7 +35,7 @@ function FavoritesPage (props : PropsFromReduxType) : JSX.Element {
                     </a>
                   </div>
                 </div>
-                <OfferList offers={favoriteOffers} pageType={PageType.Favorites}/>
+                <OfferList offers={favoriteOffers} pageType={PageType.Favorites} />
               </li>
 
             </ul>
@@ -53,11 +44,11 @@ function FavoritesPage (props : PropsFromReduxType) : JSX.Element {
       </main>
       <footer className="footer container">
         <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
+          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </a>
       </footer>
     </div>
   );
 }
-export {FavoritesPage};
-export default connector(FavoritesPage);
+
+export default FavoritesPage;

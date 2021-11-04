@@ -10,54 +10,34 @@ import OfferList from '../offer-list/offer-list';
 import { PageType } from '../../const';
 import { useEffect } from 'react';
 import { getWithCapitalLetter } from '../../utils';
-import { connect, ConnectedProps } from 'react-redux';
-import { ThunkAppDispatch } from '../../types/action';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadPropertyOffersAction } from '../../store/api-action';
-import { State } from '../../types/state';
 import Preloader from '../preloader/preloader';
+import { getCurrentOffer, getCurrentWithNearby, getNearbyOffers } from '../../store/app-data/selectors';
 
-
-type PropertyPagePropsType = {
-}
 type ParamsType = {
   id: string;
 }
 
-type PropsFromReduxType = ConnectedProps<typeof connector>;
-type ConnectedComponentPropsType = PropsFromReduxType & PropertyPagePropsType;
+function PropertyPage(): JSX.Element {
 
-const mapStateToPrors = ({nearbyOffers, currentOffer, reviews, authorizationStatus }:State) => ({
-  nearbyOffers,
-  currentOffer,
-  reviews,
-  authorizationStatus,
-});
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLoading(id: string) {
-    dispatch(loadPropertyOffersAction(id));
-  },
-});
-
-const connector = connect(mapStateToPrors, mapDispatchToProps);
-
-
-function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
-  const {currentOffer, nearbyOffers, reviews, authorizationStatus} = props;
-  const { onLoading } = props;
   const params: ParamsType = useParams();
-
-
+  const nearbyOffers = useSelector(getNearbyOffers);
+  const currentOffer = useSelector(getCurrentOffer);
+  const currWithNearOffers = useSelector(getCurrentWithNearby);
+  const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [params]);
 
   useEffect(() => {
-    onLoading(params.id);
-  }, [onLoading, params.id]);
+    dispatch(loadPropertyOffersAction(params.id));
+  }, [dispatch, params.id]);
 
 
   const { isPremium, id, images, title, rating, type, bedrooms,
     maxAdults, price, goods, host, description, isFavorite, city } = currentOffer;
+
   const ratingPercent = Math.round(rating) * 20;
 
   if (!currentOffer.id) {
@@ -129,10 +109,10 @@ function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
                   <p className="property__text">{description}</p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} authorizationStatus = {authorizationStatus}/>
+              <ReviewsList />
             </div>
           </div>
-          <Map offers={[...nearbyOffers, currentOffer]} selectedId={currentOffer.id} className='property' city={city.name} />
+          <Map offers={currWithNearOffers} pageType='property' city={city.name} />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -145,5 +125,4 @@ function PropertyPage(props: ConnectedComponentPropsType): JSX.Element {
   );
 }
 
-export { PropertyPage };
-export default connector(PropertyPage);
+export default PropertyPage;

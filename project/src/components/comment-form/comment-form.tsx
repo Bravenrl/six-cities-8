@@ -1,55 +1,47 @@
 
-import { ChangeEvent, Dispatch, FormEvent } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { ChangeEvent, FormEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { postCommentAction } from '../../store/api-action';
-import { Actions, ThunkAppDispatch } from '../../types/action';
-import { State } from '../../types/state';
+
 import withPreloader from '../../hocs/with-preloader/with-preloader';
 import CommentStar from '../comment-star/comment-star';
 import { Star } from '../../const';
 import { addComent, addComentRating } from '../../store/action';
+import { getComment, getCommentRating, getCurrentOffer } from '../../store/app-data/selectors';
+import { getIsLoading } from '../../store/app-process/selectors';
 
-type CommentFormPropsType = {
-}
+function CommentForm(): JSX.Element {
+  const currentOffer = useSelector(getCurrentOffer);
+  const isLoading = useSelector(getIsLoading);
+  const comment = useSelector(getComment);
+  const rating = useSelector(getCommentRating);
 
-type PropsFromReduxType = ConnectedProps<typeof connector>;
-type ConnectedComponentPropsType = PropsFromReduxType & CommentFormPropsType;
-
-const mapStateToPrors = ({ isDataLoading, currentOffer, comment, commentRating}: State) => ({
-  currentOffer,
-  isDataLoading,
-  comment,
-  commentRating,
-});
-const mapDispatchToProps = (dispatch: ThunkAppDispatch & Dispatch<Actions>) => ({
-  onCommentChange(comment:string) {dispatch(addComent(comment));},
-  onRatingChange(rating: number) {dispatch(addComentRating(rating));},
-  onSubmit(comment: string, rating: number, id: string) {
-    const newComment = { comment, rating };
-    dispatch(postCommentAction(newComment, id));
-  },
-});
-
-const connector = connect(mapStateToPrors, mapDispatchToProps);
-
-function CommentForm(props: ConnectedComponentPropsType): JSX.Element {
-  const { isDataLoading, currentOffer, onSubmit, comment, commentRating, onCommentChange, onRatingChange } = props;
-
-  const isButonDisable = !((comment.length >= 50 && comment.length <= 300 && commentRating > 0));
-
+  const dispatch = useDispatch();
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(comment, commentRating, currentOffer.id.toString());
+    dispatch(postCommentAction({ comment, rating }, currentOffer.id.toString()));
   };
+
+  const isButonDisable = !((comment.length >= 50 && comment.length <= 300 && rating > 0));
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
-      <fieldset disabled={isDataLoading}>
+      <fieldset disabled={isLoading}>
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
-        <div className="reviews__rating-form form__rating" onChange={(evt: ChangeEvent<HTMLInputElement>) => onRatingChange(+evt.target.value)}>
-          {[...Star.entries()].map(([element, discription]) => (<CommentStar key={element} rating={commentRating} element={element} discription={discription} />))}
+        <div className="reviews__rating-form form__rating"
+          onChange={(evt: ChangeEvent<HTMLInputElement>) =>
+            dispatch(addComentRating(+evt.target.value))}
+        >
+          {[...Star.entries()].map(([element, discription]) => (
+            <CommentStar
+              key={element}
+              element={element}
+              discription={discription}
+            />
+          ))}
         </div>
-        <textarea onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => onCommentChange(evt.target.value)}
+        <textarea
+          onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => dispatch(addComent(evt.target.value))}
           className="reviews__textarea form__textarea" id="review" name="review"
           placeholder="Tell how was your stay, what you like and what can be improved"
           value={comment}
@@ -66,4 +58,4 @@ function CommentForm(props: ConnectedComponentPropsType): JSX.Element {
   );
 }
 export { CommentForm };
-export default withPreloader(connector(CommentForm));
+export default withPreloader(CommentForm);

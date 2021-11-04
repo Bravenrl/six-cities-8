@@ -34,6 +34,8 @@ export enum SortType {
   TopRated = 'Top rated first'
 }
 
+export const INITIAL_CITY = 'Paris';
+
 export const Cities = new Map<string, CityType>([
   ['Paris', {
     name: 'Paris',
