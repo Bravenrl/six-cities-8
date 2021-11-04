@@ -26,7 +26,7 @@ export const getCurrentOffers = createSelector(
     offers.filter((offer) => offer.city.name === city));
 
 export const getReviewsSortByDate = createSelector(
-  [getReviews], (reviews): ReviewType[] => reviews.sort(compareDate));
+  [getReviews], (reviews): ReviewType[] => [...reviews].sort(compareDate));
 
 export const getCurrentWithNearby = createSelector(
   [getNearbyOffers, getCurrentOffer],

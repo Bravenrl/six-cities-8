@@ -35,7 +35,6 @@ function CommentForm(): JSX.Element {
           {[...Star.entries()].map(([element, discription]) => (
             <CommentStar
               key={element}
-              rating={rating}
               element={element}
               discription={discription}
             />

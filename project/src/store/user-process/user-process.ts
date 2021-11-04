@@ -1,12 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus, INITIAL_CITY, SortType } from '../../const';
 import { UserProcess } from '../../types/state';
-import { changeCity, changeSorting, requireAuthorization, requireLogout } from '../action';
+import { changeCity, changeSorting, requireAuthorization, requireLogout, setCurrentId } from '../action';
 
 const initialState: UserProcess = {
   city: INITIAL_CITY,
   sortType: SortType.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
+  currentId: null,
 };
 
 const userProcess = createReducer(initialState, (builder) => {
@@ -22,6 +23,9 @@ const userProcess = createReducer(initialState, (builder) => {
     })
     .addCase(requireLogout, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setCurrentId, (state, action) => {
+      state.currentId = action.payload;
     });
 });
 

@@ -7,7 +7,6 @@ import OfferCard from '../offer-card/offer-card';
 type OfferListProrsType = {
   offers: OfferType[];
   pageType: string;
-  handleActiveOffer?: (id: number) => void;
 }
 
 const getClassNameByType = (pageType: string): string => {
@@ -23,7 +22,7 @@ const getClassNameByType = (pageType: string): string => {
   }
 };
 
-function OfferList({ offers, pageType, handleActiveOffer }: OfferListProrsType): JSX.Element {
+function OfferList({ offers, pageType }: OfferListProrsType): JSX.Element {
   const sortedOffers  = useSelector(getSortedOffers);
 
   return (
@@ -31,7 +30,6 @@ function OfferList({ offers, pageType, handleActiveOffer }: OfferListProrsType):
       {((pageType === PageType.Main) ? sortedOffers : offers)
         .map((offer) => (
           <OfferCard
-            onOfferActive={handleActiveOffer}
             key={offer.id}
             offer={offer}
             pageType={pageType}

@@ -6,12 +6,13 @@ import { Icon, LayerGroup, Marker } from 'leaflet';
 import { AppRoute, Cities, PageType } from '../../const';
 import browserHistory from '../../browser-history';
 import { generatePath } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getCurrentId } from '../../store/user-process/selectors';
 
 
 type MapProrsType = {
   offers: OfferType[];
-  selectedId: number;
-  className: string;
+  pageType: string;
   city: string;
 }
 
@@ -32,8 +33,8 @@ const currentCustomIcon = new Icon({
   iconAnchor: [15, 40],
 });
 
-const getStyleByClassName = (className: string): MapStyleType | Omit<MapStyleType, 'margin'> => {
-  switch (className) {
+const getStyleByPageName = (pageType: string): MapStyleType | Omit<MapStyleType, 'margin'> => {
+  switch (pageType) {
     case PageType.Main:
       return { height: '550px', width: '512px' };
     default:
@@ -41,7 +42,8 @@ const getStyleByClassName = (className: string): MapStyleType | Omit<MapStyleTyp
   }
 };
 
-function Map({ offers, selectedId, className, city }: MapProrsType): JSX.Element {
+function Map({ offers, pageType, city }: MapProrsType): JSX.Element {
+  const selectedId = useSelector(getCurrentId);
   const currentCity = Cities.get(city) as CityType;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
@@ -85,8 +87,8 @@ function Map({ offers, selectedId, className, city }: MapProrsType): JSX.Element
   }, [currentCity, map]);
 
   return (
-    <section className={`${className}__map map`}
-      style={getStyleByClassName(className)}
+    <section className={`${pageType}__map map`}
+      style={getStyleByPageName(pageType)}
       ref={mapRef}
     >
     </section>

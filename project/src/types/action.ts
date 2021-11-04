@@ -19,6 +19,7 @@ export enum ActionType {
   ChangeCity = 'user/changeCity',
   RequireLogout = 'user/requireLogout',
   ChangeSorting = 'user/changeSorting',
+  SetCurrentId = 'user/setCurrentId'
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

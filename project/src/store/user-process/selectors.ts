@@ -8,3 +8,4 @@ export const getSortType = (state: State): SortType => state[Reducer.user].sortT
 
 export const getAuthorizationStatus = (state: State): AuthorizationStatus => state[Reducer.user].authorizationStatus;
 
+export const getCurrentId = (state: State): number|null => state[Reducer.user].currentId;

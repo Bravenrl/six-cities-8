@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { PageType } from '../../const';
 import HeaderLogo from '../header-logo/header-logo';
@@ -17,12 +16,6 @@ function MainPage(): JSX.Element {
   const offers = useSelector(getOffers);
   const isLoading = useSelector(getIsLoading);
   const currentOffers = useSelector(getCurrentOffers);
-
-  const [activeOfferId, setActiveOfferId] = useState(0);
-
-  const handleActiveOffer = (id: number): void => {
-    setActiveOfferId(id);
-  };
 
   if (isLoading) {
     return <Preloader />;
@@ -49,10 +42,10 @@ function MainPage(): JSX.Element {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{currentOffers.length} places to stay in {city}</b>
               <PlacesOption />
-              <OfferList offers={offers} pageType={PageType.Main} handleActiveOffer={handleActiveOffer} />
+              <OfferList offers={offers} pageType={PageType.Main} />
             </section>
             <div className="cities__right-section">
-              <Map offers={currentOffers} selectedId={activeOfferId} className='cities' city={city} />
+              <Map offers={currentOffers}  pageType={'cities'} city={city} />
             </div>
           </div>
         </div>

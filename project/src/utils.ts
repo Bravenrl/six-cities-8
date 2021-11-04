@@ -10,11 +10,11 @@ export const getWithCapitalLetter = (word: string): string => word[0].toUpperCas
 export const getSortedByType = (offers: OfferType[], sortType: string): OfferType[] => {
   switch (sortType) {
     case SortType.PriceToHight:
-      return offers.slice().sort((objA, objB) => objA.price - objB.price);
+      return [...offers].sort((objA, objB) => objA.price - objB.price);
     case SortType.PriceToLow:
-      return offers.slice().sort((objA, objB) => objB.price - objA.price);
+      return [...offers].sort((objA, objB) => objB.price - objA.price);
     case SortType.TopRated:
-      return offers.slice().sort((objA, objB) => objA.rating - objB.rating);
+      return [...offers].sort((objA, objB) => objA.rating - objB.rating);
     default:
       return offers;
   }

@@ -112,7 +112,7 @@ function PropertyPage(): JSX.Element {
               <ReviewsList />
             </div>
           </div>
-          <Map offers={currWithNearOffers} selectedId={currentOffer.id} className='property' city={city.name} />
+          <Map offers={currWithNearOffers} pageType='property' city={city.name} />
         </section>
         <div className="container">
           <section className="near-places places">

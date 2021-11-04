@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SortType } from '../../const';
 import { changeSorting } from '../../store/action';
@@ -46,4 +46,4 @@ function PlacesOption(): JSX.Element {
   );
 }
 
-export default PlacesOption;
+export default memo(PlacesOption);

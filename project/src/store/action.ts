@@ -61,3 +61,7 @@ export const addComent = createAction(
 export const addComentRating = createAction(
   ActionType.AddCommentRating,
   (rating: number) => ({ payload: rating }));
+
+export const setCurrentId = createAction(
+  ActionType.SetCurrentId,
+  (id: number|null) => ({ payload: id }));

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
@@ -40,4 +41,4 @@ function HeaderNav(): JSX.Element {
 }
 
 
-export default HeaderNav;
+export default memo(HeaderNav);

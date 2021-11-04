@@ -23,6 +23,7 @@ export type UserProcess = {
   city: string;
   sortType: SortType;
   authorizationStatus: AuthorizationStatus;
+  currentId: null | number;
 };
 
 
