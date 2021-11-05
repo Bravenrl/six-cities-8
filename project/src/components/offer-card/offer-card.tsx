@@ -5,6 +5,7 @@ import PremiumMark from '../premium-mark/premium-mark';
 import { getWithCapitalLetter } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { setCurrentId } from '../../store/action';
+import { BookmarkButton } from '../bookmark-button/bookmark-button';
 
 type OfferCardPropType = {
   offer: OfferType;
@@ -24,7 +25,7 @@ const getClassNameByType = (pageType: PageType): string => {
   }
 };
 
-function OfferCard({ offer, pageType}: OfferCardPropType): JSX.Element {
+function OfferCard({ offer, pageType }: OfferCardPropType): JSX.Element {
   const { id, price, rating, title, type, isPremium, isFavorite, previewImage } = offer;
   const ratingPercent = Math.round(rating) * 20;
   const linkPath = generatePath(AppRoute.RoomProprety, { id });
@@ -48,12 +49,7 @@ function OfferCard({ offer, pageType}: OfferCardPropType): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button  button ${isFavorite && 'place-card__bookmark-button--active'}`} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          <BookmarkButton isFavorite={isFavorite} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
