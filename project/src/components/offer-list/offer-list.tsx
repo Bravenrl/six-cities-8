@@ -1,15 +1,13 @@
-import { useSelector } from 'react-redux';
 import { PageType } from '../../const';
-import { getSortedOffers } from '../../store/app-data/selectors';
 import { OfferType } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
 type OfferListProrsType = {
   offers: OfferType[];
-  pageType: string;
+  pageType: PageType;
 }
 
-const getClassNameByType = (pageType: string): string => {
+const getClassNameByType = (pageType: PageType): string => {
   switch (pageType) {
     case PageType.Main:
       return 'cities__places-list places__list tabs__content';
@@ -23,17 +21,15 @@ const getClassNameByType = (pageType: string): string => {
 };
 
 function OfferList({ offers, pageType }: OfferListProrsType): JSX.Element {
-  const sortedOffers  = useSelector(getSortedOffers);
 
   return (
     <div className={getClassNameByType(pageType)}>
-      {((pageType === PageType.Main) ? sortedOffers : offers)
-        .map((offer) => (
-          <OfferCard
-            key={offer.id}
-            offer={offer}
-            pageType={pageType}
-          />))}
+      {offers.map((offer) => (
+        <OfferCard
+          key={offer.id}
+          offer={offer}
+          pageType={pageType}
+        />))}
     </div>
   );
 }

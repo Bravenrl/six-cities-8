@@ -8,10 +8,10 @@ import { setCurrentId } from '../../store/action';
 
 type OfferCardPropType = {
   offer: OfferType;
-  pageType: string;
-  onOfferActive?: (id: number) => void;
+  pageType: PageType;
 }
-const getClassNameByType = (pageType: string): string => {
+
+const getClassNameByType = (pageType: PageType): string => {
   switch (pageType) {
     case PageType.Main:
       return 'cities__place-card place-card';
@@ -24,7 +24,7 @@ const getClassNameByType = (pageType: string): string => {
   }
 };
 
-function OfferCard({ offer, pageType, onOfferActive }: OfferCardPropType): JSX.Element {
+function OfferCard({ offer, pageType}: OfferCardPropType): JSX.Element {
   const { id, price, rating, title, type, isPremium, isFavorite, previewImage } = offer;
   const ratingPercent = Math.round(rating) * 20;
   const linkPath = generatePath(AppRoute.RoomProprety, { id });

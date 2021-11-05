@@ -1,25 +1,25 @@
 import { useSelector } from 'react-redux';
-import { PageType } from '../../const';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
-import Map from '../map/map';
-import OfferList from '../offer-list/offer-list';
 import CityList from '../city-list/city-list';
-import PlacesOption from '../places-option/places-options';
 import Preloader from '../preloader/preloader';
-import { getCurrentOffers, getOffers } from '../../store/app-data/selectors';
-import { getCity } from '../../store/user-process/selectors';
 import { getIsLoading } from '../../store/app-process/selectors';
+import CitiesContainer from '../cities-container/cities-container';
+import { getCurrentOffers } from '../../store/app-data/selectors';
+import { getCity } from '../../store/user-process/selectors';
+import CitiesEmptyContainer from '../cities-empty-container/cities-empty-container';
+import Map from '../map/map';
 
 function MainPage(): JSX.Element {
   const city = useSelector(getCity);
-  const offers = useSelector(getOffers);
-  const isLoading = useSelector(getIsLoading);
   const currentOffers = useSelector(getCurrentOffers);
+  const isLoading = useSelector(getIsLoading);
+  const isNotEmpty = (currentOffers.length > 0);
 
   if (isLoading) {
     return <Preloader />;
   }
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -31,21 +31,16 @@ function MainPage(): JSX.Element {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${(!isNotEmpty) && 'page__main--index-empty'}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <CityList />
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentOffers.length} places to stay in {city}</b>
-              <PlacesOption />
-              <OfferList offers={offers} pageType={PageType.Main} />
-            </section>
+          <div className={`cities__places-container container ${(!isNotEmpty) && 'cities__places-container--empty'}`}>
+            {(isNotEmpty) ? <CitiesContainer city={city}/> : < CitiesEmptyContainer city={city} />}
             <div className="cities__right-section">
-              <Map offers={currentOffers}  pageType={'cities'} city={city} />
+              {(isNotEmpty) && <Map offers={currentOffers} pageType={'cities'} city={city} />}
             </div>
           </div>
         </div>
