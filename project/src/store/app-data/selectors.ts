@@ -38,10 +38,10 @@ export const getCurrentWithNearby = createSelector(
 export const getSortedOffers = createSelector(
   [getCurrentOffers, getSortType], getSortedByType);
 
-const getCityName = (_state: State, city: string): string => city;
+// const getCityName = (_state: State, city: string): string => city;
 
-export const getOfferByCityName = createSelector(
-  [getFavoriteOffers, getCityName],
-  (offers, city) => offers.filter((offer) => offer.city.name === city));
+// export const getOfferByCityName = createSelector(
+//   [getFavoriteOffers, getCityName],
+//   (offers, city) => offers.filter((offer) => offer.city.name === city));
 
-export const withParamGetOfferByCityName = (city: string) => (state: State): OfferType[] => getOfferByCityName(state, city);
+// export const withParamGetOfferByCityName = (city: string) => (state: State): OfferType[] => getOfferByCityName(state, city);
