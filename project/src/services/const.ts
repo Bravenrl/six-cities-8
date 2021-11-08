@@ -6,9 +6,9 @@ export enum ApiRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
-  CurrentOffer = '/hotels/',
   NearbyOffers = '/nearby',
-  Reviews = '/comments/'
+  Reviews = '/comments',
+  Favorite = '/favorite',
 }
 
 export const enum HttpCode {

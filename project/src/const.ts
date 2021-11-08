@@ -97,3 +97,8 @@ export const EmptyComment = {
   comment: '',
   rating: 0,
 };
+
+export const enum Status {
+  add = 1,
+  delete = 0,
+}

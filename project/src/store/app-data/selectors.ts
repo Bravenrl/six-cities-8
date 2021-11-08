@@ -35,3 +35,4 @@ export const getCurrentWithNearby = createSelector(
 export const getSortedOffers = createSelector(
   [getCurrentOffers, getSortType], getSortedByType);
 
+

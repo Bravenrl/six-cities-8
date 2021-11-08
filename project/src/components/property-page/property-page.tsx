@@ -66,7 +66,7 @@ function PropertyPage(): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <BookmarkButton isFavorite={isFavorite} pageType={PageType.Property}/>
+                <BookmarkButton id = {id} isFavorite={isFavorite} pageType={PageType.Property}/>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

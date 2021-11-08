@@ -12,6 +12,7 @@ export type AppData = {
   reviews: ReviewType[];
   comment: string;
   commentRating: number;
+  favoriteOffers: OfferType[];
 };
 
 export type AppProcess = {
