@@ -15,6 +15,9 @@ import { loadPropertyOffersAction } from '../../store/api-action';
 import Preloader from '../preloader/preloader';
 import { getCurrentOffer, getCurrentWithNearby, getNearbyOffers } from '../../store/app-data/selectors';
 import { BookmarkButton } from '../bookmark-button/bookmark-button';
+import { getIsLoading } from '../../store/app-process/selectors';
+import { loadCurrentOffer, toggleIsFavorite } from '../../store/action';
+import { OfferType } from '../../types/offer';
 
 
 type ParamsType = {
@@ -22,29 +25,35 @@ type ParamsType = {
 }
 
 function PropertyPage(): JSX.Element {
-
+  const isLoading = useSelector(getIsLoading);
   const params: ParamsType = useParams();
   const nearbyOffers = useSelector(getNearbyOffers);
   const currentOffer = useSelector(getCurrentOffer);
   const currWithNearOffers = useSelector(getCurrentWithNearby);
   const dispatch = useDispatch();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [params]);
 
   useEffect(() => {
     dispatch(loadPropertyOffersAction(params.id));
+    return () => {
+      dispatch(toggleIsFavorite(null));
+      dispatch(loadCurrentOffer({} as OfferType));
+    };
   }, [dispatch, params.id]);
 
 
   const { isPremium, id, images, title, rating, type, bedrooms,
-    maxAdults, price, goods, host, description, isFavorite, city } = currentOffer;
+    maxAdults, price, goods, host, description, city } = currentOffer;
 
   const ratingPercent = Math.round(rating) * 20;
 
-  if (!currentOffer.id) {
+  if (!currentOffer.id || isLoading) {
     return <Preloader />;
   }
+
   return (
     <div className="page">
       <header className="header">
@@ -66,7 +75,7 @@ function PropertyPage(): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <BookmarkButton id={id} isFavorite={isFavorite} pageType={PageType.Property} />
+                <BookmarkButton id={id} pageType={PageType.Property} />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

@@ -70,7 +70,10 @@ export const loadFavoriteOffers = createAction(
   ActionType.LoadFavoriteOffers,
   (offers: OfferType[]) => ({ payload: offers }));
 
-export const toggleIsFavorite = createAction(
-  ActionType.ToggleIsFavorite,
+export const changeIsFavorite = createAction(
+  ActionType.ChangeIsFavorite,
   (offer: OfferType) => ({ payload: offer }));
 
+export const toggleIsFavorite = createAction(
+  ActionType.ToggleIsFavorite,
+  (isFavorite: boolean|null) => ({ payload: isFavorite }));

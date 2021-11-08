@@ -8,6 +8,7 @@ import ReviewPost from '../property-review/property-review';
 function ReviewsList(): JSX.Element {
   const authStatus = useSelector(getAuthorizationStatus);
   const sortedReviews = useSelector(getReviewsSortByDate);
+
   return (
     <section className="property__reviews reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{sortedReviews.length}</span></h2>

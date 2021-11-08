@@ -8,7 +8,7 @@ import { removeToken, setToken } from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { ServerOfferType } from '../types/offer';
 import { CommentType, ServerAurhInfo, ServerReviewType, User } from '../types/review';
-import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComent, addComentRating, toggleIsFavorite, loadFavoriteOffers } from './action';
+import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComent, addComentRating, changeIsFavorite, loadFavoriteOffers, toggleIsFavorite } from './action';
 
 export const loadOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -79,6 +79,7 @@ export const loadPropertyOffersAction = (id: string): ThunkActionResult =>
         dispatch(loadNearbyOffers(offers));
         dispatch(loadCurrentOffer(offer));
         dispatch(loadReviews(comments));
+        dispatch(toggleIsFavorite(offer.isFavorite));
       }))
       .catch((err: AxiosError) => {
         createToast(err.response?.status);
@@ -109,7 +110,8 @@ export const postFavoriteAction = (status: Status, id: string): ThunkActionResul
     await api.post<ServerOfferType>(`${ApiRoute.Favorite}/${id}/${status}`)
       .then((response) => {
         const offer = adaptOfferToCient(response.data);
-        dispatch(toggleIsFavorite(offer));
+        dispatch(changeIsFavorite(offer));
+        dispatch(toggleIsFavorite(offer.isFavorite));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
     dispatch(toggleIsPosting(false));

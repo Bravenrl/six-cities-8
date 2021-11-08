@@ -16,12 +16,13 @@ export enum ActionType {
   LoadCurrentOffer = 'data/loadCurrentOffer',
   LoadNearbyOffers = 'data/loadNearbyOffers',
   UserEmail = 'data/setUserEmail',
-  ToggleIsFavorite = 'data/toggleIsFavorite',
+  ChangeIsFavorite = 'data/changeIsFavorite',
   RequireAuthorization = 'user/requireAuthorization',
   ChangeCity = 'user/changeCity',
   RequireLogout = 'user/requireLogout',
   ChangeSorting = 'user/changeSorting',
   SetCurrentId = 'user/setCurrentId',
+  ToggleIsFavorite = 'user/toggleIsFavorite',
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
