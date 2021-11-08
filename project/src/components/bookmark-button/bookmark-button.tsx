@@ -2,7 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PageType } from '../../const';
 import withPreloader from '../../hocs/with-preloader/with-preloader';
 import { postFavoriteAction } from '../../store/api-action';
+//import { getOfferById } from '../../store/app-data/selectors';
 import { getIsPosting } from '../../store/app-process/selectors';
+//import { State } from '../../types/state';
 
 type BookmarkButtonProps = {
   isFavorite: boolean;
@@ -14,6 +16,7 @@ function BookmarkButton({ id, isFavorite, pageType }: BookmarkButtonProps): JSX.
   const isPosting = useSelector(getIsPosting);
   const dispatch = useDispatch();
   const name = (pageType === PageType.Property) ? 'property' : 'place-card';
+
 
   return (
     <button className={`${name}__bookmark-button ${isFavorite && `${name}__bookmark-button--active`} button `}

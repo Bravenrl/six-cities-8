@@ -1,16 +1,31 @@
-import { useSelector } from 'react-redux';
-import { PageType } from '../../const';
-import { getCurrentOffers } from '../../store/app-data/selectors';
-import { getCity } from '../../store/user-process/selectors';
+
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadFavoriteOffersAction } from '../../store/api-action';
+import { getFavoriteOffers } from '../../store/app-data/selectors';
+import { getIsLoading } from '../../store/app-process/selectors';
+import FavoritesEmptyContainer from '../favorites-empty-container/favorites-empty-container';
+import FavoritesList from '../favorites-list/favorites-list';
 import HeaderLogo from '../header-logo/header-logo';
 import HeaderNav from '../header-nav/header-nav';
-import OfferList from '../offer-list/offer-list';
+import Preloader from '../preloader/preloader';
 
 
 function FavoritesPage(): JSX.Element {
-  const city = useSelector(getCity);
-  const currentOffers = useSelector(getCurrentOffers);
-  const favoriteOffers = currentOffers.filter((offer) => offer.isFavorite);
+  const isLoading = useSelector(getIsLoading);
+  const favoriteOffers = useSelector(getFavoriteOffers);
+  const isNotEmpty = (favoriteOffers.length > 0);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadFavoriteOffersAction());
+  }, [dispatch]);
+
+
+  if (isLoading) {
+    return <Preloader />;
+  }
+
   return (
     <div className="page">
       <header className="header">
@@ -24,22 +39,7 @@ function FavoritesPage(): JSX.Element {
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#todo">
-                      <span>{city}</span>
-                    </a>
-                  </div>
-                </div>
-                <OfferList offers={favoriteOffers} pageType={PageType.Favorites} />
-              </li>
-
-            </ul>
-          </section>
+          {(isNotEmpty) ? <FavoritesList /> : < FavoritesEmptyContainer />}
         </div>
       </main>
       <footer className="footer container">

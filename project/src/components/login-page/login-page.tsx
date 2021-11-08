@@ -35,7 +35,7 @@ function LoginPage(): JSX.Element {
     evt.target.reportValidity();
   };
 
-  const handleonCityClick = (): void => {
+  const handleOnCityClick = (): void => {
     dispatch(changeCity(cityName));
     dispatch(changeSorting(SortType.Popular));
   };
@@ -82,7 +82,7 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Root} onClick={handleonCityClick} className="locations__item-link" href="#todo">
+              <Link to={AppRoute.Root} onClick={handleOnCityClick} className="locations__item-link" href="#todo">
                 <span>{cityName}</span>
               </Link>
             </div>
