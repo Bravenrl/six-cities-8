@@ -13,6 +13,7 @@ export type AppData = {
   comment: string;
   commentRating: number;
   favoriteOffers: OfferType[];
+  currentIsFavorite: null | boolean;
 };
 
 export type AppProcess = {
@@ -25,7 +26,6 @@ export type UserProcess = {
   sortType: SortType;
   authorizationStatus: AuthorizationStatus;
   currentId: null | number;
-  currentIsFavorite: null | boolean;
 };
 
 

@@ -1,12 +1,9 @@
-
 import { ChangeEvent, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postCommentAction } from '../../store/api-action';
-
-import withPreloader from '../../hocs/with-preloader/with-preloader';
 import CommentStar from '../comment-star/comment-star';
 import { Star } from '../../const';
-import { addComent, addComentRating } from '../../store/action';
+import { addComent } from '../../store/action';
 import { getComment, getCommentRating, getCurrentOffer } from '../../store/app-data/selectors';
 import { getIsLoading } from '../../store/app-process/selectors';
 
@@ -28,10 +25,7 @@ function CommentForm(): JSX.Element {
     <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <fieldset disabled={isLoading}>
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
-        <div className="reviews__rating-form form__rating"
-          onChange={(evt: ChangeEvent<HTMLInputElement>) =>
-            dispatch(addComentRating(+evt.target.value))}
-        >
+        <div className="reviews__rating-form form__rating">
           {[...Star.entries()].map(([element, discription]) => (
             <CommentStar
               key={element}
@@ -57,5 +51,4 @@ function CommentForm(): JSX.Element {
     </form>
   );
 }
-export { CommentForm };
-export default withPreloader(CommentForm);
+export default CommentForm;

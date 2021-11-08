@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadPropertyOffersAction } from '../../store/api-action';
 import Preloader from '../preloader/preloader';
 import { getCurrentOffer, getCurrentWithNearby, getNearbyOffers } from '../../store/app-data/selectors';
-import { BookmarkButton } from '../bookmark-button/bookmark-button';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 import { getIsLoading } from '../../store/app-process/selectors';
 import { loadCurrentOffer, toggleIsFavorite } from '../../store/action';
 import { OfferType } from '../../types/offer';
@@ -39,7 +39,7 @@ function PropertyPage(): JSX.Element {
   useEffect(() => {
     dispatch(loadPropertyOffersAction(params.id));
     return () => {
-      dispatch(toggleIsFavorite(null));
+      dispatch(toggleIsFavorite(null, +params.id));
       dispatch(loadCurrentOffer({} as OfferType));
     };
   }, [dispatch, params.id]);

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, MAX_COMENT_VAL } from '../../const';
 import { getReviewsSortByDate } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import CommentForm from '../comment-form/comment-form';
@@ -8,6 +8,9 @@ import ReviewPost from '../property-review/property-review';
 function ReviewsList(): JSX.Element {
   const authStatus = useSelector(getAuthorizationStatus);
   const sortedReviews = useSelector(getReviewsSortByDate);
+  if (sortedReviews.length>MAX_COMENT_VAL) {
+    sortedReviews.length=MAX_COMENT_VAL;
+  }
 
   return (
     <section className="property__reviews reviews">

@@ -1,4 +1,3 @@
-
 import { createSelector } from 'reselect';
 import { OfferType } from '../../types/offer';
 import { ReviewType } from '../../types/review';
@@ -38,10 +37,4 @@ export const getCurrentWithNearby = createSelector(
 export const getSortedOffers = createSelector(
   [getCurrentOffers, getSortType], getSortedByType);
 
-// const getCityName = (_state: State, city: string): string => city;
-
-// export const getOfferByCityName = createSelector(
-//   [getFavoriteOffers, getCityName],
-//   (offers, city) => offers.filter((offer) => offer.city.name === city));
-
-// export const withParamGetOfferByCityName = (city: string) => (state: State): OfferType[] => getOfferByCityName(state, city);
+export const getCurrentIsFavorite = (state: State): boolean|null => state[Reducer.data].currentIsFavorite;

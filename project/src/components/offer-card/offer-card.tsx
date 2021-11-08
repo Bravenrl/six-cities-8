@@ -5,7 +5,8 @@ import PremiumMark from '../premium-mark/premium-mark';
 import { getWithCapitalLetter } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { setCurrentId } from '../../store/action';
-import { BookmarkButton } from '../bookmark-button/bookmark-button';
+import BookmarkButton from '../bookmark-button/bookmark-button';
+import { memo } from 'react';
 
 type OfferCardPropType = {
   offer: OfferType;
@@ -49,7 +50,7 @@ function OfferCard({ offer, pageType }: OfferCardPropType): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <BookmarkButton id = {id} isFavorite={isFavorite} />
+          <BookmarkButton id={id} isFavorite={isFavorite} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -65,4 +66,4 @@ function OfferCard({ offer, pageType }: OfferCardPropType): JSX.Element {
     </article>);
 }
 
-export default OfferCard;
+export default memo(OfferCard);

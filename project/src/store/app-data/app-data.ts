@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { EmptyComment } from '../../const';
 import { OfferType } from '../../types/offer';
 import { AppData } from '../../types/state';
-import { addComent, addComentRating, addUserEmail, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, loadReviews, changeIsFavorite } from '../action';
+import { addComent, addComentRating, addUserEmail, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, loadReviews, changeIsFavorite, toggleIsFavorite } from '../action';
 
 const initialState: AppData = {
   offers: [],
@@ -13,6 +13,7 @@ const initialState: AppData = {
   comment: EmptyComment.comment,
   commentRating: EmptyComment.rating,
   favoriteOffers: [],
+  currentIsFavorite: null,
 };
 
 const appData = createReducer(initialState, (builder) => {
@@ -55,6 +56,10 @@ const appData = createReducer(initialState, (builder) => {
         }
         return offer;
       });
+    })
+    .addCase(toggleIsFavorite, (state, action) => {
+      const { id, isFavorite } = action.payload;
+      state.currentIsFavorite = (state.currentOffer.id === id) ? isFavorite : null;
     });
 });
 

@@ -2,7 +2,6 @@ import { ChangeEvent, FormEvent, useRef } from 'react';
 import {  useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, Cities, rePassword, SortType } from '../../const';
-import withPreloader from '../../hocs/with-preloader/with-preloader';
 import { changeCity, changeSorting } from '../../store/action';
 import { loginAction } from '../../store/api-action';
 import HeaderLogo from '../header-logo/header-logo';
@@ -93,5 +92,4 @@ function LoginPage(): JSX.Element {
   );
 }
 
-export { LoginPage };
-export default withPreloader(LoginPage);
+export default LoginPage;

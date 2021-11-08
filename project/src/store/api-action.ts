@@ -79,7 +79,7 @@ export const loadPropertyOffersAction = (id: string): ThunkActionResult =>
         dispatch(loadNearbyOffers(offers));
         dispatch(loadCurrentOffer(offer));
         dispatch(loadReviews(comments));
-        dispatch(toggleIsFavorite(offer.isFavorite));
+        dispatch(toggleIsFavorite(offer.isFavorite, offer.id));
       }))
       .catch((err: AxiosError) => {
         createToast(err.response?.status);
@@ -111,7 +111,7 @@ export const postFavoriteAction = (status: Status, id: string): ThunkActionResul
       .then((response) => {
         const offer = adaptOfferToCient(response.data);
         dispatch(changeIsFavorite(offer));
-        dispatch(toggleIsFavorite(offer.isFavorite));
+        dispatch(toggleIsFavorite(offer.isFavorite, offer.id));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
     dispatch(toggleIsPosting(false));

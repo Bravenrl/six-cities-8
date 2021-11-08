@@ -76,4 +76,4 @@ export const changeIsFavorite = createAction(
 
 export const toggleIsFavorite = createAction(
   ActionType.ToggleIsFavorite,
-  (isFavorite: boolean|null) => ({ payload: isFavorite }));
+  (isFavorite: boolean | null, id: number) => ({ payload: { isFavorite, id } }));

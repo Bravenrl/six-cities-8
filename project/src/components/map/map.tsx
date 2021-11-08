@@ -4,8 +4,7 @@ import { CityType, MapStyleType, OfferType } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
 import { Icon, LayerGroup, Marker } from 'leaflet';
 import { AppRoute, Cities, PageType } from '../../const';
-import browserHistory from '../../browser-history';
-import { generatePath } from 'react-router-dom';
+import { generatePath, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getCurrentId } from '../../store/user-process/selectors';
 
@@ -47,7 +46,7 @@ function Map({ offers, pageType, city }: MapProrsType): JSX.Element {
   const currentCity = Cities.get(city) as CityType;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
-
+  const history = useHistory();
 
   useEffect(() => {
     const markersGroup = new LayerGroup();
@@ -60,7 +59,7 @@ function Map({ offers, pageType, city }: MapProrsType): JSX.Element {
 
         const onMarkerClickHandler = (): void => {
           const linkPath = generatePath(AppRoute.RoomProprety, { id: offer.id });
-          browserHistory.push(linkPath);
+          history.push(linkPath);
         };
 
         marker.addEventListener('click', onMarkerClickHandler);
@@ -77,7 +76,7 @@ function Map({ offers, pageType, city }: MapProrsType): JSX.Element {
     return () => {
       markersGroup.remove();
     };
-  }, [map, offers, selectedId]);
+  }, [map, offers, selectedId, history]);
 
   useEffect(() => {
     const { latitude, longitude, zoom } = currentCity.location;
