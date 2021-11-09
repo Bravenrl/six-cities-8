@@ -9,7 +9,7 @@ function withPreloader<WCP>(WpappedComponent: ComponentType<WCP>): ComponentType
   function WithPreloader(props: WCP): JSX.Element {
     return (
       <>
-        {ReactDOM.createPortal(<Preloader />, document.body)};
+        {ReactDOM.createPortal(<Preloader />, document.body)}
         <WpappedComponent {...props} />
       </>
     );
