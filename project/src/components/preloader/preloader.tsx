@@ -1,6 +1,9 @@
+import { useSelector } from 'react-redux';
+import { getIsPosting } from '../../store/app-process/selectors';
 
-function Preloader(): JSX.Element {
-
+function Preloader(): JSX.Element | null {
+  const isPosting = useSelector(getIsPosting);
+  if (!isPosting) {return null;}
   return (
     <div style={{
       position: 'fixed', top: '200px', left: '35%',

@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { EmptyComment } from '../../const';
 import { OfferType } from '../../types/offer';
 import { AppData } from '../../types/state';
-import { addComent, addComentRating, addUserEmail, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, loadReviews, changeIsFavorite, toggleIsFavorite } from '../action';
+import { addComent, addComentRating, addUserEmail, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, loadReviews, changeIsFavorite, toggleIsFavorite, removeFavoriteOffers, removeCurrentOffer } from '../action';
 
 const initialState: AppData = {
   offers: [],
@@ -45,9 +45,7 @@ const appData = createReducer(initialState, (builder) => {
     .addCase(changeIsFavorite, (state, action) => {
       const actualOffer = action.payload;
       if (state.favoriteOffers.length > 0) {
-        state.favoriteOffers = (state.favoriteOffers.some((offer) => offer.id === actualOffer.id))
-          ? state.favoriteOffers.filter((offer) => offer.id !== actualOffer.id)
-          : [...state.favoriteOffers, actualOffer];
+        state.favoriteOffers = state.favoriteOffers.filter((offer) => offer.id !== actualOffer.id);
       }
 
       state.offers = state.offers.map((offer) => {
@@ -60,6 +58,15 @@ const appData = createReducer(initialState, (builder) => {
     .addCase(toggleIsFavorite, (state, action) => {
       const { id, isFavorite } = action.payload;
       state.currentIsFavorite = (state.currentOffer.id === id) ? isFavorite : null;
+    })
+    .addCase(removeFavoriteOffers, (state) => {
+      state.favoriteOffers = [];
+    })
+    .addCase(removeCurrentOffer, (state) => {
+      state.currentOffer = {} as OfferType;
+      state.nearbyOffers = [];
+      state.currentIsFavorite = null;
+      state.reviews = [];
     });
 });
 

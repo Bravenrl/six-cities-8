@@ -17,6 +17,8 @@ export enum ActionType {
   LoadNearbyOffers = 'data/loadNearbyOffers',
   UserEmail = 'data/setUserEmail',
   ChangeIsFavorite = 'data/changeIsFavorite',
+  RemoveFavoriteOffers = 'data/removeIsFavorite',
+  RemoveCurrentOffer = 'dara/removeCurrentOffer',
   RequireAuthorization = 'user/requireAuthorization',
   ChangeCity = 'user/changeCity',
   RequireLogout = 'user/requireLogout',

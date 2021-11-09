@@ -16,9 +16,7 @@ import Preloader from '../preloader/preloader';
 import { getCurrentOffer, getCurrentWithNearby, getNearbyOffers } from '../../store/app-data/selectors';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import { getIsLoading } from '../../store/app-process/selectors';
-import { loadCurrentOffer, toggleIsFavorite } from '../../store/action';
-import { OfferType } from '../../types/offer';
-
+import { removeCurrentOffer } from '../../store/action';
 
 type ParamsType = {
   id: string;
@@ -39,8 +37,7 @@ function PropertyPage(): JSX.Element {
   useEffect(() => {
     dispatch(loadPropertyOffersAction(params.id));
     return () => {
-      dispatch(toggleIsFavorite(null, +params.id));
-      dispatch(loadCurrentOffer({} as OfferType));
+      dispatch(removeCurrentOffer());
     };
   }, [dispatch, params.id]);
 

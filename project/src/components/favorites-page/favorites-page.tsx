@@ -1,6 +1,7 @@
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { removeFavoriteOffers } from '../../store/action';
 import { loadFavoriteOffersAction } from '../../store/api-action';
 import { getFavoriteOffers } from '../../store/app-data/selectors';
 import { getIsLoading } from '../../store/app-process/selectors';
@@ -19,6 +20,9 @@ function FavoritesPage(): JSX.Element {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadFavoriteOffersAction());
+    return () => {
+      dispatch(removeFavoriteOffers());
+    };
   }, [dispatch]);
 
 
