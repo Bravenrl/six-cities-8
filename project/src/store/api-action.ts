@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
-import { AppRoute, AuthorizationStatus, EmptyComment } from '../const';
+import { AppRoute, AuthorizationStatus, EmptyComment, Status } from '../const';
 import { adaptAuthInfoToClient, adaptOfferToCient, adaptReviewToCient } from '../services/adapter';
 import { ApiRoute, HttpCode, ToastMessage } from '../services/const';
 import { createToast } from '../services/toast';
@@ -8,7 +8,7 @@ import { removeToken, setToken } from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { ServerOfferType } from '../types/offer';
 import { CommentType, ServerAurhInfo, ServerReviewType, User } from '../types/review';
-import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComent, addComentRating } from './action';
+import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComent, addComentRating, changeIsFavorite, loadFavoriteOffers, toggleIsFavorite } from './action';
 
 export const loadOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -66,11 +66,11 @@ export const loadPropertyOffersAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(toggleIsLoading(true));
     const getCurrentOffer = (): Promise<AxiosResponse> =>
-      api.get<ServerOfferType>(ApiRoute.CurrentOffer + id);
+      api.get<ServerOfferType>(`${ApiRoute.Offers}/${id}`);
     const getNearbyOffers = (): Promise<AxiosResponse> =>
-      api.get<ServerOfferType[]>(ApiRoute.CurrentOffer + id + ApiRoute.NearbyOffers);
+      api.get<ServerOfferType[]>(`${ApiRoute.Offers}/${id}${ApiRoute.NearbyOffers}`);
     const getReviews = (): Promise<AxiosResponse> =>
-      api.get<ServerReviewType[]>(ApiRoute.Reviews + id);
+      api.get<ServerReviewType[]>(`${ApiRoute.Reviews}/${id}`);
     await axios.all<AxiosResponse>([getCurrentOffer(), getNearbyOffers(), getReviews()])
       .then(axios.spread((current, nearby, reviews) => {
         const offer = adaptOfferToCient(current.data);
@@ -79,6 +79,7 @@ export const loadPropertyOffersAction = (id: string): ThunkActionResult =>
         dispatch(loadNearbyOffers(offers));
         dispatch(loadCurrentOffer(offer));
         dispatch(loadReviews(comments));
+        dispatch(toggleIsFavorite(offer.isFavorite, offer.id));
       }))
       .catch((err: AxiosError) => {
         createToast(err.response?.status);
@@ -92,7 +93,7 @@ export const loadPropertyOffersAction = (id: string): ThunkActionResult =>
 export const postCommentAction = (comment: CommentType, id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(toggleIsPosting(true));
-    await api.post<ServerReviewType[]>(ApiRoute.Reviews + id, comment)
+    await api.post<ServerReviewType[]>(`${ApiRoute.Reviews}/${id}`, comment)
       .then((response) => {
         const comments = response.data.map(adaptReviewToCient);
         dispatch(addComent(EmptyComment.comment));
@@ -101,4 +102,30 @@ export const postCommentAction = (comment: CommentType, id: string): ThunkAction
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
     dispatch(toggleIsPosting(false));
+  };
+
+export const postFavoriteAction = (status: Status, id: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    dispatch(toggleIsPosting(true));
+    await api.post<ServerOfferType>(`${ApiRoute.Favorite}/${id}/${status}`)
+      .then((response) => {
+        const offer = adaptOfferToCient(response.data);
+        dispatch(changeIsFavorite(offer));
+        dispatch(toggleIsFavorite(offer.isFavorite, offer.id));
+      })
+      .catch((err: AxiosError) => createToast(err.response?.status));
+    dispatch(toggleIsPosting(false));
+  };
+
+export const loadFavoriteOffersAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    dispatch(toggleIsLoading(true));
+    try {
+      const { data } = await api.get<ServerOfferType[]>(ApiRoute.Favorite);
+      const offers = data.map(adaptOfferToCient);
+      dispatch(loadFavoriteOffers(offers));
+    } catch {
+      toast.warning(ToastMessage.LoadFiail);
+    }
+    dispatch(toggleIsLoading(false));
   };

@@ -1,30 +1,20 @@
-import {ComponentType} from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { ComponentType } from 'react';
+import ReactDOM from 'react-dom';
+
 import Preloader from '../../components/preloader/preloader';
-import { State } from '../../types/state';
 
-type PropsFromReduxType = ConnectedProps<typeof connector>;
-type MapPropsType = Pick<PropsFromReduxType, 'isPosting'>;
 
-const mapStateToProps = ({ APP}: State) => ({
-  isPosting: APP.isPosting,
-});
+function withPreloader<WCP>(WpappedComponent: ComponentType<WCP>): ComponentType<WCP> {
 
-const connector = connect(mapStateToProps);
-function withPreloader<WCP>(WpappedComponent: ComponentType<WCP>) : ComponentType<WCP> {
-
-  function WithPreloader(props: MapPropsType): JSX.Element {
-    const {isPosting,  ...restProps}=props;
+  function WithPreloader(props: WCP): JSX.Element {
     return (
       <>
-        {isPosting&&<Preloader/>}
-        <WpappedComponent {...restProps as WCP}/>
+        {ReactDOM.createPortal(<Preloader />, document.body)}
+        <WpappedComponent {...props} />
       </>
     );
   }
-  const connectedWithPreloader = connector(WithPreloader);
-
-  return connectedWithPreloader;
+  return WithPreloader;
 }
 
 export default withPreloader;

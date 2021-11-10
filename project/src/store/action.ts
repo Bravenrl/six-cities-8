@@ -29,7 +29,7 @@ export const requireLogout = createAction(
   () => ({ payload: AuthorizationStatus.NoAuth }));
 
 export const addUserEmail = createAction(
-  ActionType.userEmail,
+  ActionType.UserEmail,
   (email: string) => ({ payload: email }));
 
 export const redirectToRoute = createAction(
@@ -64,4 +64,20 @@ export const addComentRating = createAction(
 
 export const setCurrentId = createAction(
   ActionType.SetCurrentId,
-  (id: number|null) => ({ payload: id }));
+  (id: number | null) => ({ payload: id }));
+
+export const loadFavoriteOffers = createAction(
+  ActionType.LoadFavoriteOffers,
+  (offers: OfferType[]) => ({ payload: offers }));
+
+export const changeIsFavorite = createAction(
+  ActionType.ChangeIsFavorite,
+  (offer: OfferType) => ({ payload: offer }));
+
+export const toggleIsFavorite = createAction(
+  ActionType.ToggleIsFavorite,
+  (isFavorite: boolean | null, id: number) => ({ payload: { isFavorite, id } }));
+
+export const removeCurrentOffer = createAction(ActionType.RemoveCurrentOffer);
+
+export const removeFavoriteOffers = createAction(ActionType.RemoveFavoriteOffers);

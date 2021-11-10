@@ -14,35 +14,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadPropertyOffersAction } from '../../store/api-action';
 import Preloader from '../preloader/preloader';
 import { getCurrentOffer, getCurrentWithNearby, getNearbyOffers } from '../../store/app-data/selectors';
+import BookmarkButton from '../bookmark-button/bookmark-button';
+import { getIsLoading } from '../../store/app-process/selectors';
+import { removeCurrentOffer } from '../../store/action';
 
 type ParamsType = {
   id: string;
 }
 
 function PropertyPage(): JSX.Element {
-
+  const isLoading = useSelector(getIsLoading);
   const params: ParamsType = useParams();
   const nearbyOffers = useSelector(getNearbyOffers);
   const currentOffer = useSelector(getCurrentOffer);
   const currWithNearOffers = useSelector(getCurrentWithNearby);
   const dispatch = useDispatch();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [params]);
 
   useEffect(() => {
     dispatch(loadPropertyOffersAction(params.id));
+    return () => {
+      dispatch(removeCurrentOffer());
+    };
   }, [dispatch, params.id]);
 
 
   const { isPremium, id, images, title, rating, type, bedrooms,
-    maxAdults, price, goods, host, description, isFavorite, city } = currentOffer;
+    maxAdults, price, goods, host, description, city } = currentOffer;
 
   const ratingPercent = Math.round(rating) * 20;
 
-  if (!currentOffer.id) {
+  if (!currentOffer.id || isLoading) {
     return <Preloader />;
   }
+
   return (
     <div className="page">
       <header className="header">
@@ -64,12 +72,7 @@ function PropertyPage(): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={`property__bookmark-button ${isFavorite && 'property__bookmark-button--active'} button `} type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <BookmarkButton id={id} pageType={PageType.Property} />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

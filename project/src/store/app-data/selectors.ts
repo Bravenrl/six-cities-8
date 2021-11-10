@@ -20,6 +20,8 @@ export const getComment = (state: State): string => state[Reducer.data].comment;
 
 export const getCommentRating = (state: State): number => state[Reducer.data].commentRating;
 
+export const getFavoriteOffers = (state: State): OfferType[] => state[Reducer.data].favoriteOffers;
+
 export const getCurrentOffers = createSelector(
   [getOffers, getCity],
   (offers: OfferType[], city: string): OfferType[] =>
@@ -35,3 +37,4 @@ export const getCurrentWithNearby = createSelector(
 export const getSortedOffers = createSelector(
   [getCurrentOffers, getSortType], getSortedByType);
 
+export const getCurrentIsFavorite = (state: State): boolean|null => state[Reducer.data].currentIsFavorite;

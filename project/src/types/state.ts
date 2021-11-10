@@ -12,6 +12,8 @@ export type AppData = {
   reviews: ReviewType[];
   comment: string;
   commentRating: number;
+  favoriteOffers: OfferType[];
+  currentIsFavorite: null | boolean;
 };
 
 export type AppProcess = {

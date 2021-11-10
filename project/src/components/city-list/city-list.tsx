@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeCity, changeSorting } from '../../store/action';
 import { SortType, Cities } from '../../const';
 import { getCity } from '../../store/user-process/selectors';
+import { memo } from 'react';
 
 function CityList(): JSX.Element {
 
@@ -34,4 +35,4 @@ function CityList(): JSX.Element {
   );
 }
 
-export default CityList;
+export default memo(CityList);
