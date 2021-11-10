@@ -57,7 +57,6 @@ export const logoutAction = (): ThunkActionResult =>
         removeToken();
         dispatch(requireLogout());
         dispatch(addUserEmail(''));
-        dispatch(redirectToRoute(AppRoute.Root));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
   };

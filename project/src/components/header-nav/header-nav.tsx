@@ -1,7 +1,8 @@
 import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { redirectToRoute } from '../../store/action';
 import { logoutAction } from '../../store/api-action';
 import { getUserEmail } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
@@ -10,7 +11,7 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 function HeaderNav(): JSX.Element {
   const email = useSelector(getUserEmail);
   const authStatus = useSelector(getAuthorizationStatus);
-
+  const location = useLocation();
   const dispatch = useDispatch();
   return (
     <nav className="header__nav">
@@ -30,6 +31,9 @@ function HeaderNav(): JSX.Element {
               onClick={(evt) => {
                 evt.preventDefault();
                 dispatch(logoutAction());
+                if (location.pathname === AppRoute.Favorites) {
+                  dispatch(redirectToRoute(AppRoute.Root));
+                }
               }}
             >
               <span className="header__signout">Sign out</span>

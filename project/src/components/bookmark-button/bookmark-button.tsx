@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PageType } from '../../const';
+import { AppRoute, AuthorizationStatus, PageType } from '../../const';
+import { redirectToRoute } from '../../store/action';
 import { postFavoriteAction } from '../../store/api-action';
 import { getCurrentIsFavorite } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type BookmarkButtonProps = {
   isFavorite?: boolean;
@@ -12,6 +14,7 @@ type BookmarkButtonProps = {
 
 function BookmarkButton({ id, isFavorite, pageType }: BookmarkButtonProps): JSX.Element {
   const currentIsFavorite = useSelector(getCurrentIsFavorite);
+  const authStatus = useSelector(getAuthorizationStatus);
   const dispatch = useDispatch();
   const btnIsFavorite = isFavorite ?? currentIsFavorite;
   const name = (pageType === PageType.Property) ? 'property' : 'place-card';
@@ -27,8 +30,12 @@ function BookmarkButton({ id, isFavorite, pageType }: BookmarkButtonProps): JSX.
       disabled={isDisabled}
       onClick={(evt) => {
         evt.preventDefault();
-        dispatch(postFavoriteAction(+(!btnIsFavorite), `${id}`));
-        setIsDisabled(true);
+        if (authStatus !== AuthorizationStatus.Auth) {
+          dispatch(redirectToRoute(AppRoute.Login));
+        } else {
+          dispatch(postFavoriteAction(+(!btnIsFavorite), `${id}`));
+          setIsDisabled(true);
+        }
       }}
     >
       <svg className={`${name}__bookmark-icon`} width={(pageType === PageType.Property) ? '31' : '18'} height={(pageType === PageType.Property) ? '33' : '19'}>
