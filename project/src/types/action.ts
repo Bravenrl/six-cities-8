@@ -8,7 +8,7 @@ export enum ActionType {
   isPosting = 'app/isPosting',
   RedirectToRoute = 'app/redirectToRoute',
   HistoryBack = 'app/historyBack',
-  AddComment = 'data/addComent',
+  AddComment = 'data/addComment',
   AddCommentRating = 'data/addCommentRating',
   LoadOffers = 'data/loadOffers',
   LoadFavoriteOffers = 'data/loadFavoriteOffers',

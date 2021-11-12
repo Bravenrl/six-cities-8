@@ -1,6 +1,7 @@
-import { SortType } from './const';
+import { MAX_COMENT_VAL, SortType } from './const';
 import { GenerateFakeCity, GenerateFakeOffer, GenerateFakeReview } from './mock/mock';
 import { getFilterByCity, getSortByDate, getSortByType, getWithCapitalLetter } from './utils';
+
 
 describe('Utils function', () => {
   describe('Function: getSortByDate', () => {
@@ -15,6 +16,11 @@ describe('Utils function', () => {
       expect(sortedArray.length).toBe(4);
       expect(sortedArray[0].id).toBe(4);
       expect(sortedArray[3].id).toBe(1);
+    });
+    it('should return array.lenght <= MAX_COMENT_VAL', () => {
+      reviews.length = 20;
+      const sortedArray = getSortByDate(reviews);
+      expect(sortedArray.length).toBeLessThanOrEqual(MAX_COMENT_VAL);
     });
   });
 

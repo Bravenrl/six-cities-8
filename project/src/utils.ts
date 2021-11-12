@@ -1,10 +1,10 @@
-import { SortType } from './const';
+import { MAX_COMENT_VAL, SortType } from './const';
 import { OfferType } from './types/offer';
 import { ReviewType } from './types/review';
 
 
 export const getSortByDate = (reviews: ReviewType[]): ReviewType[] =>
-  [...reviews].sort((objA, objB) => Date.parse(objB.date) - Date.parse(objA.date));
+  [...reviews].sort((objA, objB) => Date.parse(objB.date) - Date.parse(objA.date)).slice(0, MAX_COMENT_VAL);
 
 export const getWithCapitalLetter = (word: string): string => word[0].toUpperCase() + word.slice(1);
 

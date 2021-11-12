@@ -2,12 +2,12 @@ import { createReducer } from '@reduxjs/toolkit';
 import { AppProcess } from '../../types/state';
 import { toggleIsLoading, toggleIsPosting } from '../action';
 
-const initialStare: AppProcess = {
+const initialState: AppProcess = {
   isLoading: false,
   isPosting: false,
 };
 
-const appProcess = createReducer(initialStare, (builder) => {
+const appProcess = createReducer(initialState, (builder) => {
   builder
     .addCase(toggleIsLoading, (state, action) => {
       state.isLoading = action.payload;

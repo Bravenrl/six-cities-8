@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postCommentAction } from '../../store/api-action';
 import CommentStar from '../comment-star/comment-star';
 import { Star } from '../../const';
-import { addComent } from '../../store/action';
+import { addComment } from '../../store/action';
 import { getComment, getCommentRating, getCurrentOffer } from '../../store/app-data/selectors';
 import { getIsLoading } from '../../store/app-process/selectors';
 
@@ -35,7 +35,7 @@ function CommentForm(): JSX.Element {
           ))}
         </div>
         <textarea
-          onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => dispatch(addComent(evt.target.value))}
+          onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => dispatch(addComment(evt.target.value))}
           className="reviews__textarea form__textarea" id="review" name="review"
           placeholder="Tell how was your stay, what you like and what can be improved"
           value={comment}

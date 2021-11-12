@@ -8,7 +8,7 @@ import { removeToken, setToken } from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { ServerOfferType } from '../types/offer';
 import { CommentType, ServerAurhInfo, ServerReviewType, User } from '../types/review';
-import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComent, addComentRating, changeIsFavorite, loadFavoriteOffers, toggleIsFavorite } from './action';
+import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComment, addComentRating, changeIsFavorite, loadFavoriteOffers, toggleIsFavorite } from './action';
 
 export const loadOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -95,7 +95,7 @@ export const postCommentAction = (comment: CommentType, id: string): ThunkAction
     await api.post<ServerReviewType[]>(`${ApiRoute.Reviews}/${id}`, comment)
       .then((response) => {
         const comments = response.data.map(adaptReviewToCient);
-        dispatch(addComent(EmptyComment.comment));
+        dispatch(addComment(EmptyComment.comment));
         dispatch(addComentRating(EmptyComment.rating));
         dispatch(loadReviews(comments));
       })

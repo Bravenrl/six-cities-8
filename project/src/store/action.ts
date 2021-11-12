@@ -54,7 +54,7 @@ export const toggleIsPosting = createAction(
   ActionType.isPosting,
   (isPosting: boolean) => ({ payload: isPosting }));
 
-export const addComent = createAction(
+export const addComment = createAction(
   ActionType.AddComment,
   (comment: string) => ({ payload: comment }));
 
