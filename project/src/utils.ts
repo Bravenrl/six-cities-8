@@ -3,11 +3,12 @@ import { OfferType } from './types/offer';
 import { ReviewType } from './types/review';
 
 
-export const compareDate = (a: ReviewType, b: ReviewType): number => Date.parse(b.date) - Date.parse(a.date);
+export const getSortByDate = (reviews: ReviewType[]): ReviewType[] =>
+  [...reviews].sort((objA, objB) => Date.parse(objB.date) - Date.parse(objA.date));
 
 export const getWithCapitalLetter = (word: string): string => word[0].toUpperCase() + word.slice(1);
 
-export const getSortedByType = (offers: OfferType[], sortType: string): OfferType[] => {
+export const getSortByType = (offers: OfferType[], sortType: string): OfferType[] => {
   switch (sortType) {
     case SortType.PriceToHight:
       return [...offers].sort((objA, objB) => objA.price - objB.price);
@@ -19,3 +20,5 @@ export const getSortedByType = (offers: OfferType[], sortType: string): OfferTyp
       return offers;
   }
 };
+
+export const getFilterByCity = (offers: OfferType[], city:string): OfferType[] => offers.filter((offer) => offer.city.name === city);

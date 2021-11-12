@@ -7,6 +7,7 @@ import { AppRoute, Cities, PageType } from '../../const';
 import { generatePath, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getCurrentId } from '../../store/user-process/selectors';
+import { getCurrentOffer } from '../../store/app-data/selectors';
 
 
 type MapProrsType = {
@@ -43,6 +44,8 @@ const getStyleByPageName = (pageType: string): MapStyleType | Omit<MapStyleType,
 
 function Map({ offers, pageType, city }: MapProrsType): JSX.Element {
   const selectedId = useSelector(getCurrentId);
+  const currentOffer = useSelector(getCurrentOffer);
+  const currentPin = currentOffer.id ?? selectedId;
   const currentCity = Cities.get(city) as CityType;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
@@ -65,7 +68,7 @@ function Map({ offers, pageType, city }: MapProrsType): JSX.Element {
         marker.addEventListener('click', onMarkerClickHandler);
         marker
           .setIcon(
-            selectedId !== undefined && offer.id === selectedId
+            offer.id === currentPin
               ? currentCustomIcon
               : defaultCustomIcon,
           );
@@ -76,7 +79,7 @@ function Map({ offers, pageType, city }: MapProrsType): JSX.Element {
     return () => {
       markersGroup.remove();
     };
-  }, [map, offers, selectedId, history]);
+  }, [map, offers, currentPin, history]);
 
   useEffect(() => {
     const { latitude, longitude, zoom } = currentCity.location;
