@@ -64,13 +64,10 @@ export const logoutAction = (): ThunkActionResult =>
 export const loadPropertyOffersAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(toggleIsLoading(true));
-    const getCurrentOffer = (): Promise<AxiosResponse> =>
-      api.get<ServerOfferType>(`${ApiRoute.Offers}/${id}`);
-    const getNearbyOffers = (): Promise<AxiosResponse> =>
-      api.get<ServerOfferType[]>(`${ApiRoute.Offers}/${id}${ApiRoute.NearbyOffers}`);
-    const getReviews = (): Promise<AxiosResponse> =>
-      api.get<ServerReviewType[]>(`${ApiRoute.Reviews}/${id}`);
-    await axios.all<AxiosResponse>([getCurrentOffer(), getNearbyOffers(), getReviews()])
+    await axios.all<AxiosResponse>([
+      api.get<ServerOfferType>(`${ApiRoute.Offers}/${id}`),
+      api.get<ServerOfferType[]>(`${ApiRoute.Offers}/${id}${ApiRoute.NearbyOffers}`),
+      api.get<ServerReviewType[]>(`${ApiRoute.Reviews}/${id}`)])
       .then(axios.spread((current, nearby, reviews) => {
         const offer = adaptOfferToCient(current.data);
         const offers = nearby.data.map(adaptOfferToCient);

@@ -29,7 +29,6 @@ const rating = 5;
 
 describe('Reducer: appData', () => {
   let state = initialState;
-  beforeAll(() => state = initialState);
   it('without additional parameters should return initial state', () => {
     expect(appData(void 0, { type: 'UNKNOWN_ACTION' }))
       .toEqual(state);

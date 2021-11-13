@@ -9,8 +9,7 @@ const initialState: AppProcess = {
 
 
 describe('Reducer: appProcess', () => {
-  let state = initialState;
-  beforeAll(() => state = initialState);
+  const state = initialState;
   it('without additional parameters should return initial state', () => {
     expect(appProcess(void 0, { type: 'UNKNOWN_ACTION' }))
       .toEqual(initialState);

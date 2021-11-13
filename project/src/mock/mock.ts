@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { system, name, internet, random, commerce, address, datatype } from 'faker';
 import { CityType, OfferType } from '../types/offer';
-import { ReviewType } from '../types/review';
+import { AuthInfo, CommentType, ReviewType, User } from '../types/review';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
@@ -10,7 +10,7 @@ const APART_TYPES = ['apartment', 'private room', 'house'];
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 const ZOOM = 10;
 
-export const GenerateFakeCity = ():CityType =>
+export const GenerateFakeCity = (): CityType =>
   ({
     location: {
       latitude: +address.latitude(),
@@ -63,7 +63,21 @@ export const GenerateFakeReview = (): ReviewType =>
     comment: commerce.productDescription(),
   });
 
+export const fakeComment: CommentType = {
+  comment: 'some comment',
+  rating: 4,
+};
 
-// export const offers = new Array(COUNT).fill(null).map((offer, index) => offer = { ...GenerateOffer(), id: index });
-// export const reviews = new Array(COUNT).fill(null).map(() => GenerateReview(ID));
+export const fakeAuthInfo:AuthInfo = {
+  email: internet.email(),
+  token: 'token',
+  avatarUrl: system.filePath(),
+  id: ID,
+  isPro: datatype.boolean(),
+  name: name.firstName(),
+};
 
+export const fakeUser: User = {
+  email: internet.email(),
+  password: 'password',
+};

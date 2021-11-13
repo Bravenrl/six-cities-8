@@ -15,6 +15,7 @@ export const enum HttpCode {
   Unauthorised = 401,
   NotFound = 404,
   BadRequest = 400,
+  OK = 200,
 }
 
 export const enum ToastMessage {

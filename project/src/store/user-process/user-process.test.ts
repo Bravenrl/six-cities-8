@@ -12,8 +12,7 @@ const initialState: UserProcess = {
 };
 
 describe('Reducer: userProcess', () => {
-  let state = initialState;
-  beforeAll(() => state = initialState);
+  const state = initialState;
   it('without additional parameters should return initial state', () => {
     expect(userProcess(void 0, { type: 'UNKNOWN_ACTION' }))
       .toEqual(initialState);
