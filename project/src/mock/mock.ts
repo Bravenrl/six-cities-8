@@ -5,9 +5,10 @@ import { AuthInfo, CommentType, ReviewType, User } from '../types/review';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
+const OFFER_LENGTH = 5;
 const ID = 1;
 const APART_TYPES = ['apartment', 'private room', 'house'];
-const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 const ZOOM = 10;
 
 export const GenerateFakeCity = (): CityType =>
@@ -68,7 +69,7 @@ export const fakeComment: CommentType = {
   rating: 4,
 };
 
-export const fakeAuthInfo:AuthInfo = {
+export const fakeAuthInfo: AuthInfo = {
   email: internet.email(),
   token: 'token',
   avatarUrl: system.filePath(),
@@ -81,3 +82,10 @@ export const fakeUser: User = {
   email: internet.email(),
   password: 'password',
 };
+
+
+export const offersFavoriteParis = new Array(OFFER_LENGTH).fill(null).map((offer) =>
+  offer = { ...GenerateFakeOffer(), isFavorite: true, city: { ...GenerateFakeCity(), name: CITIES[0] } });
+
+export const offersFavoriteAmsterdan = new Array(OFFER_LENGTH).fill(null).map((offer) =>
+  offer = { ...GenerateFakeOffer(), isFavorite: true, city: { ...GenerateFakeCity(), name: CITIES[3] } });

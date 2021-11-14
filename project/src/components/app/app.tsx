@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Router, Switch, Route } from 'react-router-dom';
-import browserHistory from '../../browser-history';
+import { Switch, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import withPreloader from '../../hocs/with-preloader/with-preloader';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
@@ -20,32 +19,30 @@ const WPPropertyPage = withPreloader(PropertyPage);
 
 function App(): JSX.Element {
   const authStatus = useSelector(getAuthorizationStatus);
-  if (authStatus===AuthorizationStatus.Unknown) {
+  if (authStatus === AuthorizationStatus.Unknown) {
     return <Preloader />;
   }
   return (
-    <Router history={browserHistory}>
-      <Switch>
-        <Route exact path={AppRoute.Root}>
-          <WPMainPage />
-        </Route>
-        <PrivateRouteLogin exact path={AppRoute.Login}>
-          <WPLoginPage />
-        </PrivateRouteLogin>
-        <PrivateRoute
-          exact
-          path={AppRoute.Favorites}
-          render={() => <WPFavoritesPage />}
-        >
-        </PrivateRoute>
-        <Route exact path={AppRoute.RoomProprety}>
-          <WPPropertyPage />
-        </Route>
-        <Route>
-          <NotFoundPage />
-        </Route>
-      </Switch>
-    </Router>
+    <Switch>
+      <Route exact path={AppRoute.Root}>
+        <WPMainPage />
+      </Route>
+      <PrivateRouteLogin exact path={AppRoute.Login}>
+        <WPLoginPage />
+      </PrivateRouteLogin>
+      <PrivateRoute
+        exact
+        path={AppRoute.Favorites}
+        render={() => <WPFavoritesPage />}
+      >
+      </PrivateRoute>
+      <Route exact path={AppRoute.RoomProprety}>
+        <WPPropertyPage />
+      </Route>
+      <Route>
+        <NotFoundPage />
+      </Route>
+    </Switch>
   );
 }
 export default App;
