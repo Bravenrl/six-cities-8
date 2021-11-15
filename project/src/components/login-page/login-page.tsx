@@ -1,7 +1,8 @@
-import { ChangeEvent, FormEvent, useRef } from 'react';
+import { FormEvent, useRef } from 'react';
 import {  useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute, Cities, rePassword, SortType } from '../../const';
+import { toast } from 'react-toastify';
+import { AppRoute, Cities, invalidEmail, invalidPassword, reEmail, rePassword, SortType } from '../../const';
 import { changeCity, changeSorting } from '../../store/action';
 import { loginAction } from '../../store/api-action';
 import HeaderLogo from '../header-logo/header-logo';
@@ -17,21 +18,20 @@ function LoginPage(): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null) {
+      if (!rePassword.test(passwordRef.current.value)) {
+        toast.warning(invalidPassword);
+        return;
+      }
+      if (!reEmail.test(loginRef.current.value)) {
+        toast.warning(invalidEmail);
+        return;
+      }
       const user = {
         email: loginRef.current.value,
         password: passwordRef.current.value,
       };
       dispatch(loginAction(user));
     }
-  };
-
-  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>): void => {
-    if (!rePassword.test(evt.target.value)) {
-      evt.target.setCustomValidity('Password is not valid');
-    } else {
-      evt.target.setCustomValidity('');
-    }
-    evt.target.reportValidity();
   };
 
   const handleOnCityClick = (): void => {
@@ -69,7 +69,6 @@ function LoginPage(): JSX.Element {
                 <label className="visually-hidden">Password</label>
                 <input className="login__input form__input"
                   ref={passwordRef}
-                  onChange={handlePasswordChange}
                   type="password"
                   name="password"
                   placeholder="Password"

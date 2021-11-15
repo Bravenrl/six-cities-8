@@ -13,4 +13,5 @@ function HeaderLogo () : JSX.Element {
   );
 }
 
+export {HeaderLogo};
 export default memo(HeaderLogo);

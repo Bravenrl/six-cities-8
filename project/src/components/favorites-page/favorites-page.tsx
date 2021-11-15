@@ -1,6 +1,8 @@
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 import { removeFavoriteOffers } from '../../store/action';
 import { loadFavoriteOffersAction } from '../../store/api-action';
 import { getFavoriteOffers } from '../../store/app-data/selectors';
@@ -47,9 +49,9 @@ function FavoritesPage(): JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link to = {AppRoute.Root} className="footer__logo-link" href="">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
+        </Link>
       </footer>
     </div>
   );

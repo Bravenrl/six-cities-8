@@ -35,4 +35,5 @@ function CityList(): JSX.Element {
   );
 }
 
+export {CityList};
 export default memo(CityList);

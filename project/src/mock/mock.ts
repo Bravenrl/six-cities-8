@@ -84,8 +84,8 @@ export const fakeUser: User = {
 };
 
 
-export const offersFavoriteParis = new Array(OFFER_LENGTH).fill(null).map((offer) =>
-  offer = { ...GenerateFakeOffer(), isFavorite: true, city: { ...GenerateFakeCity(), name: CITIES[0] } });
+export const offersFavoriteParis = new Array(OFFER_LENGTH).fill(null).map((offer, index) =>
+  offer = { ...GenerateFakeOffer(), isFavorite: true, id: index, city: { ...GenerateFakeCity(), name: CITIES[0] } });
 
-export const offersFavoriteAmsterdan = new Array(OFFER_LENGTH).fill(null).map((offer) =>
-  offer = { ...GenerateFakeOffer(), isFavorite: true, city: { ...GenerateFakeCity(), name: CITIES[3] } });
+export const offersFavoriteAmsterdan = new Array(OFFER_LENGTH).fill(null).map((offer, index) =>
+  offer = { ...GenerateFakeOffer(), isFavorite: true, id: index, city: { ...GenerateFakeCity(), name: CITIES[3] } });

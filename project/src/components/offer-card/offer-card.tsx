@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentId } from '../../store/action';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import { memo } from 'react';
+import { OfferCardClass } from '../../class-const';
 
 type OfferCardPropType = {
   offer: OfferType;
@@ -16,11 +17,11 @@ type OfferCardPropType = {
 const getClassNameByType = (pageType: PageType): string => {
   switch (pageType) {
     case PageType.Main:
-      return 'cities__place-card place-card';
+      return OfferCardClass.Main;
     case PageType.Favorites:
-      return 'favorites__card place-card';
+      return OfferCardClass.Favorites;
     case PageType.Property:
-      return 'near-places__card place-card';
+      return OfferCardClass.Property;
     default:
       return '';
   }

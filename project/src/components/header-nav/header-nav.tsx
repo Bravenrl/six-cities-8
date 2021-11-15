@@ -17,7 +17,10 @@ function HeaderNav(): JSX.Element {
     <nav className="header__nav">
       <ul className="header__nav-list">
         <li className="header__nav-item user">
-          <Link className="header__nav-link header__nav-link--profile" href="#todo" to={AppRoute.Favorites}>
+          <Link className="header__nav-link header__nav-link--profile"
+            href="#todo"
+            to={AppRoute.Favorites}
+          >
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
             {(authStatus === AuthorizationStatus.Auth)
@@ -44,5 +47,5 @@ function HeaderNav(): JSX.Element {
   );
 }
 
-
+export { HeaderNav };
 export default memo(HeaderNav);

@@ -31,7 +31,11 @@ function FavoritesItems({ city }: FavoritesItemsProps): JSX.Element | null {
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <Link to={AppRoute.Root} onClick={handleOnCityClick} className="locations__item-link" href="#todo">
+          <Link to={AppRoute.Root}
+            onClick={handleOnCityClick}
+            className="locations__item-link"
+            href="#todo"
+          >
             <span>{city}</span>
           </Link>
         </div>

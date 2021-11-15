@@ -12,7 +12,6 @@ import {
   loadNearbyOffers, loadReviews, addComment,
   addComentRating, changeIsFavorite, loadFavoriteOffers, toggleIsFavorite, toggleIsPosting, historyBack, requireLogout
 } from './action';
-// import { AppRoute, AuthorizationStatus, EmptyComment, Status } from '../const';
 import { checkAuthStatusAction, loadFavoriteOffersAction, loadOffersAction, loadPropertyOffersAction, loginAction, logoutAction, postCommentAction, postFavoriteAction } from './api-action';
 import { adaptAuthInfoToClient, adaptOfferToCient, adaptReviewToCient } from '../services/adapter';
 import { AppRoute, AuthorizationStatus, EmptyComment, Status } from '../const';

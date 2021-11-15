@@ -8,6 +8,7 @@ import { generatePath, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getCurrentId } from '../../store/user-process/selectors';
 import { getCurrentOffer } from '../../store/app-data/selectors';
+import { MapClass } from '../../class-const';
 
 
 type MapProrsType = {
@@ -89,7 +90,7 @@ function Map({ offers, pageType, city }: MapProrsType): JSX.Element {
   }, [currentCity, map]);
 
   return (
-    <section className={`${pageType}__map map`}
+    <section className={`${(pageType===PageType.Main) ? MapClass.Main : MapClass.Property} map`}
       style={getStyleByPageName(pageType)}
       ref={mapRef}
     >

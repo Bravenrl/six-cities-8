@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ButtonClass } from '../../class-const';
 import { AppRoute, AuthorizationStatus, PageType } from '../../const';
 import { redirectToRoute } from '../../store/action';
 import { postFavoriteAction } from '../../store/api-action';
@@ -17,28 +18,34 @@ function BookmarkButton({ id, isFavorite, pageType }: BookmarkButtonProps): JSX.
   const authStatus = useSelector(getAuthorizationStatus);
   const dispatch = useDispatch();
   const btnIsFavorite = isFavorite ?? currentIsFavorite;
-  const name = (pageType === PageType.Property) ? 'property' : 'place-card';
   const [isDisabled, setIsDisabled] = useState(false);
+
 
   useEffect(() => {
     setIsDisabled(false);
   }, [btnIsFavorite]);
 
   return (
-    <button className={`${name}__bookmark-button ${btnIsFavorite && `${name}__bookmark-button--active`} button `}
-      type="button"
-      disabled={isDisabled}
-      onClick={(evt) => {
-        evt.preventDefault();
-        if (authStatus !== AuthorizationStatus.Auth) {
-          dispatch(redirectToRoute(AppRoute.Login));
-        } else {
-          dispatch(postFavoriteAction(+(!btnIsFavorite), `${id}`));
-          setIsDisabled(true);
-        }
-      }}
+    <button className={`${(pageType === PageType.Property) ? ButtonClass.Property.button : ButtonClass.Main.button}
+    ${btnIsFavorite && `${(pageType === PageType.Property) ? ButtonClass.Property.active : ButtonClass.Main.active}`}
+    button`}
+    type="button"
+    disabled={isDisabled}
+    onClick={(evt) => {
+      evt.preventDefault();
+      if (authStatus !== AuthorizationStatus.Auth) {
+        dispatch(redirectToRoute(AppRoute.Login));
+      } else {
+        dispatch(postFavoriteAction(+(!btnIsFavorite), `${id}`));
+        setIsDisabled(true);
+      }
+    }}
     >
-      <svg className={`${name}__bookmark-icon`} width={(pageType === PageType.Property) ? '31' : '18'} height={(pageType === PageType.Property) ? '33' : '19'}>
+      <svg
+        className={(pageType === PageType.Property) ? ButtonClass.Property.icon : ButtonClass.Main.icon}
+        width={(pageType === PageType.Property) ? '31' : '18'}
+        height={(pageType === PageType.Property) ? '33' : '19'}
+      >
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
       <span className="visually-hidden">{btnIsFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
