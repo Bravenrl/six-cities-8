@@ -61,7 +61,7 @@ export const GenerateFakeReview = (): ReviewType =>
     id: ID,
     date: dayjs.utc().add(datatype.number({ min: -100, max: 0 }), 'day').format(),
     rating: datatype.float({ min: 1, max: 5, precision: 0.1 }),
-    comment: commerce.productDescription(),
+    comment: 'some comment',
   });
 
 export const fakeComment: CommentType = {

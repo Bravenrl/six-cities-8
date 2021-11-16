@@ -5,6 +5,7 @@ import PropertyReview from './property-review';
 
 const review = GenerateFakeReview();
 const { comment, user } = review;
+const commentReg = new RegExp(comment, 'i');
 
 describe('Component: ReviewPost', () => {
   it('should render correctly', () => {
@@ -12,6 +13,6 @@ describe('Component: ReviewPost', () => {
     expect(screen.getByAltText(TestReg.AvatarAltText)).toBeInTheDocument();
     expect(screen.getByText(user.name)).toBeInTheDocument();
     expect(screen.getByText(TestReg.RatingText)).toBeInTheDocument();
-    expect(screen.getByText(comment)).toBeInTheDocument();
+    expect(screen.getByText(commentReg)).toBeInTheDocument();
   });
 });
