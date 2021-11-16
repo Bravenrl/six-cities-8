@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import withPreloader from '../../hocs/with-preloader/with-preloader';
+import { getIsLoading } from '../../store/app-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import FavoritesPage from '../favorites-page/favorites-page';
 import LoginPage from '../login-page/login-page';
@@ -18,8 +19,9 @@ const WPMainPage = withPreloader(MainPage);
 const WPPropertyPage = withPreloader(PropertyPage);
 
 function App(): JSX.Element {
+  const isLoading = useSelector(getIsLoading);
   const authStatus = useSelector(getAuthorizationStatus);
-  if (authStatus === AuthorizationStatus.Unknown) {
+  if (authStatus === AuthorizationStatus.Unknown&&isLoading) {
     return <Preloader />;
   }
   return (

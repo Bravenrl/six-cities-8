@@ -1,81 +1,59 @@
 import { createMemoryHistory } from 'history';
 import { render, screen } from '@testing-library/react';
 import { Route, Router, Switch } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, FAVORITE, TestReg } from '../../const';
 import userEvent from '@testing-library/user-event';
 import HeaderNav from './header-nav';
-import { configureMockStore } from '@jedmao/redux-mock-store';
+import { configureMockStore, MockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import * as Redux from 'react-redux';
 import { ActionType } from '../../types/action';
 
+const EMAIL = 'aaa@bb.com';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
 
-const signOut = new RegExp('Sign out', 'i');
-const signIn = new RegExp('Sign in', 'i');
-const favorite = 'favorite';
-const email = 'aaa@bb.com';
-let state = {
+const state = {
   DATA: {
-    userEmail: email,
+    userEmail: EMAIL,
   },
   USER: {
-    authorizationStatus: AuthorizationStatus.Unknown,
+    authorizationStatus: AuthorizationStatus.Auth,
   },
 };
 
+const renderComponent = (store: MockStore, path : AppRoute) =>
+  render(
+    <Provider store={store}>
+      <Router history={history}>
+        <Route exact path={path}>
+          <HeaderNav />
+        </Route>
+      </Router>
+    </Provider>);
 
 describe('Component: HeaderNav', () => {
-  beforeEach(() => {
-    state = {
-      DATA: {
-        userEmail: email,
-      },
-      USER: {
-        authorizationStatus: AuthorizationStatus.Unknown,
-      },
-    };
-  });
   it('should render correctly if AuthStatus !== Auth', () => {
-    const store = mockStore(state);
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <Route exact path={AppRoute.Root}>
-            <HeaderNav />
-          </Route>
-        </Router>
-      </Provider>);
+    const nonAuthState = {...state, USER: {authorizationStatus: AuthorizationStatus.NoAuth}};
+    const store = mockStore(nonAuthState);
+    renderComponent(store, AppRoute.Root);
 
-    expect(screen.getByText(signIn)).toBeInTheDocument();
+    expect(screen.getByText(TestReg.SignIn)).toBeInTheDocument();
     expect(screen.getAllByRole('link').length).toBe(1);
-    expect(screen.queryByText(signOut)).not.toBeInTheDocument();
+    expect(screen.queryByText(TestReg.SignOut)).not.toBeInTheDocument();
   });
 
   it('should render correctly if AuthStatus === Auth', () => {
-    state.USER.authorizationStatus = AuthorizationStatus.Auth;
     const store = mockStore(state);
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <Switch>
-            <Route exact path={AppRoute.Root}>
-              <HeaderNav />
-            </Route>
-          </Switch>
-        </Router>
-      </Provider>);
-
-    expect(screen.getByText(signOut)).toBeInTheDocument();
-    expect(screen.getByText(email)).toBeInTheDocument();
+    renderComponent(store, AppRoute.Root);
+    expect(screen.getByText(TestReg.SignOut)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(EMAIL, 'i'))).toBeInTheDocument();
     expect(screen.getAllByRole('link').length).toBe(2);
-    expect(screen.queryByText(signIn)).not.toBeInTheDocument();
+    expect(screen.queryByText(TestReg.SignIn)).not.toBeInTheDocument();
   });
 
   it('should redirect to /favorite when user clicked on link', () => {
-    state.USER.authorizationStatus = AuthorizationStatus.Auth;
     history.push(AppRoute.Root);
     const store = mockStore(state);
     render(
@@ -86,14 +64,14 @@ describe('Component: HeaderNav', () => {
               <HeaderNav />
             </Route>
             <Route exact path={AppRoute.Favorites}>
-              <h1>{favorite}</h1>
+              <h1>{FAVORITE}</h1>
             </Route>
           </Switch>
         </Router>
       </Provider>);
-    expect(screen.queryByText(favorite)).not.toBeInTheDocument();
-    userEvent.click(screen.getByText(email));
-    expect(screen.getByText(favorite)).toBeInTheDocument();
+    expect(screen.queryByText(TestReg.Favorite)).not.toBeInTheDocument();
+    userEvent.click(screen.getByText(new RegExp(EMAIL, 'i')));
+    expect(screen.getByText(TestReg.Favorite)).toBeInTheDocument();
   });
 
   it('should distatch Logaut when user clicked Sign out on Favorite page', () => {
@@ -101,17 +79,9 @@ describe('Component: HeaderNav', () => {
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
     useDispatch.mockReturnValue(dispatch);
     const store = mockStore(state);
-    state.USER.authorizationStatus = AuthorizationStatus.Auth;
     history.push(AppRoute.Favorites);
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <Route exact path={AppRoute.Favorites}>
-            <HeaderNav />
-          </Route>
-        </Router>
-      </Provider>);
-    userEvent.click(screen.getByText(signOut));
+    renderComponent(store, AppRoute.Favorites);
+    userEvent.click(screen.getByText(TestReg.SignOut));
     expect(dispatch).toBeCalledWith({
       payload: AppRoute.Root,
       type: ActionType.RedirectToRoute,

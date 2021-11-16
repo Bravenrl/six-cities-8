@@ -108,3 +108,58 @@ export const enum Status {
 }
 
 export const MAX_COMENT_VAL = 10;
+
+
+export const enum TestID {
+  LoginEmail = 'email',
+  LoginPassword = 'password',
+  LoginButton = 'button',
+  LoginLink = 'link',
+  MapSection = 'map',
+  OfferListDiv = 'offer',
+}
+
+
+// export const MainPage = new RegExp('Cities', 'i');
+// export const LoginEmail = new RegExp('E-mail', 'i');
+// export const LoginPassword = new RegExp('Password', 'i');
+// export const PropertyPage = new RegExp('Meet the host', 'i');
+// export const FavoritePage = new RegExp('Saved listing', 'i');
+// export const NotFoundPage = new RegExp('Вернуться на главную', 'i');
+// export const LoginButton = new RegExp('Sign in', 'i');
+// export const Preloader = new RegExp('Loading', 'i');
+
+export const TestReg = {
+  MainPage: new RegExp('Cities', 'i'),
+  LoginEmail: new RegExp('E-mail', 'i'),
+  LoginPassword: new RegExp('Password', 'i'),
+  PropertyPage: new RegExp('Meet the host', 'i'),
+  FavoritePage: new RegExp('Saved listing', 'i'),
+  BackToRoot: new RegExp('Вернуться на главную', 'i'),
+  NotFoundPage: new RegExp('404. Page not found', 'i'),
+  LoginButton: new RegExp('Sign in', 'i'),
+  Preloader: new RegExp('Loading', 'i'),
+  PlaceAltText: new RegExp('Place', 'i'),
+  Root: new RegExp('root', 'i'),
+  FakeCity: new RegExp('Paris', 'i'),
+  NonExpectCity: new RegExp('Cologne', 'i'),
+  LogoAltText: new RegExp('6 cities logo', 'i'),
+  SignOut: new RegExp('Sign out', 'i'),
+  SignIn: new RegExp('Sign in', 'i'),
+  Favorite: new RegExp('favorite', 'i'),
+  Property: new RegExp('property', 'i'),
+  PremiumMark: new RegExp('Premium', 'i'),
+  Login: new RegExp('login', 'i'),
+  ImgAltText: new RegExp('Studio', 'i'),
+  AvatarAltText: new RegExp('Reviews avatar', 'i'),
+  RatingText: new RegExp('Rating', 'i'),
+  ReviewsText: new RegExp('Reviews', 'i'),
+};
+
+export const ROOT = `${TestReg.Root}`;
+
+export const FAVORITE = `${TestReg.Favorite}`;
+
+export const PROPERTY = `${TestReg.Property}`;
+
+export const LOGIN = `${TestReg.Login}`;

@@ -28,3 +28,8 @@ export const OfferCardClass = {
   Favorites: 'favorites__card place-card',
   Property: 'near-places__card place-card',
 };
+
+export const PremiumMarkClass = {
+  Main: 'place-card__mark',
+  Property: 'property__mark',
+};

@@ -1,10 +1,13 @@
+import { PremiumMarkClass } from '../../class-const';
+import { PageType } from '../../const';
+
 type PremiumMarkPropType = {
-  className: string;
+  pageType: string;
 }
 
-function PremiumMark ({className} : PremiumMarkPropType) : JSX.Element | null {
+function PremiumMark ({pageType} : PremiumMarkPropType) : JSX.Element | null {
   return(
-    <div className={className}>
+    <div className={(pageType === PageType.Property) ? PremiumMarkClass.Property : PremiumMarkClass.Main}>
       <span>Premium</span>
     </div>
   );

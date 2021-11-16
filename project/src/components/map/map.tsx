@@ -3,7 +3,7 @@ import useMap from '../../hooks/useMap';
 import { CityType, MapStyleType, OfferType } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
 import { Icon, LayerGroup, Marker } from 'leaflet';
-import { AppRoute, Cities, PageType } from '../../const';
+import { AppRoute, Cities, PageType, TestID } from '../../const';
 import { generatePath, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getCurrentId } from '../../store/user-process/selectors';
@@ -93,6 +93,7 @@ function Map({ offers, pageType, city }: MapProrsType): JSX.Element {
     <section className={`${(pageType===PageType.Main) ? MapClass.Main : MapClass.Property} map`}
       style={getStyleByPageName(pageType)}
       ref={mapRef}
+      data-testid= {TestID.MapSection}
     >
     </section>
   );

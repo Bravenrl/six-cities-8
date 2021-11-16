@@ -1,5 +1,5 @@
 import { OfferListClass } from '../../class-const';
-import { PageType } from '../../const';
+import { PageType, TestID } from '../../const';
 import { OfferType } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
@@ -24,7 +24,10 @@ const getClassNameByType = (pageType: PageType): string => {
 function OfferList({ offers, pageType }: OfferListProrsType): JSX.Element {
 
   return (
-    <div className={getClassNameByType(pageType)}>
+    <div
+      data-testid={TestID.OfferListDiv}
+      className={getClassNameByType(pageType)}
+    >
       {offers.map((offer) => (
         <OfferCard
           key={`${offer.id}${pageType}`}

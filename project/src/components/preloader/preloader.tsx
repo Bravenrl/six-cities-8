@@ -1,13 +1,10 @@
 import { useSelector } from 'react-redux';
-import { AuthorizationStatus } from '../../const';
 import { getIsLoading, getIsPosting } from '../../store/app-process/selectors';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function Preloader(): JSX.Element | null {
   const isPosting = useSelector(getIsPosting);
   const isLoading = useSelector(getIsLoading);
-  const authStatus = useSelector(getAuthorizationStatus);
-  if (!isPosting&&!isLoading&&authStatus!==AuthorizationStatus.Unknown) {
+  if (!isPosting&&!isLoading) {
     return null;
   }
   return (

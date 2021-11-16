@@ -10,6 +10,7 @@ import { changeCity, changeSorting } from '../../store/action';
 import { CityList } from './city-list';
 
 const ITEM_ACTIVE = 'tabs__item--active';
+const NEW_CITY = CITIES[1];
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
@@ -21,33 +22,27 @@ const state = {
 };
 const store = mockStore(state);
 
+const renderComponent = () => render(
+  <Provider store={store}>
+    <Router history={history}>
+      <CityList />
+    </Router>
+  </Provider>,
+);
 
 describe('Component: CityList', () => {
-
   it('should render correctly', () => {
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <CityList />
-        </Router>
-      </Provider>,
-    );
+    renderComponent();
     CITIES.forEach((city) => expect(screen.getByText(city)).toBeInTheDocument());
     expect(screen.getByText(INITIAL_CITY).parentElement).toHaveClass(ITEM_ACTIVE);
     expect(screen.queryAllByRole('link').length).toBe(CITIES.length);
   });
 
   it('should dispatch changeCity and changeSorting', () => {
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <CityList />
-        </Router>
-      </Provider>,
-    );
+    renderComponent();
     expect(store.getActions()).toEqual([]);
-    userEvent.click(screen.getByText(CITIES[1]));
-    expect(store.getActions()).toEqual([changeCity(CITIES[1]), changeSorting(SortType.Popular)]);
+    userEvent.click(screen.getByText(NEW_CITY));
+    expect(store.getActions()).toEqual([changeCity(NEW_CITY), changeSorting(SortType.Popular)]);
   });
 });
 

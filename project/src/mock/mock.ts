@@ -83,9 +83,13 @@ export const fakeUser: User = {
   password: 'password',
 };
 
+export const fakeCity = 'Paris';
 
 export const offersFavoriteParis = new Array(OFFER_LENGTH).fill(null).map((offer, index) =>
   offer = { ...GenerateFakeOffer(), isFavorite: true, id: index, city: { ...GenerateFakeCity(), name: CITIES[0] } });
 
 export const offersFavoriteAmsterdan = new Array(OFFER_LENGTH).fill(null).map((offer, index) =>
   offer = { ...GenerateFakeOffer(), isFavorite: true, id: index, city: { ...GenerateFakeCity(), name: CITIES[3] } });
+
+export const fakeReviews = new Array(OFFER_LENGTH).fill(null).map((review, index) =>
+  review = { ...GenerateFakeReview(), id: index});

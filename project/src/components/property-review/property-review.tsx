@@ -2,11 +2,11 @@ import { ReviewType } from '../../types/review';
 import he from 'he';
 import dayjs from 'dayjs';
 
-type ReviewPostType = {
+type PropertyReviewType = {
   review: ReviewType
 }
 
-function ReviewPost({ review }: ReviewPostType): JSX.Element {
+function PropertyReview({ review }: PropertyReviewType): JSX.Element {
   const { date, comment, rating, user } = review;
   const currentDate = dayjs(date).format('MMMM YYYY');
   const dateTime = dayjs(date).format('YYYY-MM-DD');
@@ -36,4 +36,4 @@ function ReviewPost({ review }: ReviewPostType): JSX.Element {
   );
 }
 
-export default ReviewPost;
+export default PropertyReview;

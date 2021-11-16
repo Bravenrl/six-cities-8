@@ -1,25 +1,25 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { render, screen } from '@testing-library/react';
-import { CITIES, offersFavoriteAmsterdan, offersFavoriteParis } from '../../mock/mock';
+import { offersFavoriteAmsterdan, offersFavoriteParis } from '../../mock/mock';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import FavoritesList from './favorites-list';
-import { mockInitialStore } from '../../mock/mockStore';
+import { MockAPP, MockDATA, MockUSER } from '../../mock/mockStore';
+import { TestReg } from '../../const';
 
-const altText = 'Place';
-const favoriteTitle = 'Saved listing';
-const titleText = new RegExp(`${favoriteTitle}`, 'i');
-const notExpectCityText = new RegExp(`${CITIES[1]}`, 'i');
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
 
 describe('Component: FavoritesList', () => {
 
   it('should render correctly', () => {
-    const componentStore = {...mockInitialStore};
-    componentStore.DATA.favoriteOffers = [...offersFavoriteParis, ...offersFavoriteAmsterdan];
-    const store = mockStore(componentStore);
+    const componentState = {
+      DATA: {...MockDATA, favoriteOffers: [...offersFavoriteParis, ...offersFavoriteAmsterdan]},
+      USER: {...MockUSER},
+      APP: {...MockAPP},
+    };
+    const store = mockStore(componentState);
     render(
       <Provider store={store}>
         <Router history={history}>
@@ -27,8 +27,8 @@ describe('Component: FavoritesList', () => {
         </Router>
       </Provider>,
     );
-    expect(screen.getAllByAltText(altText).length).toBe(offersFavoriteParis.length + offersFavoriteAmsterdan.length);
-    expect(screen.getByText(titleText)).toBeInTheDocument();
-    expect(screen.queryByText(notExpectCityText)).not.toBeInTheDocument();
+    expect(screen.getAllByAltText(TestReg.PlaceAltText).length).toBe(offersFavoriteParis.length + offersFavoriteAmsterdan.length);
+    expect(screen.getByText(TestReg.FavoritePage)).toBeInTheDocument();
+    expect(screen.queryByText(TestReg.NonExpectCity)).not.toBeInTheDocument();
   });
 });

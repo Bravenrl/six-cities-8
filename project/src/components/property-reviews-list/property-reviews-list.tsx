@@ -3,7 +3,7 @@ import { AuthorizationStatus } from '../../const';
 import { getReviewsSortByDate } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import CommentForm from '../comment-form/comment-form';
-import ReviewPost from '../property-review/property-review';
+import PropertyReview from '../property-review/property-review';
 
 function ReviewsList(): JSX.Element {
   const authStatus = useSelector(getAuthorizationStatus);
@@ -14,7 +14,7 @@ function ReviewsList(): JSX.Element {
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{sortedReviews.length}</span></h2>
       {(sortedReviews.length !== 0) &&
         <ul className="reviews__list">
-          {sortedReviews.map((review) => (<ReviewPost key={review.id} review={review} />))}
+          {sortedReviews.map((review) => (<PropertyReview key={review.id} review={review} />))}
         </ul>}
       {(authStatus === AuthorizationStatus.Auth) && <CommentForm />}
     </section>

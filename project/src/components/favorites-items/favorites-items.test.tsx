@@ -1,26 +1,34 @@
-import { configureMockStore } from '@jedmao/redux-mock-store';
+import { configureMockStore, MockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { render, screen } from '@testing-library/react';
-import { offersFavoriteAmsterdan, offersFavoriteParis } from '../../mock/mock';
+import { fakeCity, offersFavoriteAmsterdan, offersFavoriteParis } from '../../mock/mock';
 import { Provider } from 'react-redux';
 import * as Redux from 'react-redux';
 import { Route, Router, Switch } from 'react-router-dom';
-import { mockInitialStore } from '../../mock/mockStore';
+import { MockAPP, MockDATA, MockUSER } from '../../mock/mockStore';
 import FavoritesItems from './favorites-items';
-import { AppRoute, SortType } from '../../const';
+import { AppRoute, ROOT, SortType, TestReg } from '../../const';
 import userEvent from '@testing-library/user-event';
 import { ActionType } from '../../types/action';
 
-
-const altText = 'Place';
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
-const root = 'root';
-const titleText = new RegExp(`${root}`, 'i');
-const city = 'Paris';
-const componentStore = { ...mockInitialStore };
-componentStore.DATA.favoriteOffers = [...offersFavoriteParis, ...offersFavoriteAmsterdan];
 
+
+const componentState = {
+  DATA: { ...MockDATA, favoriteOffers: [...offersFavoriteParis, ...offersFavoriteAmsterdan] },
+  USER: { ...MockUSER },
+  APP: { ...MockAPP },
+};
+const renderComponent = (store: MockStore) =>
+  render(
+    <Provider store={store}>
+      <Router history={history}>
+        <Route exact path={AppRoute.Favorites}>
+          <FavoritesItems city={fakeCity} />
+        </Route>
+      </Router>
+    </Provider>);
 
 describe('Component: FavoritesItems', () => {
   beforeEach(() => {
@@ -28,22 +36,14 @@ describe('Component: FavoritesItems', () => {
   });
 
   it('should render correctly', () => {
-    const store = mockStore(componentStore);
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <Route exact path={AppRoute.Favorites}>
-            <FavoritesItems city={city} />
-          </Route>
-        </Router>
-      </Provider>);
-
-    expect(screen.getAllByAltText(altText).length).toBe(offersFavoriteParis.length);
-    expect(screen.getByText(city)).toBeInTheDocument();
+    const store = mockStore(componentState);
+    renderComponent(store);
+    expect(screen.getAllByAltText(TestReg.PlaceAltText).length).toBe(offersFavoriteParis.length);
+    expect(screen.getByText(TestReg.FakeCity)).toBeInTheDocument();
   });
 
   it('should redirect to /root when user clicked to city link', () => {
-    const store = mockStore(componentStore);
+    const store = mockStore(componentState);
     const dispatch = jest.fn();
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
     useDispatch.mockReturnValue(dispatch);
@@ -53,19 +53,19 @@ describe('Component: FavoritesItems', () => {
         <Router history={history}>
           <Switch>
             <Route exact path={AppRoute.Favorites}>
-              <FavoritesItems city={city} />
+              <FavoritesItems city={fakeCity} />
             </Route>
             <Route exact path={AppRoute.Root}>
-              <h1>{root}</h1>
+              <h1>{ROOT}</h1>
             </Route>
           </Switch>
         </Router>
       </Provider>);
-    expect(screen.queryByText(titleText)).not.toBeInTheDocument();
-    userEvent.click(screen.getByText(city));
-    expect(screen.getByText(root)).toBeInTheDocument();
+    expect(screen.queryByText(TestReg.Root)).not.toBeInTheDocument();
+    userEvent.click(screen.getByText(TestReg.FakeCity));
+    expect(screen.getByText(TestReg.Root)).toBeInTheDocument();
     expect(dispatch).nthCalledWith(1, {
-      payload: city,
+      payload: fakeCity,
       type: ActionType.ChangeCity,
     });
     expect(dispatch).nthCalledWith(2, {
@@ -75,18 +75,9 @@ describe('Component: FavoritesItems', () => {
   });
 
   it('should not render if hasn`t offer in city', () => {
-    const emptyStore = { ...mockInitialStore };
-    emptyStore.DATA.favoriteOffers.length = 0;
-
+    const emptyStore = { ...componentState, DATA: { ...MockDATA } };
     const store = mockStore(emptyStore);
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <Route exact path={AppRoute.Favorites}>
-            <FavoritesItems city={city} />
-          </Route>
-        </Router>
-      </Provider>);
-    expect(screen.queryByText(city)).not.toBeInTheDocument();
+    renderComponent(store);
+    expect(screen.queryByText(fakeCity)).not.toBeInTheDocument();
   });
 });
