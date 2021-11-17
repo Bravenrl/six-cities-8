@@ -8,7 +8,7 @@ import { removeToken, setToken } from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { ServerOfferType } from '../types/offer';
 import { CommentType, ServerAurhInfo, ServerReviewType, User } from '../types/review';
-import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComent, addComentRating, changeIsFavorite, loadFavoriteOffers, toggleIsFavorite } from './action';
+import { toggleIsLoading, loadOffers, requireAuthorization, addUserEmail, requireLogout, redirectToRoute, loadCurrentOffer, loadNearbyOffers, loadReviews, historyBack, toggleIsPosting, addComment, addComentRating, changeIsFavorite, loadFavoriteOffers, toggleIsFavorite } from './action';
 
 export const loadOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -57,7 +57,6 @@ export const logoutAction = (): ThunkActionResult =>
         removeToken();
         dispatch(requireLogout());
         dispatch(addUserEmail(''));
-        dispatch(redirectToRoute(AppRoute.Root));
       })
       .catch((err: AxiosError) => createToast(err.response?.status));
   };
@@ -65,13 +64,10 @@ export const logoutAction = (): ThunkActionResult =>
 export const loadPropertyOffersAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(toggleIsLoading(true));
-    const getCurrentOffer = (): Promise<AxiosResponse> =>
-      api.get<ServerOfferType>(`${ApiRoute.Offers}/${id}`);
-    const getNearbyOffers = (): Promise<AxiosResponse> =>
-      api.get<ServerOfferType[]>(`${ApiRoute.Offers}/${id}${ApiRoute.NearbyOffers}`);
-    const getReviews = (): Promise<AxiosResponse> =>
-      api.get<ServerReviewType[]>(`${ApiRoute.Reviews}/${id}`);
-    await axios.all<AxiosResponse>([getCurrentOffer(), getNearbyOffers(), getReviews()])
+    await axios.all<AxiosResponse>([
+      api.get<ServerOfferType>(`${ApiRoute.Offers}/${id}`),
+      api.get<ServerOfferType[]>(`${ApiRoute.Offers}/${id}${ApiRoute.NearbyOffers}`),
+      api.get<ServerReviewType[]>(`${ApiRoute.Reviews}/${id}`)])
       .then(axios.spread((current, nearby, reviews) => {
         const offer = adaptOfferToCient(current.data);
         const offers = nearby.data.map(adaptOfferToCient);
@@ -96,7 +92,7 @@ export const postCommentAction = (comment: CommentType, id: string): ThunkAction
     await api.post<ServerReviewType[]>(`${ApiRoute.Reviews}/${id}`, comment)
       .then((response) => {
         const comments = response.data.map(adaptReviewToCient);
-        dispatch(addComent(EmptyComment.comment));
+        dispatch(addComment(EmptyComment.comment));
         dispatch(addComentRating(EmptyComment.rating));
         dispatch(loadReviews(comments));
       })

@@ -1,4 +1,5 @@
-import { PageType } from '../../const';
+import { OfferListClass } from '../../class-const';
+import { PageType, TestID } from '../../const';
 import { OfferType } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
@@ -10,11 +11,11 @@ type OfferListProrsType = {
 const getClassNameByType = (pageType: PageType): string => {
   switch (pageType) {
     case PageType.Main:
-      return 'cities__places-list places__list tabs__content';
+      return OfferListClass.Main;
     case PageType.Favorites:
-      return 'favorites__places';
+      return OfferListClass.Favorites;
     case PageType.Property:
-      return 'near-places__list places__list';
+      return OfferListClass.Property;
     default:
       return '';
   }
@@ -23,10 +24,13 @@ const getClassNameByType = (pageType: PageType): string => {
 function OfferList({ offers, pageType }: OfferListProrsType): JSX.Element {
 
   return (
-    <div className={getClassNameByType(pageType)}>
+    <div
+      data-testid={TestID.OfferListDiv}
+      className={getClassNameByType(pageType)}
+    >
       {offers.map((offer) => (
         <OfferCard
-          key={offer.id}
+          key={`${offer.id}${pageType}`}
           offer={offer}
           pageType={pageType}
         />))}

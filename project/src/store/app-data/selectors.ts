@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { OfferType } from '../../types/offer';
 import { ReviewType } from '../../types/review';
 import { State } from '../../types/state';
-import { compareDate, getSortedByType } from '../../utils';
+import { getFilterByCity, getSortByDate, getSortByType } from '../../utils';
 import { Reducer } from '../root-reducer';
 import { getCity, getSortType } from '../user-process/selectors';
 
@@ -22,19 +22,19 @@ export const getCommentRating = (state: State): number => state[Reducer.data].co
 
 export const getFavoriteOffers = (state: State): OfferType[] => state[Reducer.data].favoriteOffers;
 
+export const getCurrentIsFavorite = (state: State): boolean | null => state[Reducer.data].currentIsFavorite;
+
 export const getCurrentOffers = createSelector(
-  [getOffers, getCity],
-  (offers: OfferType[], city: string): OfferType[] =>
-    offers.filter((offer) => offer.city.name === city));
+  [getOffers, getCity], getFilterByCity);
 
 export const getReviewsSortByDate = createSelector(
-  [getReviews], (reviews): ReviewType[] => [...reviews].sort(compareDate));
+  [getReviews], getSortByDate);
 
 export const getCurrentWithNearby = createSelector(
   [getNearbyOffers, getCurrentOffer],
   (nearbyOffers, currentOffer): OfferType[] => [...nearbyOffers, currentOffer]);
 
 export const getSortedOffers = createSelector(
-  [getCurrentOffers, getSortType], getSortedByType);
+  [getCurrentOffers, getSortType], getSortByType);
 
-export const getCurrentIsFavorite = (state: State): boolean|null => state[Reducer.data].currentIsFavorite;
+

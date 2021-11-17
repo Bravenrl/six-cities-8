@@ -1,8 +1,6 @@
 import { ComponentType } from 'react';
 import ReactDOM from 'react-dom';
-
 import Preloader from '../../components/preloader/preloader';
-
 
 function withPreloader<WCP>(WpappedComponent: ComponentType<WCP>): ComponentType<WCP> {
 

@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
-import { getIsPosting } from '../../store/app-process/selectors';
+import { getIsLoading, getIsPosting } from '../../store/app-process/selectors';
 
 function Preloader(): JSX.Element | null {
   const isPosting = useSelector(getIsPosting);
-  if (!isPosting) {return null;}
+  const isLoading = useSelector(getIsLoading);
+  if (!isPosting&&!isLoading) {
+    return null;
+  }
   return (
     <div style={{
       position: 'fixed', top: '200px', left: '35%',
@@ -15,5 +18,4 @@ function Preloader(): JSX.Element | null {
     </div>
   );
 }
-
 export default Preloader;

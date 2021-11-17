@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { EmptyComment } from '../../const';
 import { OfferType } from '../../types/offer';
 import { AppData } from '../../types/state';
-import { addComent, addComentRating, addUserEmail, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, loadReviews, changeIsFavorite, toggleIsFavorite, removeFavoriteOffers, removeCurrentOffer } from '../action';
+import { addComment, addComentRating, addUserEmail, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, loadReviews, changeIsFavorite, toggleIsFavorite, removeFavoriteOffers, removeCurrentOffer } from '../action';
 
 const initialState: AppData = {
   offers: [],
@@ -33,7 +33,7 @@ const appData = createReducer(initialState, (builder) => {
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
     })
-    .addCase(addComent, (state, action) => {
+    .addCase(addComment, (state, action) => {
       state.comment = action.payload;
     })
     .addCase(addComentRating, (state, action) => {

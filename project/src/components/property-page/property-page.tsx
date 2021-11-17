@@ -67,7 +67,7 @@ function PropertyPage(): JSX.Element {
           <GalleryList images={images} id={id} />
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium && <PremiumMark className='property__mark' />}
+              {isPremium && <PremiumMark pageType={PageType.Property} />}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {title}
@@ -115,7 +115,7 @@ function PropertyPage(): JSX.Element {
               <ReviewsList />
             </div>
           </div>
-          <Map offers={currWithNearOffers} pageType='property' city={city.name} />
+          <Map offers={currWithNearOffers} pageType={PageType.Property} city={city.name} />
         </section>
         <div className="container">
           <section className="near-places places">

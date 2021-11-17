@@ -9,6 +9,7 @@ import { getCurrentOffers } from '../../store/app-data/selectors';
 import { getCity } from '../../store/user-process/selectors';
 import CitiesEmptyContainer from '../cities-empty-container/cities-empty-container';
 import Map from '../map/map';
+import { PageType } from '../../const';
 
 function MainPage(): JSX.Element {
   const city = useSelector(getCity);
@@ -40,7 +41,7 @@ function MainPage(): JSX.Element {
           <div className={`cities__places-container container ${(!isNotEmpty) && 'cities__places-container--empty'}`}>
             {(isNotEmpty) ? <CitiesContainer city={city}/> : < CitiesEmptyContainer city={city} />}
             <div className="cities__right-section">
-              {(isNotEmpty) && <Map offers={currentOffers} pageType={'cities'} city={city} />}
+              {(isNotEmpty) && <Map offers={currentOffers} pageType={PageType.Main} city={city} />}
             </div>
           </div>
         </div>

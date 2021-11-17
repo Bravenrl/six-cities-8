@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentId } from '../../store/action';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import { memo } from 'react';
+import { OfferCardClass } from '../../class-const';
 
 type OfferCardPropType = {
   offer: OfferType;
@@ -16,11 +17,11 @@ type OfferCardPropType = {
 const getClassNameByType = (pageType: PageType): string => {
   switch (pageType) {
     case PageType.Main:
-      return 'cities__place-card place-card';
+      return OfferCardClass.Main;
     case PageType.Favorites:
-      return 'favorites__card place-card';
+      return OfferCardClass.Favorites;
     case PageType.Property:
-      return 'near-places__card place-card';
+      return OfferCardClass.Property;
     default:
       return '';
   }
@@ -38,10 +39,15 @@ function OfferCard({ offer, pageType }: OfferCardPropType): JSX.Element {
       onClick={() => dispatch(setCurrentId(null))}
       className={getClassNameByType(pageType)} style={{ marginTop: `${(pageType === PageType.Favorites) && '10px'}` }}
     >
-      {isPremium && <PremiumMark className='place-card__mark' />}
+      {isPremium && <PremiumMark pageType={PageType.Main} />}
       <div className={`${pageType}__image-wrapper place-card__image-wrapper`}>
         <Link to={linkPath}>
-          <img className="place-card__image" src={previewImage} width={(pageType === PageType.Favorites) ? '150' : '260'} height={(pageType === PageType.Favorites) ? '110' : '200'} alt="Place" />
+          <img className="place-card__image"
+            src={previewImage}
+            width={(pageType === PageType.Favorites) ? '150' : '260'}
+            height={(pageType === PageType.Favorites) ? '110' : '200'}
+            alt="Place"
+          />
         </Link>
       </div>
       <div className={`place-card__info ${(pageType === PageType.Favorites) && 'favorites__card-info'}`}>
@@ -65,5 +71,5 @@ function OfferCard({ offer, pageType }: OfferCardPropType): JSX.Element {
       </div>
     </article>);
 }
-
+export {OfferCard};
 export default memo(OfferCard);
