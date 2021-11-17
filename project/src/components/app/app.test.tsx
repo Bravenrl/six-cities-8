@@ -66,6 +66,7 @@ describe('Application Routing', () => {
   it('should render PropertyPage when user navigate to "/offer:id"', () => {
     history.push(AppRoute.RoomProprety);
     const dispatch = jest.fn();
+    window.scrollTo = jest.fn();
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
     useDispatch.mockReturnValue(dispatch);
     const store = mockStore(componentState);
