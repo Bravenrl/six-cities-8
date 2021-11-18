@@ -117,7 +117,8 @@ export const enum TestID {
   LoginLink = 'link',
   MapSection = 'map',
   OfferListDiv = 'offer',
-  ButtonSvg = 'svg'
+  ButtonSvg = 'svg',
+  Option = 'span',
 }
 
 
@@ -150,6 +151,7 @@ export const TestReg = {
   ButtonNonFavorite: new RegExp('To bookmarks', 'i'),
   FavoriteEmptyFirst: new RegExp('Nothing yet saved', 'i'),
   FavoriteEmptySecond: new RegExp('Save properties to narrow down', 'i'),
+  OptionText: new RegExp('Sort by', 'i'),
 };
 
 export const ROOT = `${TestReg.Root}`;

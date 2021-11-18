@@ -1,5 +1,4 @@
 import {renderHook} from '@testing-library/react-hooks';
-
 import useMap from './use-map';
 import { useRef } from 'react';
 import { GenerateFakeCity } from '../mock/mock';
