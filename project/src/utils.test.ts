@@ -53,8 +53,8 @@ describe('Utils function', () => {
     it('should return array, sorted by rating from low to hight', () => {
       const sortedArray = getSortByType(offers, SortType.TopRated);
       expect(sortedArray.length).toBe(4);
-      expect(sortedArray[0].rating).not.toBeGreaterThan(1);
-      expect(sortedArray[3].rating).not.toBeLessThan(5);
+      expect(sortedArray[0].rating).not.toBeLessThan(5);
+      expect(sortedArray[3].rating).not.toBeGreaterThan(1);
     });
     it('should return default array', () => {
       const sortedArray = getSortByType(offers, SortType.Popular);
