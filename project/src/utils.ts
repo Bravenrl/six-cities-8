@@ -15,7 +15,7 @@ export const getSortByType = (offers: OfferType[], sortType: string): OfferType[
     case SortType.PriceToLow:
       return [...offers].sort((objA, objB) => objB.price - objA.price);
     case SortType.TopRated:
-      return [...offers].sort((objA, objB) => objA.rating - objB.rating);
+      return [...offers].sort((objA, objB) => objB.rating - objA.rating);
     default:
       return offers;
   }
