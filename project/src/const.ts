@@ -117,17 +117,9 @@ export const enum TestID {
   LoginLink = 'link',
   MapSection = 'map',
   OfferListDiv = 'offer',
+  ButtonSvg = 'svg'
 }
 
-
-// export const MainPage = new RegExp('Cities', 'i');
-// export const LoginEmail = new RegExp('E-mail', 'i');
-// export const LoginPassword = new RegExp('Password', 'i');
-// export const PropertyPage = new RegExp('Meet the host', 'i');
-// export const FavoritePage = new RegExp('Saved listing', 'i');
-// export const NotFoundPage = new RegExp('Вернуться на главную', 'i');
-// export const LoginButton = new RegExp('Sign in', 'i');
-// export const Preloader = new RegExp('Loading', 'i');
 
 export const TestReg = {
   MainPage: new RegExp('Cities', 'i'),
@@ -154,6 +146,10 @@ export const TestReg = {
   AvatarAltText: new RegExp('Reviews avatar', 'i'),
   RatingText: new RegExp('Rating', 'i'),
   ReviewsText: new RegExp('Reviews', 'i'),
+  ButtonIsFavorite: new RegExp('In bookmarks', 'i'),
+  ButtonNonFavorite: new RegExp('To bookmarks', 'i'),
+  FavoriteEmptyFirst: new RegExp('Nothing yet saved', 'i'),
+  FavoriteEmptySecond: new RegExp('Save properties to narrow down', 'i'),
 };
 
 export const ROOT = `${TestReg.Root}`;
