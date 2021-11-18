@@ -121,7 +121,6 @@ export const enum TestID {
   Option = 'span',
 }
 
-
 export const TestReg = {
   MainPage: new RegExp('Cities', 'i'),
   LoginEmail: new RegExp('E-mail', 'i'),
