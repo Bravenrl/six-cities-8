@@ -119,16 +119,6 @@ export const enum TestID {
   OfferListDiv = 'offer',
 }
 
-
-// export const MainPage = new RegExp('Cities', 'i');
-// export const LoginEmail = new RegExp('E-mail', 'i');
-// export const LoginPassword = new RegExp('Password', 'i');
-// export const PropertyPage = new RegExp('Meet the host', 'i');
-// export const FavoritePage = new RegExp('Saved listing', 'i');
-// export const NotFoundPage = new RegExp('Вернуться на главную', 'i');
-// export const LoginButton = new RegExp('Sign in', 'i');
-// export const Preloader = new RegExp('Loading', 'i');
-
 export const TestReg = {
   MainPage: new RegExp('Cities', 'i'),
   LoginEmail: new RegExp('E-mail', 'i'),
