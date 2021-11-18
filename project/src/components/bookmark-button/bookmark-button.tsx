@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ButtonClass } from '../../class-const';
-import { AppRoute, AuthorizationStatus, PageType } from '../../const';
+import { AppRoute, AuthorizationStatus, PageType, TestID } from '../../const';
 import { redirectToRoute } from '../../store/action';
 import { postFavoriteAction } from '../../store/api-action';
 import { getCurrentIsFavorite } from '../../store/app-data/selectors';
@@ -17,7 +17,7 @@ function BookmarkButton({ id, isFavorite, pageType }: BookmarkButtonProps): JSX.
   const currentIsFavorite = useSelector(getCurrentIsFavorite);
   const authStatus = useSelector(getAuthorizationStatus);
   const dispatch = useDispatch();
-  const btnIsFavorite = isFavorite ?? currentIsFavorite;
+  const btnIsFavorite = (pageType === PageType.Property) ? currentIsFavorite : isFavorite;
   const [isDisabled, setIsDisabled] = useState(false);
 
 
@@ -45,6 +45,7 @@ function BookmarkButton({ id, isFavorite, pageType }: BookmarkButtonProps): JSX.
         className={(pageType === PageType.Property) ? ButtonClass.Property.icon : ButtonClass.Main.icon}
         width={(pageType === PageType.Property) ? '31' : '18'}
         height={(pageType === PageType.Property) ? '33' : '19'}
+        data-testid={TestID.ButtonSvg}
       >
         <use xlinkHref="#icon-bookmark"></use>
       </svg>

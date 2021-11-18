@@ -18,7 +18,6 @@ function FavoritesPage(): JSX.Element {
   const isLoading = useSelector(getIsLoading);
   const favoriteOffers = useSelector(getFavoriteOffers);
   const isNotEmpty = (favoriteOffers.length > 0);
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadFavoriteOffersAction());
