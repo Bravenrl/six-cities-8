@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Route, Router, Switch } from 'react-router-dom';
 import { AppRoute, ROOT, TestReg } from '../../const';
-import NotFoundPage from './not-found-paje';
+import NotFoundPage from './not-found-page';
 
 const history = createMemoryHistory();
 

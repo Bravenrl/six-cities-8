@@ -1,5 +1,9 @@
 import { CityType } from './types/offer';
 
+export const COMMENT_MIN_VALUE = 50;
+export const COMMENT_MAX_VALUE = 300;
+export const RATING_MIN_VALUE = 0;
+
 export const enum AppRoute {
   Root = '/',
   Login = '/login',
@@ -24,8 +28,6 @@ export const CustomIcon = {
   DEFAULT: 'img/pin.svg',
   CURRENT: 'img/pin-active.svg',
 };
-
-export const OPTION_TYPES = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
 
 export enum SortType {
   Popular = 'Popular',

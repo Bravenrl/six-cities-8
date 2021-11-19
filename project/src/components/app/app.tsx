@@ -7,7 +7,7 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import FavoritesPage from '../favorites-page/favorites-page';
 import LoginPage from '../login-page/login-page';
 import MainPage from '../main-page/main-page';
-import NotFoundPage from '../not-found-page/not-found-paje';
+import NotFoundPage from '../not-found-page/not-found-page';
 import Preloader from '../preloader/preloader';
 import PrivateRouteLogin from '../private-route-login/private-route-login';
 import PrivateRoute from '../private-route/private-route';
