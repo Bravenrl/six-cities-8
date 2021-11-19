@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postCommentAction } from '../../store/api-action';
 import CommentStar from '../comment-star/comment-star';
-import { Star } from '../../const';
+import { COMMENT_MAX_VALUE, COMMENT_MIN_VALUE, RATING_MIN_VALUE, Star } from '../../const';
 import { addComment } from '../../store/action';
 import { getComment, getCommentRating, getCurrentOffer } from '../../store/app-data/selectors';
 import { getIsLoading, getIsPosting } from '../../store/app-process/selectors';
@@ -20,7 +20,7 @@ function CommentForm(): JSX.Element {
     dispatch(postCommentAction({ comment, rating }, currentOffer.id.toString()));
   };
 
-  const isButonDisable = !((comment.length >= 50 && comment.length <= 300 && rating > 0));
+  const isButonDisable = !((comment.length >= COMMENT_MIN_VALUE && comment.length <= COMMENT_MAX_VALUE && rating > RATING_MIN_VALUE));
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
