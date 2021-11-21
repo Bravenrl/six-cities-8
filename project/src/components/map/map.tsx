@@ -18,8 +18,8 @@ type MapProrsType = {
 }
 
 const CustomIcon = {
-  DEFAULT: 'img/pin.svg',
-  CURRENT: 'img/pin-active.svg',
+  DEFAULT: '/1781597-six-cities-8/img/pin.svg',
+  CURRENT: '/1781597-six-cities-8/img/pin-active.svg',
 };
 
 const defaultCustomIcon = new Icon({

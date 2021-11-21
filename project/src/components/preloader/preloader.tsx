@@ -14,7 +14,7 @@ function Preloader(): JSX.Element | null {
       alignItems: 'center', justifyContent: 'center',
     }}
     >
-      <img src="img/loading.svg" alt="Loading" />
+      <img src="/1781597-six-cities-8/img/loading.svg" alt="Loading" />
     </div>
   );
 }
