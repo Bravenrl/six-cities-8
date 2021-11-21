@@ -91,8 +91,8 @@ export const Cities = new Map<string, CityType>([
 
 export const rePassword = /(?=.*[0-9])(?=.*[a-z])[0-9a-z]{2,}/;
 export const reEmail = /.+@.+\..+/i;
-export const invalidPassword = 'Invalid password';
-export const invalidEmail = 'Invalid email';
+export const invalidPassword = 'the password must contain one number and one letter';
+export const invalidEmail = 'enter the correct email';
 
 
 export const Star = new Map<number, string>([
