@@ -11,8 +11,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { rootReducer } from './store/root-reducer';
 import { configureStore } from '@reduxjs/toolkit';
-import { HashRouter, Router } from 'react-router-dom';
-import browserHistory from './browser-history';
+import { HashRouter } from 'react-router-dom';
+
 
 const api = createApi(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)));
