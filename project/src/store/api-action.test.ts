@@ -40,15 +40,16 @@ describe('Async actions', () => {
   const fakeReview = GenerateFakeReview();
   const fakeReviews = [fakeReview, fakeReview, fakeReview, fakeReview];
   const id = 1;
-  it('should dispatch loadOffersAction when GET /hotels', async () => {
-    mockAPI.onGet(ApiRoute.Offers).reply(HttpCode.OK, fakeOffers);
-    const store = mockStore();
-    fakeAdaptOfferToCient.mockReturnValue(fakeOffer);
-    await store.dispatch(loadOffersAction());
-    expect(store.getActions()).toEqual(
-      [toggleIsLoading(true), loadOffers(fakeOffers), toggleIsLoading(false)]);
-    expect(fakeAdaptOfferToCient).toBeCalledTimes(4);
-  });
+  it('should dispatch loadOffersAction when GET /hotels',
+    async () => {
+      mockAPI.onGet(ApiRoute.Offers).reply(HttpCode.OK, fakeOffers);
+      const store = mockStore();
+      fakeAdaptOfferToCient.mockReturnValue(fakeOffer);
+      await store.dispatch(loadOffersAction());
+      expect(store.getActions()).toEqual(
+        [toggleIsLoading(true), loadOffers(fakeOffers), toggleIsLoading(false)]);
+      expect(fakeAdaptOfferToCient).toBeCalledTimes(4);
+    });
 
   it('should dispatch loadPropertyOffersAction when GET /hotels/:id HttpCode.OK', async () => {
     mockAPI

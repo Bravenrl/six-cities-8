@@ -1,6 +1,9 @@
 [Deployment with Vercel](https://1781597-six-cities-8.vercel.app/).
 
 # Личный проект «Шесть городов»
+
+This is React App [Create React App](https://github.com/facebook/create-react-app). REact Router v5 in it. For every component, custom hooks and helpers created unit tests with jest & react-testing-library 
+
  ## Техническое задание
     О проекте
 
