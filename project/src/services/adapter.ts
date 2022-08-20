@@ -44,7 +44,7 @@ export const adaptOfferToServer = (offer:OfferType) : ServerOfferType => {
   const {isPro, avatarUrl, ...restHost} = offer.host;
   const adaptedHost: ServerHostType = {
     ...restHost,
-    'is_pro': isPro, 
+    'is_pro': isPro,
     'avatar_url': avatarUrl,
   };
   const {isFavorite, isPremium, maxAdults,
